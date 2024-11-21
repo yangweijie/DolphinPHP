@@ -9,6 +9,7 @@
 
 use think\Db;
 use app\user\model\User;
+use Webman\Event\Event;
 
 // 应用公共文件
 
@@ -407,7 +408,8 @@ if (!function_exists('hook')) {
      * @alter 小乌 <82950492@qq.com>
      */
     function hook($name = '', $params = null, $once = false) {
-        \think\facade\Hook::listen($name, $params, $once);
+        $content = Event::emit("hook.{$name}", $params);
+        return $content? think_view_display($content) : '';
     }
 }
 
@@ -1547,4 +1549,12 @@ if (!function_exists('check_icon_url')) {
 
         return true;
     }
+}
+
+if (is_file(app_path() . '/cms/common.php')) {
+    include_once app_path() . '/cms/common.php';
+}
+
+if (is_file(app_path() . '/install/common.php')) {
+    include_once app_path() . '/install/common.php';
 }

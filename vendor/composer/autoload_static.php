@@ -33,6 +33,10 @@ class ComposerStaticInitedd8829ee93e50e84938c348519fb0b0
         array (
             'support\\' => 8,
         ),
+        'p' => 
+        array (
+            'plugins\\' => 8,
+        ),
         'f' => 
         array (
             'form\\' => 5,
@@ -106,10 +110,10 @@ class ComposerStaticInitedd8829ee93e50e84938c348519fb0b0
         ),
         'think\\' => 
         array (
-            0 => __DIR__ . '/..' . '/topthink/think-helper/src',
-            1 => __DIR__ . '/..' . '/topthink/think-orm/src',
-            2 => __DIR__ . '/..' . '/topthink/think-template/src',
-            3 => __DIR__ . '/..' . '/topthink/think-container/src',
+            0 => __DIR__ . '/..' . '/topthink/think-container/src',
+            1 => __DIR__ . '/..' . '/topthink/think-helper/src',
+            2 => __DIR__ . '/..' . '/topthink/think-orm/src',
+            3 => __DIR__ . '/..' . '/topthink/think-template/src',
         ),
         'taoser\\' => 
         array (
@@ -118,6 +122,10 @@ class ComposerStaticInitedd8829ee93e50e84938c348519fb0b0
         'support\\' => 
         array (
             0 => __DIR__ . '/..' . '/workerman/webman-framework/src/support',
+        ),
+        'plugins\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/plugins',
         ),
         'form\\' => 
         array (

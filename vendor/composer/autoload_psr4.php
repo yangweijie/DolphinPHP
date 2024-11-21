@@ -7,9 +7,10 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'util\\' => array($baseDir . '/extend/util'),
-    'think\\' => array($vendorDir . '/topthink/think-helper/src', $vendorDir . '/topthink/think-orm/src', $vendorDir . '/topthink/think-template/src', $vendorDir . '/topthink/think-container/src'),
+    'think\\' => array($vendorDir . '/topthink/think-container/src', $vendorDir . '/topthink/think-helper/src', $vendorDir . '/topthink/think-orm/src', $vendorDir . '/topthink/think-template/src'),
     'taoser\\' => array($vendorDir . '/taoser/webman-validate/src'),
     'support\\' => array($vendorDir . '/workerman/webman-framework/src/support'),
+    'plugins\\' => array($baseDir . '/plugins'),
     'form\\' => array($baseDir . '/extend/form'),
     'app\\View\\Components\\' => array($baseDir . '/app/view/components'),
     'app\\' => array($baseDir . '/app'),
