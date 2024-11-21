@@ -9,9 +9,9 @@
 
 namespace app\install\controller;
 
-use think\Controller;
+use Kingbes\Jump\Jump;
+use support\View;
 use think\Db;
-use think\facade\Env;
 
 define('INSTALL_APP_PATH', realpath('./') . '/');
 
@@ -19,14 +19,14 @@ define('INSTALL_APP_PATH', realpath('./') . '/');
  * 安装控制器
  * @package app\install\controller
  */
-class Index extends Controller
+class Index extends Jump
 {
     /**
      * 获取入口目录
      * @author 蔡伟明 <314013107@qq.com>
      */
     protected function initialize() {
-        $this->assign('static_dir', 'static/');
+        View::assign('static_dir', 'static/');
     }
 
     /**
@@ -35,18 +35,18 @@ class Index extends Controller
      */
     public function index()
     {
-        if (is_file(Env::get('app_path') . 'database.php')) {
+        if (is_file(app_path() . 'database.php')) {
             // 已经安装过了 执行更新程序
-            session('reinstall', true);
-            $this->assign('next', '重新安装');
+            session(['reinstall'=>true]);
+            View::assign('next', '重新安装');
         } else {
-            session('reinstall', false);
-            $this->assign('next', '下一步');
+            session(['reinstall'=> false]);
+            View::assign('next', '下一步');
         }
 
-        session('step', 1);
-        session('error', false);
-        return $this->fetch();
+        session(['step'=> 1]);
+        session(['error'=> false]);
+        return view();
     }
 
     /**
@@ -56,29 +56,29 @@ class Index extends Controller
      */
     public function step2()
     {
-        if (session('step') != 1 && session('step') != 3) $this->redirect($this->request->baseFile());
+        if (session('step') != 1 && session('step') != 3) redirect(request()->baseFile());
         if(session('reinstall')){
-            session('step', 2);
-            $this->redirect($this->request->baseFile().'?s=/index/step4.html');
+            session(['step'=> 2]);
+            redirect(request()->baseFile().'?s=/index/step4.html');
         }else{
-            session('error', false);
+            session(['error'=> false]);
 
             // 环境检测
             $env = check_env();
 
             // 目录文件读写检测
             $dirfile = check_dirfile();
-            $this->assign('dirfile', $dirfile);
+            View::assign('dirfile', $dirfile);
 
             // 函数检测
             $func = check_func();
 
-            session('step', 2);
+            session(['step'=> 2]);
 
-            $this->assign('env', $env);
-            $this->assign('func', $func);
+            View::assign('env', $env);
+            View::assign('func', $func);
 
-            return $this->fetch();
+            return view();
         }
     }
 
@@ -90,17 +90,17 @@ class Index extends Controller
     public function step3()
     {
         // 检查上一步是否通过
-        if ($this->request->isAjax()) {
+        if (request()->isAjax()) {
             if (session('error')) {
-                $this->error('环境检测没有通过，请调整环境后重试！');
+                return $this->error('环境检测没有通过，请调整环境后重试！');
             } else {
-                $this->success('恭喜您环境检测通过', $this->request->baseFile().'?s=/index/step3.html');
+                return $this->success('恭喜您环境检测通过', request()->baseFile().'?s=/index/step3.html');
             }
         }
-        if (session('step') != 2) $this->redirect($this->request->baseFile());
-        session('error', false);
-        session('step', 3);
-        return $this->fetch();
+        if (session('step') != 2) redirect(request()->baseFile());
+        session(['error'=> false]);
+        session(['step'=> 3]);
+        return view();
     }
 
     /**
@@ -113,14 +113,14 @@ class Index extends Controller
     public function step4($db = null, $cover = 0)
     {
         // 检查上一步是否通过
-        if ($this->request->isPost()) {
+        if (request()->isPost()) {
             // 检测数据库配置
             if(!is_array($db) || empty($db['type'])
                 || empty($db['hostname'])
                 || empty($db['database'])
                 || empty($db['username'])
                 || empty($db['prefix'])){
-                $this->error('请填写完整的数据库配置');
+                return $this->error('请填写完整的数据库配置');
             }
 
             // 缓存数据库配置
@@ -137,7 +137,7 @@ class Index extends Controller
             try{
                 $db_instance->execute('select version()');
             }catch(\Exception $e){
-                $this->error('数据库连接失败，请检查数据库配置！');
+                return $this->error('数据库连接失败，请检查数据库配置！');
             }
 
             // 用户选择不覆盖情况下检测是否已存在数据库
@@ -154,14 +154,14 @@ class Index extends Controller
             $db_instance->execute($sql) || $this->error($db_instance->getError());
 
             // 跳转到数据库安装页面
-            $this->success('参数正确开始安装', $this->request->baseFile().'?s=/index/step4.html');
+            return $this->success('参数正确开始安装', request()->baseFile().'?s=/index/step4.html');
         } else {
             if (session('step') != 3 && !session('reinstall')) {
-                $this->redirect($this->request->baseFile());
+                redirect(request()->baseFile());
             }
 
             session('step', 4);
-            return $this->fetch();
+            return view();
         }
     }
 
@@ -173,18 +173,18 @@ class Index extends Controller
     public function complete()
     {
         if (session('step') != 4) {
-            $this->error('请按步骤安装系统', $this->request->baseFile());
+            return $this->error('请按步骤安装系统', request()->baseFile());
         }
 
         if (session('error')) {
-            $this->error('安装出错，请重新安装！', $this->request->baseFile());
+            return $this->error('安装出错，请重新安装！', request()->baseFile());
         } else {
             // 写入安装锁定文件(只能在最后一步写入锁定文件，因为锁定文件写入后安装模块将无法访问)
             file_put_contents('../data/install.lock', 'lock');
             session('step', null);
             session('error', null);
             session('reinstall', null);
-            return $this->fetch();
+            return view();
         }
     }
 }

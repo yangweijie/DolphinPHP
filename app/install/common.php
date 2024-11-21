@@ -7,13 +7,13 @@
 // | 官方网站: http://dolphinphp.com
 // +----------------------------------------------------------------------
 
-use think\facade\Env;
 
 // 此函数文件来自OneThink
 
 /**
  * 系统环境检测
  * @return array 系统环境数据
+ * @throws Exception
  */
 function check_env(){
     $items = array(
@@ -27,7 +27,7 @@ function check_env(){
     // PHP环境检测
     if($items['php'][3] < $items['php'][1]){
         $items['php'][4] = 'times text-warning';
-        session('error', true);
+        session(['error'=> true]);
     }
 
     // 附件上传检测
@@ -39,7 +39,7 @@ function check_env(){
     if(empty($tmp['GD Version'])){
         $items['gd'][3] = '未安装';
         $items['gd'][4] = 'times text-warning';
-        session('error', true);
+        session(['error'=> true]);
     } else {
         $items['gd'][3] = $tmp['GD Version'];
     }
@@ -47,11 +47,11 @@ function check_env(){
 
     // 磁盘空间检测
     if(function_exists('disk_free_space')) {
-        $disk_size = floor(disk_free_space(Env::get('app_path')) / (1024*1024));
+        $disk_size = floor(disk_free_space(app_path()) / (1024*1024));
         $items['disk'][3] = $disk_size.'M';
         if ($disk_size < 100) {
             $items['disk'][4] = 'times text-warning';
-            session('error', true);
+            session(['error'=> true]);
         }
     }
 
@@ -83,11 +83,11 @@ function check_dirfile(){
                 if(is_dir($item)) {
                     $val[1] = '可读';
                     $val[2] = 'times text-warning';
-                    session('error', true);
+                    session(['error'=> true]);
                 } else {
                     $val[1] = '不存在';
                     $val[2] = 'times text-warning';
-                    session('error', true);
+                    session(['error'=> true]);
                 }
             }
         } else {
@@ -95,13 +95,13 @@ function check_dirfile(){
                 if(!is_writable($item)) {
                     $val[1] = '不可写';
                     $val[2] = 'times text-warning';
-                    session('error', true);
+                    session(['error'=> true]);
                 }
             } else {
                 if(!is_writable(dirname($item))) {
                     $val[1] = '不存在';
                     $val[2] = 'times text-warning';
-                    session('error', true);
+                    session(['error'=> true]);
                 }
             }
         }
@@ -132,7 +132,7 @@ function check_func(){
         ){
             $val[1] = '不支持';
             $val[2] = 'times text-warning';
-            session('error', true);
+            session(['error'=> true]);
         }
     }
 
@@ -142,25 +142,24 @@ function check_func(){
 /**
  * 写入配置文件
  * @param $config
- * @return array 配置信息
+ * @return null 配置信息
  */
 function write_config($config){
     if(is_array($config)){
         //读取配置内容
-        $conf = file_get_contents(Env::get('app_path') . 'install/data/database.tpl');
+        $conf = file_get_contents(app_path() . 'install/data/database.tpl');
         // 替换配置项
         foreach ($config as $name => $value) {
             $conf = str_replace("[{$name}]", $value, $conf);
         }
 
         //写入应用配置文件
-        if(file_put_contents(Env::get('config_path') . 'database.php', $conf)){
+        if(file_put_contents(config_path() . 'database.php', $conf)){
             show_msg('配置文件写入成功');
         } else {
             show_msg('配置文件写入失败！', 'error');
-            session('error', true);
+            session(['error'=> true]);
         }
-        return '';
     }
 }
 
@@ -171,7 +170,7 @@ function write_config($config){
  */
 function create_tables($db, $prefix = ''){
     // 读取SQL文件
-    $sql = file_get_contents(Env::get('app_path') . 'install/data/dolphin.sql');
+    $sql = file_get_contents(app_path() . 'install/data/dolphin.sql');
 
     $sql = str_replace("\r", "\n", $sql);
     $sql = explode(";\n", $sql);
@@ -192,7 +191,7 @@ function create_tables($db, $prefix = ''){
             show_progress($msg);
         } else {
             show_progress($msg, 'error');
-            session('error', true);
+            session(['error'=> true]);
         }
         $i++;
     }
@@ -200,12 +199,12 @@ function create_tables($db, $prefix = ''){
 
 /**
  * 更新数据表
- * @param $db 数据库连接资源
+ * @param $db mixed 数据库连接资源
  * @param string $prefix 表前缀
  */
 function update_tables($db, $prefix = ''){
     //读取SQL文件
-    $sql = file_get_contents(Env::get('app_path') . 'install/data/update.sql');
+    $sql = file_get_contents(app_path() . 'install/data/update.sql');
     $sql = str_replace("\r", "\n", $sql);
     $sql = explode(";\n", $sql);
 
@@ -223,7 +222,7 @@ function update_tables($db, $prefix = ''){
         if(substr($value, 0, 12) == 'CREATE TABLE') {
             $msg  = (int)($i/$all_table*100) . '%';
             if(($db->execute($value)) === false){
-                session('error', true);
+                session(['error'=> true]);
             }
         } else {
             if(substr($value, 0, 8) == 'UPDATE `') {
@@ -234,7 +233,7 @@ function update_tables($db, $prefix = ''){
                 $msg  = (int)($i/$all_table*100) . '%';
             }
             if(($db->execute($value)) === false){
-                session('error', true);
+                session(['error'=> true]);
             }
         }
 
