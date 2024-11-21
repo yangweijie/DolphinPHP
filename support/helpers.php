@@ -574,3 +574,5 @@ function input(string $param = null, $default = null)
 {
     return is_null($param) ? request()->all() : request()->input($param, $default);
 }
+
+require_once __DIR__.'/../app/install/common.php';
