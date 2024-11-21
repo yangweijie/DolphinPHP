@@ -13,7 +13,7 @@ use app\admin\controller\Admin;
 use app\common\builder\ZBuilder;
 use app\cms\model\Advert as AdvertModel;
 use app\cms\model\AdvertType as AdvertTypeModel;
-use think\facade\Validate;
+use taoser\facade\Validate;
 
 /**
  * 广告控制器
@@ -25,7 +25,7 @@ class Advert extends Admin
      * 广告列表
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
-     * @throws \think\Exception
+     * @throws \Exception
      * @throws \think\exception\DbException
      */
     public function index()

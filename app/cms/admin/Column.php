@@ -17,7 +17,6 @@ use app\cms\model\Document;
 use app\user\model\Role as RoleModel;
 use util\Tree;
 use util\File;
-use think\facade\Env;
 
 /**
  * 栏目控制器
@@ -110,8 +109,8 @@ class Column extends Admin
             }
         }
 
-        $template_list   = File::get_dirs(Env::get('app_path').'cms/view/column/')['file'];
-        $template_detail = File::get_dirs(Env::get('app_path').'cms/view/document/')['file'];
+        $template_list   = File::get_dirs(app_path().'cms/view/column/')['file'];
+        $template_detail = File::get_dirs(app_path().'cms/view/document/')['file'];
 
         // 显示添加页面
         return ZBuilder::make('form')
@@ -170,8 +169,8 @@ class Column extends Admin
         // 获取数据
         $info = ColumnModel::get($id);
 
-        $template_list   = File::get_dirs(Env::get('app_path').'cms/view/column/')['file'];
-        $template_detail = File::get_dirs(Env::get('app_path').'cms/view/document/')['file'];
+        $template_list   = File::get_dirs(app_path().'cms/view/column/')['file'];
+        $template_detail = File::get_dirs(app_path().'cms/view/document/')['file'];
 
         // 显示编辑页面
         return ZBuilder::make('form')

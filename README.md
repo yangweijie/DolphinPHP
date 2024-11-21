@@ -1,15 +1,16 @@
 # webman 和 ThinkPHP的区别
 
 ## 多应用
-ThinkPHP 的多应用配置文件 在应用目录里可定义，webman不支持
+`ThinkPHP` 的多应用配置文件 在应用目录里可定义，`webman`不支持
 
-webman的多应用中间件配置在 根config/middleware.php 中
+`webman`的多应用中间件配置在 `config/middleware.php` 中
 
 ## 视图
 
-View::assign 用Support/View
+`View::assign` 用`Support/View`
 
 view 函数 如果不传模板参数，自动根据2 3规则查找模板文件
+`view('', $vars) => view($vars)`
 
 ## 数据库
 
@@ -45,3 +46,9 @@ PUBLIC_PATH
 `taoser/webman-validate`
 
 `use think\Validate;` => `use taoser\Validate;`
+
+`think\facade\Validate`=> `taoser\facade\Validate`
+
+## extend 目录自动命名空间
+
+改 composer.json
