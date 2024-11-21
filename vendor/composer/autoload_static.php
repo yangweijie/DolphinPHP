@@ -4,67 +4,128 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8
+class ComposerStaticInitedd8829ee93e50e84938c348519fb0b0
 {
     public static $files = array (
-        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
-        '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
-        '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
+        '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
+        'da5b71a9ad8465d48da441e2f36823b6' => __DIR__ . '/../..' . '/support/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        't' => 
+        's' => 
         array (
-            'think\\helper\\' => 13,
-            'think\\composer\\' => 15,
-            'think\\captcha\\' => 14,
-            'think\\' => 6,
+            'support\\' => 8,
         ),
         'a' => 
         array (
+            'app\\View\\Components\\' => 20,
             'app\\' => 4,
+        ),
+        'W' => 
+        array (
+            'Workerman\\' => 10,
+            'Webman\\' => 7,
+        ),
+        'S' => 
+        array (
+            'Support\\View\\' => 13,
+            'Support\\Exception\\' => 18,
+            'Support\\Bootstrap\\' => 18,
+            'Support\\' => 8,
+        ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
+            'Psr\\Container\\' => 14,
+        ),
+        'M' => 
+        array (
+            'Monolog\\' => 8,
+        ),
+        'F' => 
+        array (
+            'FastRoute\\' => 10,
+        ),
+        'A' => 
+        array (
+            'App\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'think\\helper\\' => 
+        'support\\' => 
         array (
-            0 => __DIR__ . '/..' . '/topthink/think-helper/src',
+            0 => __DIR__ . '/..' . '/workerman/webman-framework/src/support',
         ),
-        'think\\composer\\' => 
+        'app\\View\\Components\\' => 
         array (
-            0 => __DIR__ . '/..' . '/topthink/think-installer/src',
-        ),
-        'think\\captcha\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/topthink/think-captcha/src',
-        ),
-        'think\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/topthink/think-image/src',
+            0 => __DIR__ . '/../..' . '/app/view/components',
         ),
         'app\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/application',
+            0 => __DIR__ . '/../..' . '/app',
+        ),
+        'Workerman\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/workerman',
+        ),
+        'Webman\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/webman-framework/src',
+        ),
+        'Support\\View\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/webman-framework/src/support/view',
+        ),
+        'Support\\Exception\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/webman-framework/src/support/exception',
+        ),
+        'Support\\Bootstrap\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/webman-framework/src/support/bootstrap',
+        ),
+        'Support\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/webman-framework/src/support',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/src',
+        ),
+        'Psr\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'FastRoute\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nikic/fast-route/src',
+        ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app',
         ),
     );
 
-    public static $prefixesPsr0 = array (
-        'H' => 
-        array (
-            'HTMLPurifier' => 
-            array (
-                0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
-            ),
-        ),
+    public static $fallbackDirsPsr4 = array (
+        0 => __DIR__ . '/../..' . '/',
+    );
+
+    public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8::$prefixesPsr0;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitedd8829ee93e50e84938c348519fb0b0::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitedd8829ee93e50e84938c348519fb0b0::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInitedd8829ee93e50e84938c348519fb0b0::$fallbackDirsPsr4;
+            $loader->classMap = ComposerStaticInitedd8829ee93e50e84938c348519fb0b0::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -1,26 +1,65 @@
 <?php
-// +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2006~2018 http://thinkphp.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: liu21st <liu21st@gmail.com>
-// +----------------------------------------------------------------------
+/**
+ * This file is part of webman.
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the MIT-LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author    walkor<walkor@workerman.net>
+ * @copyright walkor<walkor@workerman.net>
+ * @link      http://www.workerman.net/
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT License
+ */
 
-// +----------------------------------------------------------------------
-// | 会话设置
-// +----------------------------------------------------------------------
+use Webman\Session\FileSessionHandler;
+use Webman\Session\RedisSessionHandler;
+use Webman\Session\RedisClusterSessionHandler;
 
 return [
-    'id'             => '',
-    // SESSION_ID的提交变量,解决flash上传跨域
-    'var_session_id' => '',
-    // SESSION 前缀
-    'prefix'         => 'dolphin_',
-    // 驱动方式 支持redis memcache memcached
-    'type'           => '',
-    // 是否自动开启 SESSION
-    'auto_start'     => true,
+
+    'type' => 'file', // or redis or redis_cluster
+
+    'handler' => FileSessionHandler::class,
+
+    'config' => [
+        'file' => [
+            'save_path' => runtime_path() . '/sessions',
+        ],
+        'redis' => [
+            'host' => '127.0.0.1',
+            'port' => 6379,
+            'auth' => '',
+            'timeout' => 2,
+            'database' => '',
+            'prefix' => 'redis_session_',
+        ],
+        'redis_cluster' => [
+            'host' => ['127.0.0.1:7000', '127.0.0.1:7001', '127.0.0.1:7001'],
+            'timeout' => 2,
+            'auth' => '',
+            'prefix' => 'redis_session_',
+        ]
+    ],
+
+    'session_name' => 'PHPSID',
+    
+    'auto_update_timestamp' => false,
+
+    'lifetime' => 7*24*60*60,
+
+    'cookie_lifetime' => 365*24*60*60,
+
+    'cookie_path' => '/',
+
+    'domain' => '',
+    
+    'http_only' => true,
+
+    'secure' => false,
+    
+    'same_site' => '',
+
+    'gc_probability' => [1, 1000],
+
 ];
