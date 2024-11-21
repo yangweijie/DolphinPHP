@@ -21,6 +21,19 @@ return [
     'request_class' => Request::class,
     'public_path' => base_path() . DIRECTORY_SEPARATOR . 'public',
     'runtime_path' => base_path(false) . DIRECTORY_SEPARATOR . 'runtime',
-    'controller_suffix' => 'Controller',
+    'controller_suffix' => '',
     'controller_reuse' => false,
+
+
+    // 多应用
+    'install'=>[
+        //产品配置
+        'install_product_name'   => 'DolphinPHP', //产品名称
+        'install_website_domain' => 'http://www.dolphinphp.com', //官方网址
+        'install_company_name'   => '广东卓锐软件有限公司', //公司名称
+        'original_table_prefix'  => 'dp_', //默认表前缀
+
+        // 安装配置
+        'install_table_total' => 253, // 安装时，需执行的sql语句数量
+    ]
 ];

@@ -7,16 +7,16 @@
 // | 官方网站: http://dolphinphp.com
 // +----------------------------------------------------------------------
 
-/**
- * 安装程序配置文件
- */
-return array(
-    //产品配置
-    'install_product_name'   => 'DolphinPHP', //产品名称
-    'install_website_domain' => 'http://www.dolphinphp.com', //官方网址
-    'install_company_name'   => '河源市卓锐科技有限公司', //公司名称
-    'original_table_prefix'  => 'dp_', //默认表前缀
+return [
+    // 产品信息
+    'product_name' => 'DolphinPHP',
+    'product_version' => '1.7.0',
+    'build_version' => '202408300938',
+    'product_website' => 'http://www.dolphinphp.com',
+    'product_update' => 'http://www.dolphinphp.com/checkUpdate',
+    'develop_team' => 'DolphinPHP',
 
-    // 安装配置
-    'install_table_total' => 255, // 安装时，需执行的sql语句数量
-);
+    // 公司信息
+    'company_name' => '广东卓锐软件有限公司',
+    'company_website' => 'http://www.zrthink.com',
+];
