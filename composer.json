@@ -26,7 +26,15 @@
   "require": {
     "php": ">=7.2",
     "workerman/webman-framework": "^1.5.0",
-    "monolog/monolog": "^2.0"
+    "monolog/monolog": "^2.0",
+    "webman/think-orm": "^1.1",
+    "topthink/think-template": "^3.0",
+    "kingbes/jump": "^1.0",
+    "vlucas/phpdotenv": "^5.6",
+    "webman/event": "^1.0",
+    "symfony/cache": "^7.1",
+    "psr/simple-cache": "^3.0",
+    "taoser/webman-validate": "^1.7"
   },
   "suggest": {
     "ext-event": "For better performance. "
@@ -36,6 +44,8 @@
       "": "./",
       "app\\": "./app",
       "App\\": "./app",
+      "form\\": "./extend/form",
+      "util\\": "./extend/util",
       "app\\View\\Components\\": "./app/view/components"
     },
     "files": [

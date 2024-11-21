@@ -8,15 +8,13 @@
 // +----------------------------------------------------------------------
 
 use think\Db;
-use think\Container;
-use think\facade\Env;
 use app\user\model\User;
 
 // 应用公共文件
 
 // 加载自定义公共文件
-if (is_file(Env::get('app_path') . 'function.php')) {
-    include_once Env::get('app_path') . 'function.php';
+if (is_file(app_path() . 'function.php')) {
+    include_once app_path() . 'function.php';
 }
 
 if (!function_exists('is_signin')) {
@@ -1372,8 +1370,7 @@ if (!function_exists('extend_form_item')) {
         $template = './extend/form/'.$form['type'].'/'.$form['type'].'.html';
         if (file_exists($template)) {
             $template_content = file_get_contents($template);
-            $view = Container::get('view');
-            return $view->display($template_content, $form);
+            return think_view_display($template_content, $form);
         } else {
             return '';
         }
@@ -1416,12 +1413,12 @@ if (!function_exists('get_browser_type')) {
      */
     function get_browser_type(){
         $agent = $_SERVER["HTTP_USER_AGENT"];
-        if(strpos($agent,'MSIE') !== false || strpos($agent,'rv:11.0')) return "ie";
-        if(strpos($agent,'Firefox') !== false) return "firefox";
-        if(strpos($agent,'Chrome') !== false) return "chrome";
-        if(strpos($agent,'Opera') !== false) return 'opera';
-        if((strpos($agent,'Chrome') == false) && strpos($agent,'Safari') !== false) return 'safari';
-        if(false!==strpos($_SERVER['HTTP_USER_AGENT'],'360SE')) return '360SE';
+        if(str_contains($agent, 'MSIE') || strpos($agent,'rv:11.0')) return "ie";
+        if(str_contains($agent, 'Firefox')) return "firefox";
+        if(str_contains($agent, 'Chrome')) return "chrome";
+        if(str_contains($agent, 'Opera')) return 'opera';
+        if(!strpos($agent, 'Chrome') && str_contains($agent, 'Safari')) return 'safari';
+        if(str_contains($_SERVER['HTTP_USER_AGENT'], '360SE')) return '360SE';
         return 'unknown';
     }
 }
@@ -1479,7 +1476,7 @@ if (!function_exists('dp_send_message')) {
         }
 
         $MessageModel = model('user/message');
-        return false !== $MessageModel->saveAll($list);
+        return false != $MessageModel->saveAll($list);
     }
 }
 
