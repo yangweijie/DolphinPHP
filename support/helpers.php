@@ -21,7 +21,6 @@ use support\view\Blade;
 use support\view\Raw;
 use support\view\ThinkPHP;
 use support\view\Twig;
-use think\Template;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -249,44 +248,6 @@ function blade_view($template = null, array $vars = [], string $app = null, stri
 function think_view($template = null, array $vars = [], string $app = null, string $plugin = null): Response
 {
     return new Response(200, [], ThinkPHP::render(...template_inputs($template, $vars, $app, $plugin)));
-}
-
-function think_view_display($content, $vars = [], $config = []){
-    $views = new Template($config);
-    ob_start();
-    if(isset($request->_view_vars)) {
-        $vars = array_merge((array)$request->_view_vars, $vars);
-    }
-    $views->display($content, $vars, $config);
-    return ob_get_clean();
-}
-
-if (!function_exists('model')) {
-    /**
-     * 实例化Model
-     * @param string    $name Model名称
-     * @param string    $layer 业务层名称
-     * @param bool      $appendSuffix 是否添加类名后缀
-     * @return \support\Model
-     */
-    function model($name = '', $layer = 'model', $appendSuffix = false)
-    {
-        [$app, $modelName] = str_contains($name, '/') ? explode('/', $name) : ['app',$name];
-
-        $modelClass = "{$app}\{$layer}\\".ucfirst($modelName);
-        if($appendSuffix) {
-            $modelClass.=$appendSuffix;
-        }
-        return new $modelClass();
-    }
-}
-
-function cookie($name, $default = null){
-    if(str_starts_with($name, '?')){
-        $name = substr($name, 1);
-        return (bool)request()->cookie($name);
-    }
-    return request()->cookie($name, $default);
 }
 
 /**
@@ -613,5 +574,3 @@ function input(string $param = null, $default = null)
 {
     return is_null($param) ? request()->all() : request()->input($param, $default);
 }
-
-require_once __DIR__.'/../app/install/common.php';

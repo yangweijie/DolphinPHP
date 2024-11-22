@@ -11,18 +11,24 @@ class Hook
 
     function exec($data, $event_name){
         $hook_name = str_replace('hook.', '', $event_name);
+        $hooks = Cache::get('hooks', []);
+        if(!array_key_exists($hook_name, $hooks)){
+            return '';
+        }
         $key = "hook_plugin_$hook_name";
         $plugins = Cache::get($key);
         if($plugins){
             $method = Str::camel($hook_name);
+            $ret = '';
             foreach($plugins as $k=>$plugin){
                 try {
                     $plugin_class = get_plugin_class($plugin);
-                    call_user_func_array([new $plugin_class(), $method],$data);
+                    $ret .= call_user_func_array([new $plugin_class(), $method],$data);
                 }catch (\Exception $e){
                     Log::error("运行插件{$plugin}->{$method} 报错".PHP_EOL.$e->getMessage().PHP_EOL.$e->getTraceAsString());
                 }
             }
+            return $ret;
         }
     }
 

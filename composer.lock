@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c079f360e769f0e03002d3bb3b08060f",
+    "content-hash": "bb9a26786af3cf1c0225bce6ad0e2392",
     "packages": [
         {
             "name": "graham-campbell/result-type",
@@ -1386,16 +1386,16 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v3.0.30",
+            "version": "4.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "6d8bcc86c3f9aba5a92010c17b68aeb8ad05ad3a"
+                "reference": "6d5b23d3ba7e11c8c76a792cc84f6140e93a6161"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.huaweicloud.com/repository/php/topthink/think-orm/v3.0.30/topthink-think-orm-v3.0.30.zip",
-                "reference": "6d8bcc86c3f9aba5a92010c17b68aeb8ad05ad3a",
+                "url": "https://mirrors.huaweicloud.com/repository/php/topthink/think-orm/4.0.x-dev/topthink-think-orm-4.0.x-dev.zip",
+                "reference": "6d5b23d3ba7e11c8c76a792cc84f6140e93a6161",
                 "shasum": ""
             },
             "require": {
@@ -1435,7 +1435,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2024-11-07T09:12:00+00:00"
+            "time": "2024-11-21T09:06:44+00:00"
         },
         {
             "name": "topthink/think-template",
@@ -1580,20 +1580,20 @@
         },
         {
             "name": "webman/think-orm",
-            "version": "v1.1.5",
+            "version": "v1.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webman-php/think-orm.git",
-                "reference": "dcea332f96ccf419ffd117cc33515602ada9893d"
+                "reference": "32b464f44e727b8a687ddd707ddb84e6f8a2ce74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.huaweicloud.com/repository/php/webman/think-orm/v1.1.5/webman-think-orm-v1.1.5.zip",
-                "reference": "dcea332f96ccf419ffd117cc33515602ada9893d",
+                "url": "https://mirrors.huaweicloud.com/repository/php/webman/think-orm/v1.1.6/webman-think-orm-v1.1.6.zip",
+                "reference": "32b464f44e727b8a687ddd707ddb84e6f8a2ce74",
                 "shasum": ""
             },
             "require": {
-                "topthink/think-orm": "^2.0.53 || ^3.0.0"
+                "topthink/think-orm": "^2.0.53 || ^3.0.0 || ^4.0.0 || dev-master"
             },
             "type": "library",
             "autoload": {
@@ -1604,7 +1604,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2024-10-09T14:06:58+00:00"
+            "time": "2024-11-22T03:17:44+00:00"
         },
         {
             "name": "workerman/webman-framework",
@@ -1719,11 +1719,14 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "topthink/think-orm": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2"
+        "php": ">=7.2",
+        "ext-pdo": "*"
     },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"
