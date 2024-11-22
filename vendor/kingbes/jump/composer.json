@@ -1,0 +1,14 @@
+{
+  "name": "kingbes/jump",
+  "type": "library",
+  "license": "MIT",
+  "description": "Webman plugin kingbes/jump",
+  "require": {
+    "php": ">=8.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Kingbes\\Jump\\": "src"
+    }
+  }
+}
