@@ -9,13 +9,14 @@
 
 namespace app\common\controller;
 
-use think\Controller;
+use Kingbes\Jump\Jump;
+use support\View;
 
 /**
  * 项目公共控制器
  * @package app\common\controller
  */
-class Common extends Controller
+class Common extends Jump
 {
     /**
      * 初始化
@@ -24,11 +25,11 @@ class Common extends Controller
     protected function initialize()
     {
         // 后台公共模板
-        $this->assign('_admin_base_layout', config('admin_base_layout'));
+        View::assign('_admin_base_layout', config('admin_base_layout'));
         // 当前配色方案
-        $this->assign('system_color', config('system_color'));
+        View::assign('system_color', config('system_color'));
         // 输出弹出层参数
-        $this->assign('_pop', $this->request->param('_pop'));
+        View::assign('_pop', request()->input('_pop', false));
     }
 
     /**
@@ -161,6 +162,6 @@ class Common extends Controller
         $suffix = $suffix == '' ? 'html' : $suffix;
         $template = $template == '' ? $action : $template;
         $template_path = config('plugin_path'). "{$plugin}/view/{$template}.{$suffix}";
-        return parent::fetch($template_path, $vars, $config);
+        return view($template_path, $vars, $config);
     }
 }

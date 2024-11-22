@@ -35,7 +35,8 @@
     "symfony/cache": "^7.1",
     "psr/simple-cache": "^3.0",
     "taoser/webman-validate": "^1.7",
-    "topthink/think-helper": "^3.1"
+    "topthink/think-helper": "^3.1",
+    "ext-pdo": "*"
   },
   "suggest": {
     "ext-event": "For better performance. "

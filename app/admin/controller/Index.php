@@ -10,9 +10,8 @@
 namespace app\admin\controller;
 
 use think\facade\Cache;
-use think\facade\Env;
 use think\helper\Hash;
-use think\Db;
+use think\facade\Db;
 use app\common\builder\ZBuilder;
 use app\user\model\User as UserModel;
 
@@ -48,17 +47,17 @@ class Index extends Admin
             foreach ($wipe_cache_type as $item) {
                 switch ($item) {
                     case 'TEMP_PATH':
-                        array_map('unlink', glob(Env::get('runtime_path'). 'temp/*.*'));
+                        array_map('unlink', glob(runtime_path(). 'temp/*.*'));
                         break;
                     case 'LOG_PATH':
-                        $dirs = (array) glob(Env::get('runtime_path') . 'log/*');
+                        $dirs = (array) glob(runtime_path() . 'log/*');
                         foreach ($dirs as $dir) {
                             array_map('unlink', glob($dir . '/*.log'));
                         }
                         array_map('rmdir', $dirs);
                         break;
                     case 'CACHE_PATH':
-                        array_map('unlink', glob(Env::get('runtime_path'). 'cache/*.*'));
+                        array_map('unlink', glob(runtime_path(). 'cache/*.*'));
                         break;
                 }
             }
