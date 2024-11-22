@@ -241,6 +241,60 @@
             "install-path": "../nikic/fast-route"
         },
         {
+            "name": "nikic/php-parser",
+            "version": "v4.19.4",
+            "version_normalized": "4.19.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "715f4d25e225bc47b293a8b997fe6ce99bf987d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://mirrors.huaweicloud.com/repository/php/nikic/php-parser/v4.19.4/nikic-php-parser-v4.19.4.zip",
+                "reference": "715f4d25e225bc47b293a8b997fe6ce99bf987d2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "ircmaxell/php-yacc": "^0.0.7",
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+            },
+            "time": "2024-09-29T15:01:53+00:00",
+            "bin": [
+                "bin/php-parse"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.9-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "PhpParser\\": "lib/PhpParser"
+                }
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov"
+                }
+            ],
+            "description": "A PHP parser written in PHP",
+            "keywords": [
+                "parser",
+                "php"
+            ],
+            "install-path": "../nikic/php-parser"
+        },
+        {
             "name": "phpoption/phpoption",
             "version": "1.9.3",
             "version_normalized": "1.9.3.0",
@@ -1502,24 +1556,24 @@
         },
         {
             "name": "topthink/think-template",
-            "version": "v3.0.1",
-            "version_normalized": "3.0.1.0",
+            "version": "v3.0.2",
+            "version_normalized": "3.0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-template.git",
-                "reference": "672b131681a8a2c54e5bc2b56bfd4bc7cf674d08"
+                "reference": "0b88bd449f0f7626dd75b05f557c8bc208c08b0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.huaweicloud.com/repository/php/topthink/think-template/v3.0.1/topthink-think-template-v3.0.1.zip",
-                "reference": "672b131681a8a2c54e5bc2b56bfd4bc7cf674d08",
+                "url": "https://mirrors.huaweicloud.com/repository/php/topthink/think-template/v3.0.2/topthink-think-template-v3.0.2.zip",
+                "reference": "0b88bd449f0f7626dd75b05f557c8bc208c08b0c",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.0.0",
                 "psr/simple-cache": ">=1.0"
             },
-            "time": "2023-04-07T02:42:15+00:00",
+            "time": "2024-10-16T03:41:06+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1795,6 +1849,45 @@
                 }
             ],
             "install-path": "../workerman/workerman"
+        },
+        {
+            "name": "xiaoyangguang/webmanaop",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../webman_aop",
+                "reference": "7aabf4b47cad4994157f75fd1c78c6e2ddc3a88a"
+            },
+            "require": {
+                "nikic/php-parser": "^4.13",
+                "php": ">=7.2",
+                "workerman/webman-framework": "^1.2.1 || ^1.5.25 || ^1.6.4"
+            },
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Xiaoyangguang\\WebmanAop\\": "./src"
+                }
+            },
+            "authors": [
+                {
+                    "name": "xiaoyangguang",
+                    "email": "930029203@qq.com",
+                    "homepage": "https://www.workerman.net/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "webman_aop",
+            "keywords": [
+                "aop",
+                "webman"
+            ],
+            "transport-options": {
+                "relative": true
+            },
+            "install-path": "../xiaoyangguang/webmanaop"
         }
     ],
     "dev": true,

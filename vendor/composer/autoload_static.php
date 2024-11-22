@@ -46,6 +46,10 @@ class ComposerStaticInitb7b026077308c27564d336f39b7e3c88
             'app\\View\\Components\\' => 20,
             'app\\' => 4,
         ),
+        'X' => 
+        array (
+            'Xiaoyangguang\\WebmanAop\\' => 24,
+        ),
         'W' => 
         array (
             'Workerman\\' => 10,
@@ -75,6 +79,7 @@ class ComposerStaticInitb7b026077308c27564d336f39b7e3c88
             'Psr\\Log\\' => 8,
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
+            'PhpParser\\' => 10,
             'PhpOption\\' => 10,
         ),
         'M' => 
@@ -112,8 +117,8 @@ class ComposerStaticInitb7b026077308c27564d336f39b7e3c88
         array (
             0 => __DIR__ . '/..' . '/topthink/think-container/src',
             1 => __DIR__ . '/..' . '/topthink/think-helper/src',
-            2 => __DIR__ . '/..' . '/topthink/think-template/src',
-            3 => __DIR__ . '/..' . '/topthink/think-orm/src',
+            2 => __DIR__ . '/..' . '/topthink/think-orm/src',
+            3 => __DIR__ . '/..' . '/topthink/think-template/src',
         ),
         'taoser\\' => 
         array (
@@ -138,6 +143,10 @@ class ComposerStaticInitb7b026077308c27564d336f39b7e3c88
         'app\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
+        ),
+        'Xiaoyangguang\\WebmanAop\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/xiaoyangguang/webmanaop/src',
         ),
         'Workerman\\' => 
         array (
@@ -222,6 +231,10 @@ class ComposerStaticInitb7b026077308c27564d336f39b7e3c88
         'Psr\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
+        'PhpParser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
         'PhpOption\\' => 
         array (

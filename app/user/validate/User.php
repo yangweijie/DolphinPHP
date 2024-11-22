@@ -9,7 +9,7 @@
 
 namespace app\user\validate;
 
-use think\Validate;
+use taoser\Validate;
 
 /**
  * 用户验证器

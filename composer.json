@@ -23,6 +23,12 @@
     "wiki": "https://workerman.net/doc/webman",
     "source": "https://github.com/walkor/webman"
   },
+  "repositories": {
+    "webmanaop": {
+      "type": "path",
+      "url": "../webman_aop"
+    }
+  },
   "require": {
     "php": ">=7.2",
     "workerman/webman-framework": "^1.5.0",
@@ -37,7 +43,8 @@
     "taoser/webman-validate": "^1.7",
     "topthink/think-helper": "^3.1",
     "ext-pdo": "*",
-    "topthink/think-orm": "4.0.x-dev"
+    "topthink/think-orm": "4.0.x-dev",
+    "xiaoyangguang/webmanaop": "dev-main"
   },
   "suggest": {
     "ext-event": "For better performance. "

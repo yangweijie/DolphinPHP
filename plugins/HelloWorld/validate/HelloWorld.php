@@ -9,7 +9,7 @@
 
 namespace plugins\HelloWorld\validate;
 
-use think\Validate;
+use taoser\Validate;
 
 /**
  * 后台插件验证器

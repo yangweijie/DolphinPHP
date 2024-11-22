@@ -12,7 +12,10 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+use Xiaoyangguang\WebmanAop\Bootstrap\AopRegister;
+
 return [
+    AopRegister::class,
     support\bootstrap\Session::class,
     support\bootstrap\LaravelDb::class,
     Webman\ThinkOrm\ThinkOrm::class,
