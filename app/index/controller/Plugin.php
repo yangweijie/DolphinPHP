@@ -20,7 +20,7 @@ class Plugin extends Home
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      */
-    public function execute()
+    public function execute(): mixed
     {
         $plugin     = input('param._plugin');
         $controller = input('param._controller');

@@ -10,7 +10,9 @@
 namespace app\common\controller;
 
 use Kingbes\Jump\Jump;
+use support\Response;
 use support\View;
+use Webman\Http\Request;
 
 /**
  * 项目公共控制器
@@ -18,11 +20,13 @@ use support\View;
  */
 class Common extends Jump
 {
+    public Request|\support\Request|null $request;
+
     /**
      * 初始化
      * @author 蔡伟明 <314013107@qq.com>
      */
-    protected function initialize()
+    protected function initialize(): mixed
     {
         // 后台公共模板
         View::assign('_admin_base_layout', config('admin_base_layout'));
@@ -30,6 +34,8 @@ class Common extends Jump
         View::assign('system_color', config('system_color'));
         // 输出弹出层参数
         View::assign('_pop', request()->input('_pop', false));
+        $this->request = request();
+        return null;
     }
 
     /**
@@ -38,7 +44,7 @@ class Common extends Jump
      * @alter 小乌 <82950492@qq.com>
      * @return array
      */
-    final protected function getMap()
+    final protected function getMap(): array
     {
         $search_field     = input('param.search_field/s', '', 'trim');
         $keyword          = input('param.keyword/s', '', 'trim');
@@ -106,6 +112,7 @@ class Common extends Jump
                                 $value[0] = date('Y-m-d', strtotime($value[0])). ' 00:00:00';
                                 $value[1] = date('Y-m-d', strtotime($value[1])). ' 23:59:59';
                             }
+                            break;
                         default:
                             $map[] = [$field, $op[1], $value];
                     }
@@ -148,7 +155,7 @@ class Common extends Jump
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      */
-    final protected function pluginView($template = '', $suffix = '', $vars = [], $config = [])
+    final protected function pluginView($template = '', $suffix = '', $vars = [])
     {
         $plugin_name = input('param.plugin_name');
 
@@ -162,6 +169,16 @@ class Common extends Jump
         $suffix = $suffix == '' ? 'html' : $suffix;
         $template = $template == '' ? $action : $template;
         $template_path = config('plugin_path'). "{$plugin}/view/{$template}.{$suffix}";
-        return view($template_path, $vars, $config);
+        return view($template_path, $vars);
+    }
+    
+    public function assign($key ,$value): void
+    {
+        View::assign($key, $value);
+    }
+
+    public function redirect($url, int $code = 302, array $header = []): Response
+    {
+        return redirect($url, $code, $header);
     }
 }

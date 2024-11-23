@@ -21,7 +21,7 @@ class Home extends Common
      * 初始化方法
      * @author 蔡伟明 <314013107@qq.com>
      */
-    protected function initialize()
+    protected function initialize(): mixed
     {
         // 系统开关
         if (!config('web_site_status')) {

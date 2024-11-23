@@ -506,12 +506,12 @@ class Menu extends Admin
     /**
      * 禁用节点
      * @param array $record 行为日志
-     * @author 蔡伟明 <314013107@qq.com>
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
+     *@author 蔡伟明 <314013107@qq.com>
      */
-    public function disable($record = [])
+    public function disable(array $record = [])
     {
         $id      = input('param.ids');
         $menu    = MenuModel::where('id', $id)->find();

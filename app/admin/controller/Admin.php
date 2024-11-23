@@ -16,9 +16,12 @@ use app\admin\model\Module as ModuleModel;
 use app\admin\model\Icon as IconModel;
 use app\user\model\Role as RoleModel;
 use app\user\model\Message as MessageModel;
+use Exception;
+use support\Response;
+use think\db\exception\PDOException;
 use think\facade\Cache;
-use think\Db;
 use think\facade\App;
+use think\facade\Db;
 use think\helper\Hash;
 
 /**
@@ -30,14 +33,14 @@ class Admin extends Common
     /**
      * 初始化
      * @author 蔡伟明 <314013107@qq.com>
-     * @throws \think\Exception
+     * @throws Exception
      */
-    protected function initialize()
+    protected function initialize(): mixed
     {
         parent::initialize();
         // 是否拒绝ie浏览器访问
         if (config('system.deny_ie') && get_browser_type() == 'ie') {
-            $this->redirect('admin/ie/index');
+            return redirect('admin/ie/index');
         }
 
         // 判断是否登录，并定义用户ID常量
@@ -99,7 +102,7 @@ class Admin extends Common
     final protected function getCurrModel()
     {
         $table_token = input('param._t', '');
-        $module      = $this->request->module();
+        $module      = $this->request->app;
         $controller  = parse_name($this->request->controller());
 
         $table_token == '' && $this->error('缺少参数');
@@ -113,7 +116,7 @@ class Admin extends Common
             // 使用模型
             try {
                 $Model = App::model($table);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->error('找不到模型：'.$table);
             }
         } else {
@@ -143,8 +146,8 @@ class Admin extends Common
 
     /**
      * 检查是否登录，没有登录则跳转到登录页面
-     * @author 蔡伟明 <314013107@qq.com>
-     * @return int
+     * @return int|Response
+     *@author 蔡伟明 <314013107@qq.com>
      */
     final protected function isLogin()
     {
@@ -154,18 +157,18 @@ class Admin extends Common
             return $uid;
         } else {
             // 未登录
-            $this->redirect('user/publics/signin');
+            return $this->redirect('user/publics/signin');
         }
     }
 
     /**
      * 禁用
      * @param array $record 行为日志内容
-     * @author 蔡伟明 <314013107@qq.com>
      * @throws \think\Exception
-     * @throws \think\exception\PDOException
+     * @throws PDOException
+     *@author 蔡伟明 <314013107@qq.com>
      */
-    public function disable($record = [])
+    public function disable(array $record = [])
     {
         return $this->setStatus('disable', $record);
     }
@@ -175,7 +178,7 @@ class Admin extends Common
      * @param array $record 行为日志内容
      * @author 蔡伟明 <314013107@qq.com>
      * @throws \think\Exception
-     * @throws \think\exception\PDOException
+     * @throws PDOException
      */
     public function enable($record = [])
     {
@@ -187,7 +190,7 @@ class Admin extends Common
      * @param array $record 行为日志内容
      * @author 蔡伟明 <314013107@qq.com>
      * @throws \think\Exception
-     * @throws \think\exception\PDOException
+     * @throws PDOException
      */
     public function delete($record = [])
     {
@@ -334,7 +337,7 @@ class Admin extends Common
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
-     * @throws \think\exception\PDOException
+     * @throws PDOException
      */
     public function edit($id = '')
     {
@@ -403,7 +406,7 @@ class Admin extends Common
      * @param array $record 行为日志内容
      * @author 蔡伟明 <314013107@qq.com>
      * @throws \think\Exception
-     * @throws \think\exception\PDOException
+     * @throws PDOException
      */
     public function setStatus($type = '', $record = [])
     {
@@ -425,7 +428,7 @@ class Admin extends Common
 
         // 禁止操作核心表的主要数据
         if (in_array($Model->getTable(), $protect_table) && in_array('1', $ids)) {
-            $this->error('禁止操作');
+            return $this->error('禁止操作');
         }
 
         // 主键名称
@@ -456,9 +459,9 @@ class Admin extends Common
             if (!empty($record)) {
                 call_user_func_array('action_log', $record);
             }
-            $this->success('操作成功');
+            return $this->success('操作成功');
         } else {
-            $this->error('操作失败');
+            return $this->error('操作失败');
         }
     }
 
@@ -467,7 +470,7 @@ class Admin extends Common
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      * @throws \think\Exception
-     * @throws \think\exception\PDOException
+     * @throws PDOException
      */
     public function moduleConfig()
     {

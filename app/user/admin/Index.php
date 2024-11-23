@@ -515,14 +515,14 @@ class Index extends Admin
 
     /**
      * 禁用用户
-     * @param array $ids 用户id
-     * @author 蔡伟明 <314013107@qq.com>
+     * @param array $record 用户id
      * @throws \think\Exception
      * @throws \think\exception\PDOException
+     *@author 蔡伟明 <314013107@qq.com>
      */
-    public function disable($ids = [])
+    public function disable(array $record = [])
     {
-        Hook::listen('user_disable', $ids);
+        Hook::listen('user_disable', $record);
         return $this->setStatus('disable');
     }
 

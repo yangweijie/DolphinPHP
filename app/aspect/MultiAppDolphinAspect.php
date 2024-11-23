@@ -24,6 +24,7 @@ class MultiAppDolphinAspect implements AspectInterface
     /**
      * 前置通知
      * @param $params
+     * @param $class
      * @param $method
      * @return void
      */
@@ -37,6 +38,7 @@ class MultiAppDolphinAspect implements AspectInterface
      * 后置通知
      * @param $res
      * @param $params
+     * @param $class
      * @param $method
      * @return mixed|void
      */
@@ -44,10 +46,11 @@ class MultiAppDolphinAspect implements AspectInterface
     {
         var_dump('afterAdvice', $res, $params, $method);
         echo PHP_EOL;
+        var_dump($class);
     }
 
     public static function exceptionHandler($throwable, $params, $class, $method): void
     {
-        // TODO: Implement exceptionHandler() method.
+        var_dump($throwable->getMessage());
     }
 }

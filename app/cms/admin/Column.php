@@ -243,11 +243,11 @@ class Column extends Admin
     /**
      * 禁用栏目
      * @param array $record 行为日志
-     * @author 蔡伟明 <314013107@qq.com>
      * @throws \think\Exception
      * @throws \think\exception\PDOException
+     *@author 蔡伟明 <314013107@qq.com>
      */
-    public function disable($record = [])
+    public function disable(array $record = [])
     {
         return $this->setStatus('disable');
     }
