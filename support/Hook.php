@@ -1,6 +1,7 @@
 <?php
 namespace support;
 
+use Exception;
 use think\helper\Str;
 
 class Hook
@@ -9,7 +10,8 @@ class Hook
 
     }
 
-    function exec($data, $event_name){
+    function exec($data, $event_name): string
+    {
         $hook_name = str_replace('hook.', '', $event_name);
         $hooks = Cache::get('hooks', []);
         if(!array_key_exists($hook_name, $hooks)){
@@ -20,22 +22,23 @@ class Hook
         if($plugins){
             $method = Str::camel($hook_name);
             $ret = '';
-            foreach($plugins as $k=>$plugin){
+            foreach($plugins as $plugin){
                 try {
                     $plugin_class = get_plugin_class($plugin);
                     $ret .= call_user_func_array([new $plugin_class(), $method],$data);
-                }catch (\Exception $e){
+                }catch (Exception $e){
                     Log::error("运行插件{$plugin}->{$method} 报错".PHP_EOL.$e->getMessage().PHP_EOL.$e->getTraceAsString());
                 }
             }
             return $ret;
         }
+        return '';
     }
 
     public static function add($hook_name, $plugin){
         $key = "hook_plugin_$hook_name";
         $plugins = Cache::get($key, []);
-        array_push($plugins, $plugin);
+        $plugins[] = $plugin;
         array_unique($plugins);
         Cache::set($key, $plugins);
     }

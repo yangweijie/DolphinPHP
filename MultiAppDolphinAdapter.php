@@ -43,6 +43,14 @@ if(extension_loaded('opentelemetry')){
             }else{
                 if($returnValue){
                     $returnValue['app'] = $app;
+                }else{
+                    $controller_layer = 'controller';
+                    $returnValue = [
+                        'app'=>'',
+                        'plugin'=>'',
+                        'controller'=>"app\\{$app}\\{$controller_layer}\\".ucfirst($pathExplode[1]),
+                        'action'=>$action,
+                    ];
                 }
             }
             var_dump('after_post：');

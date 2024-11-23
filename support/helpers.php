@@ -21,9 +21,6 @@ use support\view\Blade;
 use support\view\Raw;
 use support\view\ThinkPHP;
 use support\view\Twig;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 use Webman\App;
 use Webman\Config;
 use Webman\Route;
@@ -49,10 +46,10 @@ function run_path(string $path = ''): string
 
 /**
  * if the param $path equal false,will return this program current execute directory
- * @param string|false $path
+ * @param bool|string $path
  * @return string
  */
-function base_path($path = ''): string
+function base_path(bool|string $path = ''): string
 {
     if (false === $path) {
         return run_path();
@@ -278,7 +275,7 @@ function request()
  * @param $default
  * @return array|mixed|null
  */
-function config(string $key = null, $default = null)
+function config(string $key = null, $default = null): mixed
 {
     return Config::get($key, $default);
 }
@@ -309,12 +306,12 @@ function route(string $name, ...$parameters): string
 
 /**
  * Session
- * @param mixed $key
- * @param mixed $default
+ * @param mixed|null $key
+ * @param mixed|null $default
  * @return mixed|bool|Session
  * @throws Exception
  */
-function session($key = null, $default = null)
+function session(mixed $key = null, mixed $default = null): mixed
 {
     $session = \request()->session();
     if (null === $key) {

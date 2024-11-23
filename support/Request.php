@@ -20,5 +20,8 @@ namespace support;
  */
 class Request extends \Webman\Http\Request
 {
-
+    public function isPost(): bool
+    {
+        return $this->method() === 'POST';
+    }
 }
