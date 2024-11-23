@@ -132,7 +132,7 @@ class Index extends Jump
             }
 
             // 缓存数据库配置
-            session('db_config', $db);
+            session(['db_config'=>$db]);
 
             // 防止不存在的数据库导致连接数据库失败
             $db_name = $db['database'];
@@ -168,7 +168,7 @@ class Index extends Jump
                 redirect('/install/index/index');
             }
 
-            session('step', 4);
+            session(['step'=>4]);
             return view();
         }
     }
