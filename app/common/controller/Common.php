@@ -22,6 +22,11 @@ class Common extends Jump
 {
     public Request|\support\Request|null $request;
 
+    public function __construct()
+    {
+        $this->initialize();
+    }
+
     /**
      * 初始化
      * @author 蔡伟明 <314013107@qq.com>

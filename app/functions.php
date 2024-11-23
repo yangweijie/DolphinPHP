@@ -29,3 +29,26 @@ if(!function_exists('think_view_display')){
         return ob_get_clean();
     }
 }
+
+function url($url, $vars = []){
+    $request = request();
+    $query_str = http_build_query($vars);
+    if(str_starts_with($url, '/')){
+        $build = $url;
+        goto done;
+    }
+    $path = $request->path();
+    $path = ltrim($path, '/');
+    $urlExplode = explode('/', $url);
+    if(count($urlExplode) == 3){
+        $build = $url;
+    }else if(count($urlExplode) == 2){
+        $build =  $request->app.'/'.$url;
+    }else if(count($urlExplode) == 1){
+        $pathExplode = explode('/', $path);
+        $pathExplode[2] = $url;
+        $build = implode('/', $pathExplode);
+    }
+    done:
+    return $query_str? $build.'?'.$query_str: $build;
+}

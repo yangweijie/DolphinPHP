@@ -11,7 +11,8 @@ namespace app\install\controller;
 
 use Kingbes\Jump\Jump;
 use support\View;
-use think\Db;
+use think\facade\Db;
+include_once __DIR__.'/../common.php';
 
 define('INSTALL_APP_PATH', realpath('./') . '/');
 
@@ -21,12 +22,19 @@ define('INSTALL_APP_PATH', realpath('./') . '/');
  */
 class Index extends Jump
 {
+
+    public function __construct()
+    {
+        $this->initialize();
+    }
+
     /**
      * 获取入口目录
      * @author 蔡伟明 <314013107@qq.com>
      */
-    protected function initialize() {
-        View::assign('static_dir', 'static/');
+    protected function initialize(): void
+    {
+        View::assign('static_dir', '/static/');
     }
 
     /**
@@ -56,10 +64,10 @@ class Index extends Jump
      */
     public function step2()
     {
-        if (session('step') != 1 && session('step') != 3) redirect(request()->baseFile());
+        if (session('step') != 1 && session('step') != 3) redirect('/install/index/index');
         if(session('reinstall')){
             session(['step'=> 2]);
-            redirect(request()->baseFile().'?s=/index/step4.html');
+            return redirect('/install/index/step4');
         }else{
             session(['error'=> false]);
 
@@ -94,10 +102,10 @@ class Index extends Jump
             if (session('error')) {
                 return $this->error('环境检测没有通过，请调整环境后重试！');
             } else {
-                return $this->success('恭喜您环境检测通过', request()->baseFile().'?s=/index/step3.html');
+                return $this->success('恭喜您环境检测通过', '/install/index/step3');
             }
         }
-        if (session('step') != 2) redirect(request()->baseFile());
+        if (session('step') != 2) redirect('/install/index/index');
         session(['error'=> false]);
         session(['step'=> 3]);
         return view();
@@ -154,10 +162,10 @@ class Index extends Jump
             $db_instance->execute($sql) || $this->error($db_instance->getError());
 
             // 跳转到数据库安装页面
-            return $this->success('参数正确开始安装', request()->baseFile().'?s=/index/step4.html');
+            return $this->success('参数正确开始安装', '/install/index/step4');
         } else {
             if (session('step') != 3 && !session('reinstall')) {
-                redirect(request()->baseFile());
+                redirect('/install/index/index');
             }
 
             session('step', 4);
@@ -173,11 +181,11 @@ class Index extends Jump
     public function complete()
     {
         if (session('step') != 4) {
-            return $this->error('请按步骤安装系统', request()->baseFile());
+            return $this->error('请按步骤安装系统', '/install/index/index');
         }
 
         if (session('error')) {
-            return $this->error('安装出错，请重新安装！', request()->baseFile());
+            return $this->error('安装出错，请重新安装！', '/install/index/index');
         } else {
             // 写入安装锁定文件(只能在最后一步写入锁定文件，因为锁定文件写入后安装模块将无法访问)
             file_put_contents('../data/install.lock', 'lock');
