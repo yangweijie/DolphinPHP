@@ -7,7 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'util\\' => array($baseDir . '/extend/util'),
-    'think\\' => array($vendorDir . '/topthink/think-helper/src', $vendorDir . '/topthink/think-container/src', $vendorDir . '/topthink/think-template/src', $vendorDir . '/topthink/think-orm/src'),
+    'think\\' => array($vendorDir . '/topthink/think-container/src', $vendorDir . '/topthink/think-helper/src', $vendorDir . '/topthink/think-orm/src', $vendorDir . '/topthink/think-template/src'),
     'taoser\\' => array($vendorDir . '/taoser/webman-validate/src'),
     'support\\' => array($vendorDir . '/workerman/webman-framework/src/support'),
     'plugins\\' => array($baseDir . '/plugins'),
@@ -18,6 +18,7 @@ return array(
     'Webman\\ThinkOrm\\' => array($vendorDir . '/webman/think-orm/src'),
     'Webman\\Event\\' => array($vendorDir . '/webman/event/src'),
     'Webman\\' => array($vendorDir . '/workerman/webman-framework/src'),
+    'WebmanTech\\Debugbar\\' => array($vendorDir . '/webman-tech/debugbar/src'),
     'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
@@ -25,6 +26,7 @@ return array(
     'Symfony\\Contracts\\Service\\' => array($vendorDir . '/symfony/service-contracts'),
     'Symfony\\Contracts\\Cache\\' => array($vendorDir . '/symfony/cache-contracts'),
     'Symfony\\Component\\VarExporter\\' => array($vendorDir . '/symfony/var-exporter'),
+    'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
     'Symfony\\Component\\Translation\\' => array($vendorDir . '/symfony/translation'),
     'Symfony\\Component\\Cache\\' => array($vendorDir . '/symfony/cache'),
     'Support\\View\\' => array($vendorDir . '/workerman/webman-framework/src/support/view'),
@@ -41,6 +43,7 @@ return array(
     'GrahamCampbell\\ResultType\\' => array($vendorDir . '/graham-campbell/result-type/src'),
     'FastRoute\\' => array($vendorDir . '/nikic/fast-route/src'),
     'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
+    'DebugBar\\' => array($vendorDir . '/maximebf/debugbar/src/DebugBar'),
     'App\\' => array($baseDir . '/app'),
     '' => array($baseDir . '/'),
 );

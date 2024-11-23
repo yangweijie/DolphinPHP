@@ -77,5 +77,8 @@
     ]
   },
   "minimum-stability": "dev",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "require-dev": {
+    "webman-tech/debugbar": "^2.2"
+  }
 }

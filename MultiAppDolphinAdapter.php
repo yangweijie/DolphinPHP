@@ -46,7 +46,7 @@ if(extension_loaded('opentelemetry')){
                 }else{
                     $controller_layer = 'controller';
                     $returnValue = [
-                        'app'=>'',
+                        'app'=>$app,
                         'plugin'=>'',
                         'controller'=>"app\\{$app}\\{$controller_layer}\\".ucfirst($pathExplode[1]),
                         'action'=>$action,
