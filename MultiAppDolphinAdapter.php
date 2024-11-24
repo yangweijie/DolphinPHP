@@ -12,10 +12,10 @@ if(extension_loaded('opentelemetry')){
             return $params;
         },
         post: static function (mixed $demo, array $params, $returnValue, ?Throwable $exception) :mixed {
-//            var_dump('post:');
-//            var_dump('params');
-//            var_dump($params);
-//            var_dump($returnValue);
+            var_dump('post:');
+            var_dump('params');
+            var_dump($params);
+            var_dump($returnValue);
             list($pathExplode, $action, $suffix, $classPrefix) = $params;
             if(empty($pathExplode)){
                 $pathExplode = [
@@ -38,6 +38,9 @@ if(extension_loaded('opentelemetry')){
                             'action'=>$action,
                         ];
                         $returnValue['app'] = '';
+                    }else if(count($pathExplode) == 3){
+                        $action = $pathExplode[2];
+                        $returnValue['action'] = $action;
                     }
                 }
             }else{
@@ -45,6 +48,9 @@ if(extension_loaded('opentelemetry')){
                     $returnValue['app'] = $app;
                 }else{
                     $controller_layer = 'controller';
+                    if(count($pathExplode) == 3){
+                        $action = $pathExplode[2];
+                    }
                     $returnValue = [
                         'app'=>$app,
                         'plugin'=>'',
@@ -53,8 +59,8 @@ if(extension_loaded('opentelemetry')){
                     ];
                 }
             }
-//            var_dump('after_post：');
-//            var_dump($returnValue);
+            var_dump('after_post：');
+            var_dump($returnValue);
             return $returnValue;
         }
     );
