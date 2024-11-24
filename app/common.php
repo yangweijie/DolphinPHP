@@ -7,8 +7,12 @@
 // | 官方网站: http://dolphinphp.com
 // +----------------------------------------------------------------------
 
-use think\Db;
 use app\user\model\User;
+use think\Collection;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
+use think\facade\Db;
 use Webman\Event\Event;
 
 // 应用公共文件
@@ -21,10 +25,11 @@ if (is_file(app_path() . 'function.php')) {
 if (!function_exists('is_signin')) {
     /**
      * 判断是否登录
-     * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
+     * @throws Exception
+     * @author 蔡伟明 <314013107@qq.com>
      */
-    function is_signin()
+    function is_signin(): mixed
     {
         $user = session('user_auth');
         if (empty($user)) {
@@ -204,7 +209,8 @@ if (!function_exists('parse_attr')) {
      * @param string $value 配置值
      * @return array|string
      */
-    function parse_attr($value = '') {
+    function parse_attr(string $value = ''): array|string
+    {
         $array = preg_split('/[,;\r\n]+/', trim($value, ",;\r\n"));
         if (strpos($value, ':')) {
             $value  = array();
@@ -418,14 +424,14 @@ if (!function_exists('module_config')) {
      * 显示当前模块的参数配置页面，或获取参数值，或设置参数值
      * @param string $name
      * @param string $value
-     * @author caiweiming <314013107@qq.com>
      * @return mixed
+     *@author caiweiming <314013107@qq.com>
      */
-    function module_config($name = '', $value = '')
+    function module_config(string $name = '', string $value = ''): mixed
     {
         if ($name === '') {
             // 显示模块配置页面
-            return action('admin/admin/moduleConfig');
+            return (new \app\admin\controller\Admin())->moduleConfig();
         } elseif ($value === '') {
             // 获取模块配置
             if (strpos($name, '.')) {
@@ -450,7 +456,7 @@ if (!function_exists('plugin_menage')) {
      */
     function plugin_menage($name = '')
     {
-        return action('admin/plugin/manage', ['name' => $name]);
+        return (new \app\admin\controller\Plugin())->manage($name);
     }
 }
 
@@ -714,11 +720,8 @@ if (!function_exists('get_level_data')) {
      * @param string $table 表名
      * @param int $pid 父级ID
      * @param string $pid_field 父级ID的字段名
-     * @author 蔡伟明 <314013107@qq.com>
-     * @return array|string|\think\Collection
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return array|string|Collection
+     *@author 蔡伟明 <314013107@qq.com>
      */
     function get_level_data($table = '', $pid = 0, $pid_field = 'pid')
     {
@@ -763,9 +766,6 @@ if (!function_exists('get_level_key_data')) {
      * @param int $level 级别
      * @author 蔡伟明 <314013107@qq.com>
      * @return array
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      */
     function get_level_key_data($table = '', $id = '', $id_field = 'id', $name_field = 'name', $pid_field = 'pid', $level = 1)
     {
@@ -979,9 +979,8 @@ if (!function_exists('get_nickname')) {
      * @param int $uid 用户ID
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed|string 用户昵称
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
      */
     function get_nickname($uid = 0)
     {
@@ -1069,7 +1068,7 @@ if (!function_exists('action_log')) {
 
             // 解析日志规则,生成日志备注
             if(!empty($action_info['log'])){
-                if(preg_match_all('/\[(\S+?)\]/', $action_info['log'], $match)){
+                if(preg_match_all('/\[(\S+?)]/', $action_info['log'], $match)){
                     $log = [
                         'user'    => $user_id,
                         'record'  => $record_id,
@@ -1135,9 +1134,8 @@ if (!function_exists('parse_action')) {
      * @author huajie <banhuajie@163.com>
      * @alter 蔡伟明 <314013107@qq.com>
      * @return array|bool
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
      */
     function parse_action($action, $self){
         if(empty($action)){
@@ -1240,11 +1238,10 @@ if (!function_exists('packet_exists')) {
     /**
      * 查询数据包是否存在，即是否已经安装
      * @param string $name 数据包名
-     * @author 蔡伟明 <314013107@qq.com>
      * @return bool
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException|DbException
+     * @author 蔡伟明 <314013107@qq.com>
      */
     function packet_exists($name = '')
     {
@@ -1301,22 +1298,16 @@ if (!function_exists('parse_name')) {
 if (!function_exists('home_url')) {
     /**
      * 生成前台入口url
-     * @param string        $url 路由地址
-     * @param string|array  $vars 变量
+     * @param string $url 路由地址
+     * @param array|string $vars 变量
      * @param bool|string   $suffix 生成的URL后缀
      * @param bool|string   $domain 域名
-     * @author 小乌 <82950492@qq.com>
      * @return string
+     *@author 小乌 <82950492@qq.com>
      */
-    function home_url($url = '', $vars = '', $suffix = true, $domain = false) {
-        $url = url($url, $vars, $suffix, $domain);
-        if (defined('ENTRANCE') && ENTRANCE == 'admin') {
-            $base_file = request()->baseFile();
-            $base_file = substr($base_file, strripos($base_file, '/') + 1);
-            return preg_replace('/\/'.$base_file.'/', '/index.php', $url);
-        } else {
-            return $url;
-        }
+    function home_url(string $url = '', array|string $vars = '', $suffix = true, $domain = false): string
+    {
+        return url($url, $vars, $suffix, $domain);
     }
 }
 
@@ -1350,8 +1341,7 @@ if (!function_exists('htmlpurifier')) {
     function htmlpurifier($html = '') {
         $config = HTMLPurifier_Config::createDefault();
         $purifier = new HTMLPurifier($config);
-        $clean_html = $purifier->purify($html);
-        return $clean_html;
+        return $purifier->purify($html);
     }
 }
 

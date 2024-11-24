@@ -16,7 +16,7 @@ class Config implements MiddlewareInterface
         if(defined('BIND_MODULE') && BIND_MODULE === 'install') goto done;
         // 获取入口目录
         if(!defined('PUBLIC_PATH'))
-            define('PUBLIC_PATH', '');
+            define('PUBLIC_PATH', '/');
         $app = request()->app;
         if($app == ''){
             $app = 'index';

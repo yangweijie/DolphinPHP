@@ -15,7 +15,7 @@ if(!function_exists('model')){
 }
 
 if(!function_exists('think_view_display')){
-    function think_view_display($content, $vars)
+    function think_view_display($content, $vars = []): bool|string
     {
         $defaultOptions = [
             'cache_path' => runtime_path() . '/views/',
@@ -33,7 +33,7 @@ if(!function_exists('think_view_display')){
 if(!function_exists('url')){
     function url($url, $vars = []){
         $request = request();
-        $query_str = http_build_query($vars);
+        $query_str = $vars? http_build_query($vars):'';
         if(str_starts_with($url, '/')){
             $build = $url;
             goto done;
@@ -90,9 +90,7 @@ if (!function_exists('cache')) {
     if (!function_exists('cookie')) {
         /**
          * Cookie管理
-         * @param string $name   cookie名称
-         * @param mixed  $value  cookie值
-         * @param mixed  $option 参数
+         * @param string $name cookie名称
          * @return mixed
          */
         function cookie(string $name): mixed
