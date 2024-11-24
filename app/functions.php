@@ -42,13 +42,14 @@ if(!function_exists('url')){
         $path = ltrim($path, '/');
         $urlExplode = explode('/', $url);
         if(count($urlExplode) == 3){
-            $build = $url;
+            $build = '/'.$url;
         }else if(count($urlExplode) == 2){
-            $build =  $request->app.'/'.$url;
+            $build =  '/'.$request->app.'/'.$url;
         }else if(count($urlExplode) == 1){
             $pathExplode = explode('/', $path);
             $pathExplode[2] = $url;
             $build = implode('/', $pathExplode);
+            $build = '/'.$build;
         }
         done:
         return $query_str? $build.'?'.$query_str: $build;

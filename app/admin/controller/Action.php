@@ -12,6 +12,7 @@ namespace app\admin\controller;
 use app\common\builder\ZBuilder;
 use app\admin\model\Action as ActionModel;
 use app\admin\model\Module as ModuleModel;
+use Exception;
 
 /**
  * 行为管理控制器
@@ -23,10 +24,9 @@ class Action extends Admin
      * 首页
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
-     * @throws \Exception
-     * @throws \think\exception\DbException
+     * @throws Exception
      */
-    public function index()
+    public function index(): mixed
     {
         // 查询
         $map = $this->getMap();
@@ -57,7 +57,7 @@ class Action extends Admin
                 ['title', '名称'],
                 ['remark', '描述'],
                 ['module', '所属模块', 'callback', function($module, $list_module){
-                    return isset($list_module[$module]) ? $list_module[$module] : '未知';
+                    return $list_module[$module] ?? '未知';
                 }, $list_module],
                 ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']

@@ -19,10 +19,11 @@ use app\user\model\Message as MessageModel;
 use Exception;
 use support\Response;
 use think\db\exception\PDOException;
-use think\facade\Cache;
+use support\Cache;
+use think\db\Query;
 use think\facade\App;
 use think\facade\Db;
-use think\helper\Hash;
+use util\Hash;
 
 /**
  * 后台公共控制器
@@ -103,8 +104,9 @@ class Admin extends Common
 
     /**
      * 获取当前操作模型
+     * @return object|Query
+     * @throws Exception
      * @author 蔡伟明 <314013107@qq.com>
-     * @return object|\think\db\Query
      */
     final protected function getCurrModel()
     {
@@ -122,8 +124,9 @@ class Admin extends Common
         if ($table_data['prefix'] == 2) {
             // 使用模型
             try {
-                $Model = App::model($table);
+                $Model = model($table);
             } catch (Exception $e) {
+                \support\Log::error($e->getMessage());
                 $this->error('找不到模型：'.$table);
             }
         } else {
@@ -154,7 +157,8 @@ class Admin extends Common
     /**
      * 检查是否登录，没有登录则跳转到登录页面
      * @return int|Response
-     *@author 蔡伟明 <314013107@qq.com>
+     * @throws Exception
+     * @author 蔡伟明 <314013107@qq.com>
      */
     final protected function isLogin(): Response|int
     {
@@ -207,6 +211,7 @@ class Admin extends Common
     /**
      * 快速编辑
      * @param array $record 行为日志内容
+     * @throws Exception
      * @author 蔡伟明 <314013107@qq.com>
      */
     public function quickEdit($record = [])
@@ -343,7 +348,6 @@ class Admin extends Common
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      * @throws PDOException
      */
     public function edit($id = '')

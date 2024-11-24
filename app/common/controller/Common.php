@@ -13,6 +13,7 @@ use Kingbes\Jump\Jump;
 use support\Cache;
 use support\Response;
 use support\View;
+use taoser\exception\ValidateException;
 use Webman\Http\Request;
 
 /**
@@ -196,5 +197,44 @@ class Common extends Jump
             Cache::set('view.options', $set);
         }
         return view($template, $vars);
+    }
+
+    /**
+     * 验证数据
+     * @access protected
+     * @param  array        $data     数据
+     * @param  string|array $validate 验证器名或者验证规则数组
+     * @param  array        $message  提示信息
+     * @param  bool         $batch    是否批量验证
+     * @return array|string|true
+     * @throws ValidateException
+     */
+    protected function validate(array $data, string|array $validate, array $message = [], bool $batch = false)
+    {
+
+        if (class_exists($validate)) {
+            $appname =   request()->app;
+            $validate_class =    "app\\{$appname}\\validate\\{$validate}";
+            $validate_class = class_exists($validate_class) ? $validate_class : $validate;
+        } else {
+            $validate_class = $validate;
+        }
+        try {
+            validate($validate_class)->check($data);
+            return true;
+        } catch (ValidateException $e) {
+            // 验证失败 输出错误信息
+            return $e->getMessage();
+        }
+
+//
+//        $v->message($message);
+//
+//        // 是否批量验证
+//        if ($batch || $this->batchValidate) {
+//            $v->batch(true);
+//        }
+//
+//        return $v->failException(true)->check($data);
     }
 }
