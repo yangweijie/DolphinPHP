@@ -56,6 +56,11 @@ class Config implements MiddlewareInterface
         $view_options = [
             'tpl_replace_string'=>$view_replace_str,
         ];
+        if(str_contains(request()->path(), '/admin')){
+            $plugin = $request->plugin ?? '';
+            $baseViewPath = $plugin ? base_path() . "/plugin/$plugin/app" : app_path();
+            $view_options['view_path'] = $app === '' ? "$baseViewPath/view/admin/" : "$baseViewPath/$app/view/admin/";
+        }
         config($view_options, 'view.options');
 //
 //        // 静态文件目录

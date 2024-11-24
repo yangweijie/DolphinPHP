@@ -13,7 +13,6 @@ use app\common\controller\Common;
 use app\user\model\User as UserModel;
 use app\user\model\Role as RoleModel;
 use app\admin\model\Menu as MenuModel;
-use think\facade\Hook;
 
 /**
  * 用户公开控制器，不经过权限认证
@@ -24,7 +23,6 @@ class Publics extends Common
     /**
      * 用户登录
      * @author 蔡伟明 <314013107@qq.com>
-     * @return mixed
      */
     public function signin()
     {
@@ -34,16 +32,16 @@ class Publics extends Common
             $rememberme = isset($data['remember-me']) ? true : false;
 
             // 登录钩子
-            $hook_result = Hook::listen('signin', $data);
+            $hook_result = hook('signin', $data);
             if (!empty($hook_result) && true !== $hook_result[0]) {
-                $this->error($hook_result[0]);
+                return $this->error($hook_result[0]);
             }
 
             // 验证数据
-            $result = $this->validate($data, 'User.signin');
+            $result = $this->validate($data, 'app\user\validate\User.signin');
             if(true !== $result){
                 // 验证失败 输出错误信息
-                $this->error($result);
+                return $this->error($result);
             }
 
             // 验证码
@@ -52,7 +50,7 @@ class Publics extends Common
                 $captcha == '' && $this->error('请输入验证码');
                 if(!captcha_check($captcha, '')){
                     //验证失败
-                    $this->error('验证码错误或失效');
+                    return $this->error('验证码错误或失效');
                 };
             }
 
@@ -62,24 +60,23 @@ class Publics extends Common
             if ($uid) {
                 // 记录行为
                 action_log('user_signin', 'admin_user', $uid, $uid);
-                $this->jumpUrl();
+                return $this->jumpUrl();
             } else {
-                $this->error($UserModel->getError());
+                return $this->error($UserModel->getError());
             }
         } else {
-
-            $hook_result = Hook::listen('signin_sso');
+            $hook_result = hook('signin_sso');
             if (!empty($hook_result) && true !== $hook_result[0]) {
                 if (isset($hook_result[0]['url'])) {
-                    $this->redirect($hook_result[0]['url']);
+                    return $this->redirect($hook_result[0]['url']);
                 }
                 if (isset($hook_result[0]['error'])) {
-                    $this->error($hook_result[0]['error']);
+                    return $this->error($hook_result[0]['error']);
                 }
             }
 
             if (is_signin()) {
-                $this->jumpUrl();
+                return $this->jumpUrl();
             } else {
                 return $this->fetch();
             }
@@ -94,17 +91,17 @@ class Publics extends Common
     private function jumpUrl()
     {
         if (session('user_auth.role') == 1) {
-            $this->success('登录成功', url('admin/index/index'));
+            return $this->success('登录成功', url('admin/index/index'));
         }
 
         $default_module = RoleModel::where('id', session('user_auth.role'))->value('default_module');
         $menu = MenuModel::get($default_module);
         if (!$menu) {
-            $this->error('当前角色未指定默认跳转模块！');
+            return $this->error('当前角色未指定默认跳转模块！');
         }
 
         if ($menu['url_type'] == 'link') {
-            $this->success('登录成功', $menu['url_value']);
+            return $this->success('登录成功', $menu['url_value']);
         }
 
         $menu_url = explode('/', $menu['url_value']);
@@ -124,9 +121,9 @@ class Publics extends Common
         }
 
         if ($url == '') {
-            $this->error('权限不足');
+            return $this->error('权限不足');
         } else {
-            $this->success('登录成功', $url);
+            return $this->success('登录成功', $url);
         }
     }
 
@@ -136,7 +133,7 @@ class Publics extends Common
      */
     public function signout()
     {
-        $hook_result = Hook::listen('signout_sso');
+        $hook_result = hook('signout_sso');
         if (!empty($hook_result) && true !== $hook_result[0]) {
             if (isset($hook_result[0]['url'])) {
                 $this->redirect($hook_result[0]['url']);
@@ -150,6 +147,6 @@ class Publics extends Common
         cookie('uid', null);
         cookie('signin_token', null);
 
-        $this->redirect('signin');
+        $this->redirect('/user/publics/signin');
     }
 }

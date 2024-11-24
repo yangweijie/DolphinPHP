@@ -1,6 +1,8 @@
 <?php
 
 namespace util;
+use ErrorException;
+
 class Hash
 {
     protected static $handle = [];
@@ -11,13 +13,16 @@ class Hash
     }
 
     /**
-     * @throws \ErrorException
+     * @throws ErrorException
      */
     public static function check($value, $hashedValue, $type = null, array $options = [])
     {
         return self::handle($type)->check($value, $hashedValue, $options);
     }
 
+    /**
+     * @throws ErrorException
+     */
     public static function handle($type)
     {
         if (is_null($type)) {
@@ -28,9 +33,9 @@ class Hash
             }
         }
         if (empty(self::$handle[$type])) {
-            $class = "\\hash\\" . ucfirst($type);
+            $class = "\\util\hash\\" . ucfirst($type);
             if (!class_exists($class)) {
-                throw new \ErrorException("Not found {$type} hash type!");
+                throw new ErrorException("Not found {$type} hash type!");
             }
             self::$handle[$type] = new $class();
         }

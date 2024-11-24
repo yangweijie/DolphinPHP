@@ -27,7 +27,7 @@ class Ie extends Common
         if (get_browser_type() == 'ie') {
             return $this->fetch();
         } else {
-            $this->redirect('admin/index/index');
+            $this->redirect('/admin/index/index');
         }
     }
 }

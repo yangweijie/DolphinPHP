@@ -33,7 +33,7 @@ class Common extends Jump
      * 初始化
      * @author 蔡伟明 <314013107@qq.com>
      */
-    protected function initialize(): void
+    protected function initialize()
     {
 //        var_dump(config('app'));
         // 后台公共模板
@@ -43,7 +43,6 @@ class Common extends Jump
         // 输出弹出层参数
         View::assign('_pop', request()->input('_pop', false));
         $this->request = request();
-//        var_dump($this->request->header());
     }
 
     /**

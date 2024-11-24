@@ -41,6 +41,11 @@ class User extends Model
         return get_client_ip(1);
     }
 
+    public function getError()
+    {
+        return $this->error;
+    }
+
     /**
      * 用户登录
      * @param string $username 用户名
@@ -70,7 +75,7 @@ class User extends Model
         $map['status'] = 1;
 
         // 查找用户
-        $user = $this::get($map);
+        $user = $this::where($map)->find();
         if (!$user) {
             $this->error = '账号或者密码错误！';
         } else {

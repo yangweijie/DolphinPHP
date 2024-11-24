@@ -12,8 +12,11 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+use app\middleware\StaticFile;
+
 return [
     ''=>[
+        StaticFile::class,
         app\middleware\Hook::class,
         app\middleware\Config::class,
     ]

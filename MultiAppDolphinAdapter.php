@@ -12,10 +12,6 @@ if(extension_loaded('opentelemetry')){
             return $params;
         },
         post: static function (mixed $demo, array $params, $returnValue, ?Throwable $exception) :mixed {
-            var_dump('post:');
-            var_dump('params');
-            var_dump($params);
-            var_dump($returnValue);
             list($pathExplode, $action, $suffix, $classPrefix) = $params;
             if(empty($pathExplode)){
                 $pathExplode = [
@@ -23,6 +19,13 @@ if(extension_loaded('opentelemetry')){
                 ];
             }
             $app = strtolower($pathExplode[0]);
+            if(str_contains($pathExplode[array_key_last($pathExplode)], '.')){
+                return $returnValue;
+            }
+            var_dump('post:');
+            var_dump('params');
+            var_dump($params);
+            var_dump($returnValue);
             $default_controller_layer = \Webman\Config::get('module.default_controller_layer', []);
             if(!in_array($app, $default_controller_layer)){
                 if(!$returnValue){
@@ -32,14 +35,16 @@ if(extension_loaded('opentelemetry')){
                         }else{
                             $controller_layer = 'home';
                         }
+                        $action = $pathExplode[3];
                         $returnValue = [
                             'plugin'=>'',
                             'controller'=>"app\\{$app}\\{$controller_layer}\\".ucfirst($pathExplode[2]),
                             'action'=>$action,
                         ];
-                        $returnValue['app'] = '';
+                        $returnValue['app'] = $app;
                     }else if(count($pathExplode) == 3){
                         $action = $pathExplode[2];
+                        $returnValue['app'] = $app;
                         $returnValue['action'] = $action;
                     }
                 }
@@ -48,9 +53,7 @@ if(extension_loaded('opentelemetry')){
                     $returnValue['app'] = $app;
                 }else{
                     $controller_layer = 'controller';
-                    if(count($pathExplode) == 3){
-                        $action = $pathExplode[2];
-                    }
+                    $action = $pathExplode[count($pathExplode)-1];
                     $returnValue = [
                         'app'=>$app,
                         'plugin'=>'',

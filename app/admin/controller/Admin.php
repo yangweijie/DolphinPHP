@@ -14,6 +14,7 @@ use app\common\builder\ZBuilder;
 use app\admin\model\Menu as MenuModel;
 use app\admin\model\Module as ModuleModel;
 use app\admin\model\Icon as IconModel;
+use app\middleware\CheckAuth;
 use app\user\model\Role as RoleModel;
 use app\user\model\Message as MessageModel;
 use Exception;
@@ -31,28 +32,28 @@ use util\Hash;
  */
 class Admin extends Common
 {
+
+    protected $middleware = [
+        CheckAuth::class,
+    ];
+
     /**
      * 初始化
      * @author 蔡伟明 <314013107@qq.com>
      * @throws Exception
      */
-    protected function initialize(): void
+    protected function initialize()
     {
         parent::initialize();
         // 是否拒绝ie浏览器访问
         if (config('system.deny_ie') && get_browser_type() == 'ie') {
-            redirect('admin/ie/index');
+            return redirect('admin/ie/index');
         }
 
         if(!session('uid')){
             $uid = $this->isLogin();
-            if(is_int($uid)){
-                session(['uid'=>$uid]);
-            }
+            session(['uid'=>$uid]);
         }
-
-        // 判断是否登录，并定义用户ID常量
-        defined('UID') or define('UID', $this->isLogin());
 
         // 设置当前角色菜单节点权限
         role_auth();
@@ -168,7 +169,7 @@ class Admin extends Common
             return $uid;
         } else {
             // 未登录
-            return $this->redirect('user/publics/signin');
+            return $this->redirect('/user/publics/signin');
         }
     }
 
