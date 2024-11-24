@@ -3,7 +3,7 @@
         'name' => 'workerman/webman',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'cd593f12cb823c45d5f0ea166cd54766140f47d7',
+        'reference' => '5607280118a777e8c818b1dc48a7f4c78467ab82',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -313,7 +313,7 @@
         'workerman/webman' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'cd593f12cb823c45d5f0ea166cd54766140f47d7',
+            'reference' => '5607280118a777e8c818b1dc48a7f4c78467ab82',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -15,7 +15,13 @@ class Config implements MiddlewareInterface
     {
         if(defined('BIND_MODULE') && BIND_MODULE === 'install') goto done;
         // 获取入口目录
-        define('PUBLIC_PATH', '');
+        if(!defined('PUBLIC_PATH'))
+            define('PUBLIC_PATH', '');
+        $app = request()->app;
+        if($app == ''){
+            $app = 'index';
+            request()->app = $app;
+        }
 
         // 视图输出字符串内容替换
         $view_replace_str = [
@@ -40,52 +46,24 @@ class Config implements MiddlewareInterface
             // 表单项扩展目录
             '__EXTEND_FORM__' => PUBLIC_PATH.'extend/form'
         ];
-        config('template.tpl_replace_string', $view_replace_str);
-        $app = request()->app;
-        if($app == ''){
-            $app = 'index';
-            request()->app = $app;
-        }
-
-        // 如果定义了入口为admin，则修改默认的访问控制器层
-//        if(defined('ENTRANCE') && ENTRANCE == 'admin') {
-//            define('ADMIN_FILE', substr($base_file, strripos($base_file, '/') + 1));
-//
-//            if ($module == '') {
-//                header("Location: ".$base_file.'/admin', true, 302);exit();
-//            }
-//
-//            if (!in_array($module, config('module.default_controller_layer'))) {
-//                // 修改默认访问控制器层
-//                config('url_controller_layer', 'admin');
-//                // 修改视图模板路径
-//                config('template.view_path', app_path(). $module. '/view/admin/');
-//            }
-//
-//            // 插件静态资源目录
-//            config('template.tpl_replace_string.__PLUGINS__', '/plugins');
-//        } else {
-//            if ($module == 'admin') {
-//                header("Location: ".$base_dir.ADMIN_FILE.'/admin', true, 302);exit();
-//            }
-//
-//            if ($module != '' && !in_array($module, config('module.default_controller_layer'))) {
-//                // 修改默认访问控制器层
-//                config('url_controller_layer', 'home');
-//            }
-//        }
-
         // 定义模块资源目录
-        config('template.tpl_replace_string.__MODULE_CSS__', PUBLIC_PATH. 'static/'. $app .'/css');
-        config('template.tpl_replace_string.__MODULE_JS__', PUBLIC_PATH. 'static/'. $app .'/js');
-        config('template.tpl_replace_string.__MODULE_IMG__', PUBLIC_PATH. 'static/'. $app .'/img');
-        config('template.tpl_replace_string.__MODULE_LIBS__', PUBLIC_PATH. 'static/'. $app .'/libs');
-        // 静态文件目录
-        config('public_static_path', PUBLIC_PATH. 'static/');
+        $view_replace_str = array_merge($view_replace_str, [
+            '__MODULE_CSS__'=>PUBLIC_PATH. 'static/'. $app .'/css',
+            '__MODULE_JS__'=>PUBLIC_PATH. 'static/'. $app .'/js',
+            '__MODULE_IMG__'=>PUBLIC_PATH. 'static/'. $app .'/img',
+            '__MODULE_LIBS__'=>PUBLIC_PATH. 'static/'. $app .'/libs',
+        ]);
+        $view_options = [
+            'tpl_replace_string'=>$view_replace_str,
+        ];
+        config($view_options, 'view.options');
+//
+//        // 静态文件目录
+        config(['public_static_path'=>PUBLIC_PATH. 'static/'], 'app');
 
         // 读取系统配置
-        $system_config = cache('system_config');
-        if (!$system_config) {
+//        $system_config = cache('system_config');
+//        if (!$system_config) {
             $ConfigModel   = new ConfigModel();
             $system_config = $ConfigModel->getConfigs();
             // 所有模型配置
@@ -95,12 +73,14 @@ class Config implements MiddlewareInterface
             }
             // 非开发模式，缓存系统配置
             if ($system_config['develop_mode'] == 0) {
-                cache('system_config', $system_config);
+//                cache('system_config', $system_config);
             }
-        }
+//        }
 
+//        var_dump('system_config');
+//        var_dump($system_config);
         // 设置配置信息
-        config('app', $system_config);
+        config($system_config, 'app');
         done:
         return $handler($request);
     }

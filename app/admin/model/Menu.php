@@ -23,7 +23,7 @@ use util\Tree;
 class Menu extends Model
 {
     // 设置当前模型对应的完整数据表名称
-    protected $table = '__ADMIN_MENU__';
+    protected $name = 'admin_menu';
 
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;

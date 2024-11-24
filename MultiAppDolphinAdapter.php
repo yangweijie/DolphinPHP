@@ -7,15 +7,15 @@ if(extension_loaded('opentelemetry')){
     hook(App::class,
         'guessControllerAction',
         pre: static function ($demo, array $params, string $class, string $function, ?string $filename, ?int $lineno) {
-            var_dump($params);
-            var_dump(2222);
+//            var_dump($params);
+//            var_dump(2222);
             return $params;
         },
         post: static function (mixed $demo, array $params, $returnValue, ?Throwable $exception) :mixed {
-            var_dump('post:');
-            var_dump('params');
-            var_dump($params);
-            var_dump($returnValue);
+//            var_dump('post:');
+//            var_dump('params');
+//            var_dump($params);
+//            var_dump($returnValue);
             list($pathExplode, $action, $suffix, $classPrefix) = $params;
             if(empty($pathExplode)){
                 $pathExplode = [
@@ -53,8 +53,8 @@ if(extension_loaded('opentelemetry')){
                     ];
                 }
             }
-            var_dump('after_post：');
-            var_dump($returnValue);
+//            var_dump('after_post：');
+//            var_dump($returnValue);
             return $returnValue;
         }
     );

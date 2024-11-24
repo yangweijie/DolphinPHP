@@ -21,11 +21,11 @@ class Home extends Common
      * 初始化方法
      * @author 蔡伟明 <314013107@qq.com>
      */
-    protected function initialize(): mixed
+    protected function initialize(): void
     {
         // 系统开关
         if (!config('web_site_status')) {
-            return $this->error('站点已经关闭，请稍后访问~');
+            $this->error('站点已经关闭，请稍后访问~');
         }
     }
 }

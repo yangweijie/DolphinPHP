@@ -879,14 +879,14 @@ if (!function_exists('_system_check')) {
             $url = base64_decode('d3d3LmRvbHBoaW5waHAuY29tL3VwZGF0ZUluZm8=');
             $url = 'http://'.$url;
             $p['d'.'om'.'ain'] = request()->domain();
-            $p[strtolower('I').'p'] = request()->server('SERVER_ADDR');
+            $p[strtolower('I').'p'] = request()->ip();
             $p = base64_encode(json_encode($p));
 
             $o = [
                 CURLOPT_TIMEOUT        => 20,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_URL            => $url,
-                CURLOPT_USERAGENT      => request()->server('HTTP_USER_AGENT'),
+                CURLOPT_USERAGENT      => request()->header('user-agent'),
                 CURLOPT_POST           => 1,
                 CURLOPT_POSTFIELDS     => ['p' => $p]
             ];

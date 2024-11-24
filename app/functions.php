@@ -86,4 +86,20 @@ if (!function_exists('cache')) {
         }
         return Cache::set($name, $value, $expire);
     }
+
+    if (!function_exists('cookie')) {
+        /**
+         * Cookie管理
+         * @param string $name   cookie名称
+         * @param mixed  $value  cookie值
+         * @param mixed  $option 参数
+         * @return mixed
+         */
+        function cookie(string $name): mixed
+        {
+            $request = request();
+            // 获取
+            return str_starts_with($name, '?') ? $request->cookie($name) !== null : $request->cookie($name);
+        }
+    }
 }

@@ -9,11 +9,15 @@
 
 namespace app\admin\controller;
 
-use think\facade\Cache;
-use think\helper\Hash;
+use PDOException;
+use support\Cache;
+use support\Response;
+use think\db\exception\BindParamException;
+use think\Exception;
 use think\facade\Db;
 use app\common\builder\ZBuilder;
 use app\user\model\User as UserModel;
+use util\Hash;
 
 /**
  * 后台默认控制器
@@ -23,14 +27,15 @@ class Index extends Admin
 {
     /**
      * 后台首页
-     * @author 蔡伟明 <314013107@qq.com>
      * @return string
+     * @throws \Exception
+     * @author 蔡伟明 <314013107@qq.com>
      */
-    public function index()
+    public function index(): string
     {
         $admin_pass = Db::name('admin_user')->where('id', 1)->value('password');
 
-        if (UID == 1 && $admin_pass && Hash::check('admin', $admin_pass)) {
+        if (session('uid') == 1 && $admin_pass && Hash::check('admin', $admin_pass)) {
             $this->assign('default_pass', 1);
         }
         return $this->fetch();
@@ -62,14 +67,15 @@ class Index extends Admin
                 }
             }
             Cache::clear();
-            $this->success('清空成功');
+            return $this->success('清空成功');
         } else {
-            $this->error('请在系统设置中选择需要清除的缓存类型');
+            return $this->error('请在系统设置中选择需要清除的缓存类型');
         }
     }
 
     /**
      * 个人设置
+     * @throws Exception
      * @author 蔡伟明 <314013107@qq.com>
      */
     public function profile()
@@ -87,7 +93,7 @@ class Index extends Admin
             }
 
             $UserModel = new UserModel();
-            if ($user = $UserModel->allowField(['nickname', 'email', 'password', 'mobile', 'avatar'])->update($data)) {
+            if ($UserModel->allowField(['nickname', 'email', 'password', 'mobile', 'avatar'])->update($data)) {
                 // 记录行为
                 action_log('user_edit', 'admin_user', UID, UID, get_nickname(UID));
                 $this->success('编辑成功');
@@ -116,11 +122,10 @@ class Index extends Admin
     /**
      * 检查版本更新
      * @author 蔡伟明 <314013107@qq.com>
-     * @return \think\response\Json
-     * @throws \think\db\exception\BindParamException
-     * @throws \think\exception\PDOException
+     * @throws BindParamException
+     * @throws PDOException
      */
-    public function checkUpdate()
+    public function checkUpdate(): Response
     {
         $params = config('dolphin.');
         $params['domain']  = request()->domain();

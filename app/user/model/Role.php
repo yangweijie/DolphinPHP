@@ -9,9 +9,11 @@
 
 namespace app\user\model;
 
+use app\admin\model\Menu as MenuModel;
+use Exception;
+use think\db\exception\DbException;
 use think\Model;
 use util\Tree;
-use app\admin\model\Menu as MenuModel;
 
 /**
  * 角色模型
@@ -26,7 +28,7 @@ class Role extends Model
     protected $autoWriteTimestamp = true;
 
     // 写入时，将菜单id转成json格式
-    public function setMenuAuthAttr($value)
+    public function setMenuAuthAttr($value): bool|string
     {
         return json_encode($value);
     }
@@ -42,10 +44,10 @@ class Role extends Model
      * @param null $id 需要隐藏的角色id
      * @param string $default 默认第一个菜单项，默认为“顶级角色”，如果为false则不显示，也可传入其他名称
      * @param null $filter 角色id，过滤显示指定角色及其子角色
-     * @author 蔡伟明 <314013107@qq.com>
-     * @return mixed
+     * @return array
+     *@author 蔡伟明 <314013107@qq.com>
      */
-    public static function getTree($id = null, $default = '', $filter = null)
+    public static function getTree($id = null, string $default = '', $filter = null): array
     {
         $result[0]       = '顶级角色';
         $where = [
@@ -97,10 +99,10 @@ class Role extends Model
     /**
      * 获取所有子角色id
      * @param string $pid 父级id
-     * @author 蔡伟明 <314013107@qq.com>
      * @return array
+     *@author 蔡伟明 <314013107@qq.com>
      */
-    public static function getChildsId($pid = '')
+    public static function getChildsId(string $pid = ''): array
     {
         $ids = self::where('pid', $pid)->column('id');
         foreach ($ids as $value) {
@@ -113,11 +115,11 @@ class Role extends Model
      * 检查访问权限
      * @param int $id 需要检查的节点ID，默认检查当前操作节点
      * @param bool $url 是否为节点url，默认为节点id
-     * @author 蔡伟明 <314013107@qq.com>
      * @return bool
-     * @throws \think\Exception
+     * @throws Exception
+     *@author 蔡伟明 <314013107@qq.com>
      */
-    public static function checkAuth($id = 0, $url = false)
+    public static function checkAuth(int $id = 0, bool $url = false): bool
     {
         // 当前用户的角色
         $role = session('user_auth.role');
@@ -148,20 +150,23 @@ class Role extends Model
 
     /**
      * 读取当前角色权限
-     * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
+     * @throws Exception
+     * @author 蔡伟明 <314013107@qq.com>
      */
-    public function roleAuth()
+    public function roleAuth(): mixed
     {
         $menu_auth = cache('role_menu_auth_'.session('user_auth.role'));
         if (!$menu_auth) {
             $menu_auth = self::where('id', session('user_auth.role'))->value('menu_auth');
-            $menu_auth = json_decode($menu_auth, true);
-            $menu_auth = MenuModel::where('id', 'in', $menu_auth)->column('id,url_value');
-        }
-        // 非开发模式，缓存数据
-        if (config('develop_mode') == 0) {
-            cache('role_menu_auth_'.session('user_auth.role'), $menu_auth);
+            if($menu_auth){
+                $menu_auth = json_decode($menu_auth, true);
+                $menu_auth = MenuModel::where('id', 'in', $menu_auth)->column('id,url_value');
+                // 非开发模式，缓存数据
+                if (config('develop_mode') == 0) {
+                    cache('role_menu_auth_'.session('user_auth.role'), $menu_auth);
+                }
+            }
         }
         return $menu_auth;
     }
@@ -170,10 +175,10 @@ class Role extends Model
      * 根据节点id获取所有角色id和权限
      * @param string $menu_id 节点id
      * @param bool $menu_auth 是否返回所有节点权限
-     * @author 蔡伟明 <314013107@qq.com>
      * @return array
+     *@author 蔡伟明 <314013107@qq.com>
      */
-    public static function getRoleWithMenu($menu_id = '', $menu_auth = false)
+    public static function getRoleWithMenu(string $menu_id = '', bool $menu_auth = false): array
     {
         if ($menu_auth) {
             return self::where('menu_auth', 'like', '%"'.$menu_id.'"%')->column('id,menu_auth');
@@ -185,10 +190,10 @@ class Role extends Model
     /**
      * 根据角色id获取权限
      * @param array $role 角色id
-     * @author 蔡伟明 <314013107@qq.com>
      * @return array
+     *@author 蔡伟明 <314013107@qq.com>
      */
-    public static function getAuthWithRole($role = [])
+    public static function getAuthWithRole(array $role = []): array
     {
         return self::where('id', 'in', $role)->column('id,menu_auth');
     }
@@ -197,16 +202,17 @@ class Role extends Model
      * 重设权限
      * @param null $pid 父级id
      * @param array $new_auth 新权限
+     * @throws DbException
      * @author 蔡伟明 <314013107@qq.com>
      */
-    public static function resetAuth($pid = null, $new_auth = [])
+    public static function resetAuth($pid = null, array $new_auth = []): void
     {
         if ($pid !== null) {
             $data = self::where('pid', $pid)->column('id,menu_auth');
             foreach ($data as $id => $menu_auth) {
                 $menu_auth = json_decode($menu_auth, true);
                 $menu_auth = json_encode(array_intersect($menu_auth, $new_auth));
-                self::where('id', $id)->setField('menu_auth', $menu_auth);
+                self::where('id', $id)->update(['menu_auth'=>$menu_auth]);
                 self::resetAuth($id, $new_auth);
             }
         }

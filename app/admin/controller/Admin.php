@@ -35,12 +35,19 @@ class Admin extends Common
      * @author 蔡伟明 <314013107@qq.com>
      * @throws Exception
      */
-    protected function initialize(): mixed
+    protected function initialize(): void
     {
         parent::initialize();
         // 是否拒绝ie浏览器访问
         if (config('system.deny_ie') && get_browser_type() == 'ie') {
-            return redirect('admin/ie/index');
+            redirect('admin/ie/index');
+        }
+
+        if(!session('uid')){
+            $uid = $this->isLogin();
+            if(is_int($uid)){
+                session(['uid'=>$uid]);
+            }
         }
 
         // 判断是否登录，并定义用户ID常量
@@ -149,7 +156,7 @@ class Admin extends Common
      * @return int|Response
      *@author 蔡伟明 <314013107@qq.com>
      */
-    final protected function isLogin()
+    final protected function isLogin(): Response|int
     {
         // 判断是否登录
         if ($uid = is_signin()) {

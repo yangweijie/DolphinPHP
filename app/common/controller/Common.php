@@ -10,6 +10,7 @@
 namespace app\common\controller;
 
 use Kingbes\Jump\Jump;
+use support\Cache;
 use support\Response;
 use support\View;
 use Webman\Http\Request;
@@ -31,16 +32,17 @@ class Common extends Jump
      * 初始化
      * @author 蔡伟明 <314013107@qq.com>
      */
-    protected function initialize(): mixed
+    protected function initialize(): void
     {
+//        var_dump(config('app'));
         // 后台公共模板
-        View::assign('_admin_base_layout', config('admin_base_layout'));
+        View::assign('_admin_base_layout', config('app.admin_base_layout'));
         // 当前配色方案
-        View::assign('system_color', config('system_color'));
+        View::assign('system_color', config('app,system_color'));
         // 输出弹出层参数
         View::assign('_pop', request()->input('_pop', false));
         $this->request = request();
-        return null;
+//        var_dump($this->request->header());
     }
 
     /**
@@ -131,10 +133,10 @@ class Common extends Jump
      * 获取字段排序
      * @param string $extra_order 额外的排序字段
      * @param bool $before 额外排序字段是否前置
-     * @author 蔡伟明 <314013107@qq.com>
      * @return string
+     *@author 蔡伟明 <314013107@qq.com>
      */
-    final protected function getOrder($extra_order = '', $before = false)
+    final protected function getOrder(string $extra_order = '', bool $before = false): string
     {
         $order = input('param._order/s', '');
         $by    = input('param._by/s', '');
@@ -156,11 +158,10 @@ class Common extends Jump
      * @param string $template 模板文件名
      * @param string $suffix 模板后缀
      * @param array $vars 模板输出变量
-     * @param array $config 模板参数
-     * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
+     * @author 蔡伟明 <314013107@qq.com>
      */
-    final protected function pluginView($template = '', $suffix = '', $vars = [])
+    final protected function pluginView(string $template = '', string $suffix = '', array $vars = []): mixed
     {
         $plugin_name = input('param.plugin_name');
 
@@ -185,5 +186,15 @@ class Common extends Jump
     public function redirect($url, int $code = 302, array $header = []): Response
     {
         return redirect($url, $code, $header);
+    }
+
+    public function fetch($template = null, $vars = [], $config = []): Response
+    {
+        if($config){
+            $think_view_config = Cache::get('view.options', []);
+            $set = array_merge($think_view_config, $config);
+            Cache::set('view.options', $set);
+        }
+        return view($template, $vars);
     }
 }

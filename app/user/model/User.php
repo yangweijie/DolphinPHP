@@ -9,10 +9,11 @@
 
 namespace app\user\model;
 
+use Exception;
+use think\facade\Db;
 use think\Model;
-use think\helper\Hash;
+use util\Hash;
 use app\user\model\Role as RoleModel;
-use think\Db;
 
 /**
  * 后台用户模型
@@ -27,6 +28,8 @@ class User extends Model
     protected $autoWriteTimestamp = true;
 
     // 对密码进行加密
+    private string $error;
+
     public function setPasswordAttr($value)
     {
         return Hash::make((string)$value);
@@ -43,8 +46,9 @@ class User extends Model
      * @param string $username 用户名
      * @param string $password 密码
      * @param bool $rememberme 记住登录
+     * @return bool
+     * @throws Exception
      * @author 蔡伟明 <314013107@qq.com>
-     * @return bool|mixed
      */
     public function login($username = '', $password = '', $rememberme = false)
     {
@@ -52,7 +56,7 @@ class User extends Model
         $password = trim($password);
 
         // 匹配登录方式
-        if (preg_match("/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/", $username)) {
+        if (preg_match("/^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/", $username)) {
             // 邮箱登录
             $map['email'] = $username;
         } elseif (preg_match("/^1\d{10}$/", $username)) {
@@ -105,8 +109,9 @@ class User extends Model
      * 自动登录
      * @param object $user 用户对象
      * @param bool $rememberme 是否记住登录，默认7天
-     * @author 蔡伟明 <314013107@qq.com>
      * @return bool|int
+     * @throws Exception
+     * @author 蔡伟明 <314013107@qq.com>
      */
     public function autoLogin($user, $rememberme = false)
     {

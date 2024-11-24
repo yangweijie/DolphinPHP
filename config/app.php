@@ -15,6 +15,26 @@
 use support\Request;
 
 return [
+
+    // +----------------------------------------------------------------------
+    // | 系统相关设置
+    // +----------------------------------------------------------------------
+
+    // 后台公共模板
+    'admin_base_layout'  => base_path() . DIRECTORY_SEPARATOR . 'app/admin/view/layout.html',
+    // 插件目录路径
+    'plugin_path'        => base_path() . DIRECTORY_SEPARATOR . 'plugins/',
+    // 数据包目录路径
+    'packet_path'        => base_path() . DIRECTORY_SEPARATOR  . 'packet/',
+    // 文件上传路径
+    'upload_path'        => base_path() . DIRECTORY_SEPARATOR  . 'public' . DIRECTORY_SEPARATOR . 'uploads',
+    // 文件上传临时目录
+    'upload_temp_path'   => base_path() . DIRECTORY_SEPARATOR  . 'public' . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'temp/',
+
+    // // 默认跳转页面对应的模板文件
+    'dispatch_success_tmpl'  => base_path() . DIRECTORY_SEPARATOR . 'app/admin/view/dispatch_jump.tpl',
+    'dispatch_error_tmpl'    => base_path() . DIRECTORY_SEPARATOR . 'app/admin/view/dispatch_jump.tpl',
+
     'debug' => true,
     'error_reporting' => E_ALL,
     'default_timezone' => 'Asia/Shanghai',

@@ -10,6 +10,7 @@
 namespace app\common\builder;
 
 use app\common\controller\Common;
+use support\View;
 use think\Exception;
 
 /**
@@ -39,18 +40,19 @@ class ZBuilder extends Common
      * 初始化
      * @author 蔡伟明 <314013107@qq.com>
      */
-    public function initialize()
-    {}
+    public function initialize(): void
+    {
+    }
 
     /**
      * 创建各种builder的入口
      * @param string $type 构建器名称，'Form', 'Table', 'View' 或其他自定义构建器
      * @param string $action 动作
-     * @author 蔡伟明 <314013107@qq.com>
      * @return table\Builder|form\Builder|aside\Builder
      * @throws Exception
+     *@author 蔡伟明 <314013107@qq.com>
      */
-    public static function make($type = '', $action = '')
+    public static function make(string $type = '', string $action = ''): table\Builder|form\Builder|aside\Builder
     {
         if ($type == '') {
             throw new Exception('未指定构建器名称', 8001);
@@ -69,7 +71,7 @@ class ZBuilder extends Common
         } else {
             static::$action = '';
         }
-
+        View::assign('builder_dir', realpath(__DIR__));
         return new $class;
     }
 
@@ -81,7 +83,7 @@ class ZBuilder extends Common
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      */
-    public function fetch($template = '', $vars = [], $config = [])
+    public function fetch($template = '', $vars = [], $config = []): \support\Response
     {
         $vars = array_merge($vars, self::$vars);
         return parent::fetch($template, $vars, $config);

@@ -269,15 +269,80 @@ function request()
     return App::request();
 }
 
-/**
- * Get config
- * @param string|null $key
- * @param $default
- * @return array|mixed|null
- */
-function config(string $key = null, $default = null): mixed
-{
-    return Config::get($key, $default);
+///**
+// * Get config
+// * @param string|null $key
+// * @param $default
+// * @return array|mixed|null
+// */
+//function config(string $key = null, $default = null): mixed
+//{
+//    return Config::get($key, $default);
+//}
+
+if (!function_exists('config')) {
+    /**
+     * 获取和设置配置参数
+     * @param string|array $name  参数名
+     * @param mixed        $value 参数值
+     * @return mixed
+     */
+    function config($name = '', $value = null)
+    {
+        static $configArr = [];
+        static $updated = false;
+        if (is_array($name)) { // 更新
+            if(!$configArr){
+                $configArr = Config::get(null);
+//                var_dump('初始化');
+//                var_dump($configArr);
+            }
+            $explode = array_reverse(explode('.', $value));
+            $config = $name;
+            foreach ($explode as $section) {
+                $tmp = [];
+                $tmp[$section] = $config;
+                $config = $tmp;
+            }
+            $configArr = array_replace_recursive($configArr, $config);
+//            var_dump('更新后');
+//            var_dump($configArr);
+            $updated = true;
+            return true;
+        }else{
+            $find = str_starts_with($name, '?');
+            $found = false;
+            if($updated){
+                $read = $configArr;
+                if($find){
+                    $name = ltrim($name, '?');
+                }
+                // 获取
+                $keys = $keyArray = explode('.', $name);
+                foreach ($keyArray as $index => $section) {
+                    unset($keys[$index]);
+                    if(count($keys) === 0){
+                        if(isset($read[$section])){
+                            $found = true;
+                            $value = $read[$section];
+                            break;
+                        }
+                    }else{
+                        if(isset($read[$section])){
+                            $read = $read[$section];
+                        }else{
+                            break;
+                        }
+                    }
+                }
+//                var_dump($name);
+//                var_dump($value);
+                return $find ? $found : $value;
+            }else{
+                return Config::get($name, $value);
+            }
+        }
+    }
 }
 
 /**
