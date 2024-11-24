@@ -87,20 +87,20 @@ class Config implements MiddlewareInterface
         $system_config = cache('system_config');
         if (!$system_config) {
             $ConfigModel   = new ConfigModel();
-            $system_config = $ConfigModel->getConfig();
+            $system_config = $ConfigModel->getConfigs();
             // 所有模型配置
-            $module_config = ModuleModel::where('config', 'neq', '')->column('config', 'name');
+            $module_config = ModuleModel::where('config', '<>', '')->column('config', 'name');
             foreach ($module_config as $module_name => $config) {
                 $system_config[strtolower($module_name).'_config'] = json_decode($config, true);
             }
             // 非开发模式，缓存系统配置
             if ($system_config['develop_mode'] == 0) {
-                cache(['system_config'=> $system_config]);
+                cache('system_config', $system_config);
             }
         }
 
         // 设置配置信息
-        config(['app'=>$system_config]);
+        config('app', $system_config);
         done:
         return $handler($request);
     }

@@ -48,7 +48,6 @@ class Hook implements MiddlewareInterface
             }
         }
         done:
-        $response = $handler($request);
-        return $response;
+        return $handler($request);
     }
 }

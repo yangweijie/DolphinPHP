@@ -3,7 +3,7 @@
         'name' => 'workerman/webman',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'd9b8cbafc18bc7ce2f20252a1e4f77264daf4958',
+        'reference' => 'cd593f12cb823c45d5f0ea166cd54766140f47d7',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -259,7 +259,7 @@
         'topthink/think-orm' => array(
             'pretty_version' => '4.0.x-dev',
             'version' => '4.0.9999999.9999999-dev',
-            'reference' => '79d7cb23285423cffcec5c9c9dd9b8016330da35',
+            'reference' => 'a8cb92f32ac4dd97978bebf47f76fa36689424ae',
             'type' => 'library',
             'install_path' => __DIR__ . '/../topthink/think-orm',
             'aliases' => array(),
@@ -313,7 +313,7 @@
         'workerman/webman' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'd9b8cbafc18bc7ce2f20252a1e4f77264daf4958',
+            'reference' => 'cd593f12cb823c45d5f0ea166cd54766140f47d7',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -28,7 +28,7 @@ class Config extends Model
      * @param  string $name 配置名
      * @return mixed
      */
-    public function getConfig($name = '')
+    public function getConfigs($name = '')
     {
         $configs = self::column('value,type', 'name');
 
