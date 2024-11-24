@@ -3,13 +3,22 @@
         'name' => 'workerman/webman',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '5607280118a777e8c818b1dc48a7f4c78467ab82',
+        'reference' => '999bd05aa2c1ea65e591495158b1a434b3281a03',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'ezyang/htmlpurifier' => array(
+            'pretty_version' => 'v4.18.0',
+            'version' => '4.18.0.0',
+            'reference' => 'cb56001e54359df7ae76dc522d08845dc741621b',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../ezyang/htmlpurifier',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'graham-campbell/result-type' => array(
             'pretty_version' => 'v1.1.3',
             'version' => '1.1.3.0',
@@ -313,7 +322,7 @@
         'workerman/webman' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '5607280118a777e8c818b1dc48a7f4c78467ab82',
+            'reference' => '999bd05aa2c1ea65e591495158b1a434b3281a03',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

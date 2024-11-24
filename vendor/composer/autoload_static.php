@@ -16,6 +16,7 @@ class ComposerStaticInit55a30e128d0cafa12473328f7245c5d2
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         '35fab96057f1bf5e7aba31a8a6d5fdde' => __DIR__ . '/..' . '/topthink/think-orm/stubs/load_stubs.php',
+        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         '2ffd98f0768af7a16d85759bb5922585' => __DIR__ . '/..' . '/taoser/webman-validate/src/helper.php',
         'f6b94cb8dfc2820ba7e4493d1f929e3b' => __DIR__ . '/../..' . '/MultiAppDolphinAdapter.php',
         'da5b71a9ad8465d48da441e2f36823b6' => __DIR__ . '/../..' . '/support/helpers.php',
@@ -274,6 +275,16 @@ class ComposerStaticInit55a30e128d0cafa12473328f7245c5d2
         0 => __DIR__ . '/../..' . '/',
     );
 
+    public static $prefixesPsr0 = array (
+        'H' => 
+        array (
+            'HTMLPurifier' => 
+            array (
+                0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
@@ -290,6 +301,7 @@ class ComposerStaticInit55a30e128d0cafa12473328f7245c5d2
             $loader->prefixLengthsPsr4 = ComposerStaticInit55a30e128d0cafa12473328f7245c5d2::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit55a30e128d0cafa12473328f7245c5d2::$prefixDirsPsr4;
             $loader->fallbackDirsPsr4 = ComposerStaticInit55a30e128d0cafa12473328f7245c5d2::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit55a30e128d0cafa12473328f7245c5d2::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit55a30e128d0cafa12473328f7245c5d2::$classMap;
 
         }, null, ClassLoader::class);

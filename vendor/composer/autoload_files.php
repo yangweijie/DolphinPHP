@@ -15,6 +15,7 @@ return array(
     'a4a119a56e50fbb293281d9a48007e0e' => $vendorDir . '/symfony/polyfill-php80/bootstrap.php',
     'a1105708a18b76903365ca1c4aa61b02' => $vendorDir . '/symfony/translation/Resources/functions.php',
     '35fab96057f1bf5e7aba31a8a6d5fdde' => $vendorDir . '/topthink/think-orm/stubs/load_stubs.php',
+    '2cffec82183ee1cea088009cef9a6fc3' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
     '2ffd98f0768af7a16d85759bb5922585' => $vendorDir . '/taoser/webman-validate/src/helper.php',
     'f6b94cb8dfc2820ba7e4493d1f929e3b' => $baseDir . '/MultiAppDolphinAdapter.php',
     'da5b71a9ad8465d48da441e2f36823b6' => $baseDir . '/support/helpers.php',
