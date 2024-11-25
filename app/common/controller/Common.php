@@ -9,7 +9,8 @@
 
 namespace app\common\controller;
 
-use Kingbes\Jump\Jump;
+
+use app\traits\Jump;
 use support\Cache;
 use support\Response;
 use support\View;
@@ -20,8 +21,9 @@ use Webman\Http\Request;
  * 项目公共控制器
  * @package app\common\controller
  */
-class Common extends Jump
+class Common
 {
+    use Jump;
     public Request|\support\Request|null $request;
 
     public function __construct()

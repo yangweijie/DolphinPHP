@@ -34,7 +34,6 @@ return [
     // // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => base_path() . DIRECTORY_SEPARATOR . 'app/admin/view/dispatch_jump.tpl',
     'dispatch_error_tmpl'    => base_path() . DIRECTORY_SEPARATOR . 'app/admin/view/dispatch_jump.tpl',
-
     'debug' => true,
     'error_reporting' => E_ALL,
     'default_timezone' => 'Asia/Shanghai',

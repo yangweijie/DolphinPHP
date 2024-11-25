@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "54ad91ad741c24f26b3f686686b2a2b1",
+    "content-hash": "f19692d51f2a658fdb99a6988206cecd",
     "packages": [
         {
             "name": "ezyang/htmlpurifier",
@@ -128,40 +128,6 @@
                 }
             ],
             "time": "2024-07-20T21:45:45+00:00"
-        },
-        {
-            "name": "kingbes/jump",
-            "version": "v1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/KingBes/jump.git",
-                "reference": "a8f75a6ca35bd5e006ab5edd053f8f78205fa288"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/KingBes/jump/zipball/a8f75a6ca35bd5e006ab5edd053f8f78205fa288",
-                "reference": "a8f75a6ca35bd5e006ab5edd053f8f78205fa288",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Kingbes\\Jump\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Webman plugin kingbes/jump",
-            "support": {
-                "issues": "https://github.com/KingBes/jump/issues",
-                "source": "https://github.com/KingBes/jump/tree/v1.0.1"
-            },
-            "time": "2024-01-27T10:01:41+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -592,6 +558,43 @@
                 "source": "https://github.com/php-fig/simple-cache/tree/3.0.0"
             },
             "time": "2021-10-29T13:26:27+00:00"
+        },
+        {
+            "name": "saithink/thinkorm-log",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saithink/thinkorm-log.git",
+                "reference": "ec23d6af1c74db48ddd4be822db7557e62f1220f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saithink/thinkorm-log/zipball/ec23d6af1c74db48ddd4be822db7557e62f1220f",
+                "reference": "ec23d6af1c74db48ddd4be822db7557e62f1220f",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Saithink\\ThinkOrmLog\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "saithink",
+                    "email": "1430792918@qq.com"
+                }
+            ],
+            "description": "基于webman开发的ThinkOrm日志记录插件",
+            "support": {
+                "issues": "https://github.com/saithink/thinkorm-log/issues",
+                "source": "https://github.com/saithink/thinkorm-log/tree/1.0.1"
+            },
+            "time": "2024-10-18T01:35:13+00:00"
         },
         {
             "name": "symfony/cache",
@@ -1915,202 +1918,7 @@
             "time": "2024-11-07T08:31:33+00:00"
         }
     ],
-    "packages-dev": [
-        {
-            "name": "maximebf/debugbar",
-            "version": "v1.23.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "687400043d77943ef95e8417cb44e1673ee57844"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/687400043d77943ef95e8417cb44e1673ee57844",
-                "reference": "687400043d77943ef95e8417cb44e1673ee57844",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2|^8",
-                "psr/log": "^1|^2|^3",
-                "symfony/var-dumper": "^4|^5|^6|^7"
-            },
-            "require-dev": {
-                "dbrekelmans/bdi": "^1",
-                "phpunit/phpunit": "^8|^9",
-                "symfony/panther": "^1|^2.1",
-                "twig/twig": "^1.38|^2.7|^3.0"
-            },
-            "suggest": {
-                "kriswallsmith/assetic": "The best way to manage assets",
-                "monolog/monolog": "Log using Monolog",
-                "predis/predis": "Redis storage"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.23-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "DebugBar\\": "src/DebugBar/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Maxime Bouroumeau-Fuseau",
-                    "email": "maxime.bouroumeau@gmail.com",
-                    "homepage": "http://maximebf.com"
-                },
-                {
-                    "name": "Barry vd. Heuvel",
-                    "email": "barryvdh@gmail.com"
-                }
-            ],
-            "description": "Debug bar in the browser for php application",
-            "homepage": "https://github.com/maximebf/php-debugbar",
-            "keywords": [
-                "debug",
-                "debugbar"
-            ],
-            "support": {
-                "issues": "https://github.com/maximebf/php-debugbar/issues",
-                "source": "https://github.com/maximebf/php-debugbar/tree/v1.23.3"
-            },
-            "time": "2024-10-29T12:24:25+00:00"
-        },
-        {
-            "name": "symfony/var-dumper",
-            "version": "v7.1.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "7bb01a47b1b00428d32b5e7b4d3b2d1aa58d3db8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/7bb01a47b1b00428d32b5e7b4d3b2d1aa58d3db8",
-                "reference": "7bb01a47b1b00428d32b5e7b4d3b2d1aa58d3db8",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.2",
-                "symfony/polyfill-mbstring": "~1.0"
-            },
-            "conflict": {
-                "symfony/console": "<6.4"
-            },
-            "require-dev": {
-                "ext-iconv": "*",
-                "symfony/console": "^6.4|^7.0",
-                "symfony/http-kernel": "^6.4|^7.0",
-                "symfony/process": "^6.4|^7.0",
-                "symfony/uid": "^6.4|^7.0",
-                "twig/twig": "^3.0.4"
-            },
-            "bin": [
-                "Resources/bin/var-dump-server"
-            ],
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "Resources/functions/dump.php"
-                ],
-                "psr-4": {
-                    "Symfony\\Component\\VarDumper\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Provides mechanisms for walking through any arbitrary PHP variable",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "debug",
-                "dump"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v7.1.8"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-11-08T15:46:42+00:00"
-        },
-        {
-            "name": "webman-tech/debugbar",
-            "version": "v2.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/webman-tech/debugbar.git",
-                "reference": "032171f0c0f021a580837c161558a3f15adda1ff"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/webman-tech/debugbar/zipball/032171f0c0f021a580837c161558a3f15adda1ff",
-                "reference": "032171f0c0f021a580837c161558a3f15adda1ff",
-                "shasum": ""
-            },
-            "require": {
-                "maximebf/debugbar": "^1.18",
-                "php": ">=7.2"
-            },
-            "require-dev": {
-                "illuminate/database": "^8.83",
-                "illuminate/events": "^8.83",
-                "illuminate/redis": "^8.83",
-                "symfony/finder": "^5.4",
-                "topthink/think-orm": "^2.0",
-                "workerman/webman-framework": "^1.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "WebmanTech\\Debugbar\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Webman plugin webman-tech/debugbar",
-            "support": {
-                "issues": "https://github.com/webman-tech/debugbar/issues",
-                "source": "https://github.com/webman-tech/debugbar/tree/v2.2.2"
-            },
-            "time": "2024-03-19T13:38:52+00:00"
-        }
-    ],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {

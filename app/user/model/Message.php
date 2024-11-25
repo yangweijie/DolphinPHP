@@ -30,6 +30,6 @@ class Message extends Model
      */
     public static function getMessageCount()
     {
-        return self::where(['status' => 0, 'uid_receive' => UID])->count();
+        return self::where(['status' => 0, 'uid_receive' => session('uid')])->count();
     }
 }

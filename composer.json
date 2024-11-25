@@ -39,7 +39,6 @@
     "monolog/monolog": "^2.0",
     "webman/think-orm": "1.1.6",
     "topthink/think-template": "^3.0",
-    "kingbes/jump": "^1.0",
     "vlucas/phpdotenv": "^5.6",
     "webman/event": "^1.0",
     "symfony/cache": "^7.1",
@@ -47,7 +46,8 @@
     "taoser/webman-validate": "^1.7",
     "topthink/think-helper": "^3.1",
     "topthink/think-orm": "4.0.x-dev",
-    "ezyang/htmlpurifier": "^4.18"
+    "ezyang/htmlpurifier": "^4.18",
+    "saithink/thinkorm-log": "^1.0"
   },
   "suggest": {
     "ext-event": "For better performance. "
@@ -79,8 +79,5 @@
     ]
   },
   "minimum-stability": "dev",
-  "prefer-stable": true,
-  "require-dev": {
-    "webman-tech/debugbar": "^2.2"
-  }
+  "prefer-stable": true
 }

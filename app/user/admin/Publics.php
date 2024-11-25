@@ -95,7 +95,7 @@ class Publics extends Common
         }
 
         $default_module = RoleModel::where('id', session('user_auth.role'))->value('default_module');
-        $menu = MenuModel::get($default_module);
+        $menu = MenuModel::find($default_module);
         if (!$menu) {
             return $this->error('当前角色未指定默认跳转模块！');
         }

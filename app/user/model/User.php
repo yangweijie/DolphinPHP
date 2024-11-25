@@ -99,7 +99,7 @@ class User extends Model
                 $user['last_login_ip']   = request()->ip(1);
                 if ($user->save()) {
                     // 自动登录
-                    return $this->autoLogin($this::get($uid), $rememberme);
+                    return $this->autoLogin($this::find($uid), $rememberme);
                 } else {
                     // 更新登录信息失败
                     $this->error = '登录信息更新失败，请重新登录！';
@@ -132,9 +132,9 @@ class User extends Model
             'last_login_time' => $user->last_login_time,
             'last_login_ip'   => get_client_ip(1),
         );
-        session('user_auth', $auth);
-        session('user_auth_sign', data_auth_sign($auth));
-
+        session(['user_auth'=> $auth]);
+        session(['user_auth_sign'=>data_auth_sign($auth)]);
+        session(['uid'=> $auth['uid']]);
         // 保存用户节点权限
         if ($user->role != 1) {
             $menu_auth = Db::name('admin_role')->where('id', session('user_auth.role'))->value('menu_auth');

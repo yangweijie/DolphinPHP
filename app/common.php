@@ -503,31 +503,11 @@ if (!function_exists('get_client_ip')) {
     /**
      * 获取客户端IP地址
      * @param int $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
-     * @param bool $adv 是否进行高级模式获取（有可能被伪装）
      * @return mixed
      */
-    function get_client_ip($type = 0, $adv = false) {
-        $type       =  $type ? 1 : 0;
-        static $ip  =   NULL;
-        if ($ip !== NULL) return $ip[$type];
-        if($adv){
-            if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                $arr    =   explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-                $pos    =   array_search('unknown',$arr);
-                if(false !== $pos) unset($arr[$pos]);
-                $ip     =   trim($arr[0]);
-            }elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
-                $ip     =   $_SERVER['HTTP_CLIENT_IP'];
-            }elseif (isset($_SERVER['REMOTE_ADDR'])) {
-                $ip     =   $_SERVER['REMOTE_ADDR'];
-            }
-        }elseif (isset($_SERVER['REMOTE_ADDR'])) {
-            $ip = $_SERVER['REMOTE_ADDR'];
-        }
-        // IP地址合法验证
-        $long = sprintf("%u",ip2long($ip));
-        $ip   = $long ? array($ip, $long) : array('0.0.0.0', 0);
-        return $ip[$type];
+    function get_client_ip($type = 0): mixed
+    {
+       return request()->ip($type);
     }
 }
 
@@ -1324,12 +1304,16 @@ if (!function_exists('admin_url')) {
      * @return string
      */
     function admin_url($url = '', $vars = '', $suffix = true, $domain = false) {
-        $url = url($url, $vars, $suffix, $domain);
-        if (defined('ENTRANCE') && ENTRANCE == 'admin') {
-            return $url;
-        } else {
-            return preg_replace('/\/index.php/', '/'.ADMIN_FILE, $url);
+        $path = explode('/', $url);
+        $app = $path[0];
+        if(in_array($app, config('module.default_controller_layer'))){
+            $url = url($url, $vars, $suffix, $domain);
+        }else{
+            $path[0] = $path[0].'/admin';
+            $url = implode('/', $path);
+            $url = url('/'.$url, $vars, $suffix, $domain);
         }
+        return $url;
     }
 }
 
@@ -1453,17 +1437,18 @@ if (!function_exists('dp_send_message')) {
      * @param string $type 消息类型
      * @param string $content 消息内容
      * @param string $uids 用户id，可以是数组，也可以是逗号隔开的字符串
-     * @author 蔡伟明 <314013107@qq.com>
      * @return bool
      * @throws Exception
+     *@author 蔡伟明 <314013107@qq.com>
      */
-    function dp_send_message($type = '', $content = '', $uids = '') {
+    function dp_send_message(string $type = '', string $content = '', string $uids = ''): bool
+    {
         $uids = is_array($uids) ? $uids : explode(',', $uids);
         $list = [];
         foreach ($uids as $uid) {
             $list[] = [
                 'uid_receive' => $uid,
-                'uid_send'    => UID,
+                'uid_send'    => session('uid'),
                 'type'        => $type,
                 'content'     => $content,
             ];
