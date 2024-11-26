@@ -73,9 +73,9 @@ class Request extends \Workerman\Protocols\Http\Request
      * Input
      * @param string $name
      * @param mixed $default
-     * @return mixed|null
+     * @return mixed
      */
-    public function input(string $name, $default = null)
+    public function input(string $name, mixed $default = null)
     {
         return $this->get($name, $this->post($name, $default));
     }
@@ -114,9 +114,9 @@ class Request extends \Workerman\Protocols\Http\Request
     /**
      * File
      * @param string|null $name
-     * @return null|UploadFile[]|UploadFile
+     * @return UploadFile|UploadFile[]|null
      */
-    public function file($name = null)
+    public function file(?string $name = null): array|null|UploadFile
     {
         $files = parent::file($name);
         if (null === $files) {
@@ -175,7 +175,7 @@ class Request extends \Workerman\Protocols\Http\Request
      */
     public function getRemoteIp(): string
     {
-        return $this->connection->getRemoteIp();
+        return $this->connection ? $this->connection->getRemoteIp() : '0.0.0.0';
     }
 
     /**
@@ -184,7 +184,7 @@ class Request extends \Workerman\Protocols\Http\Request
      */
     public function getRemotePort(): int
     {
-        return $this->connection->getRemotePort();
+        return $this->connection ? $this->connection->getRemotePort() : 0;
     }
 
     /**
@@ -193,7 +193,7 @@ class Request extends \Workerman\Protocols\Http\Request
      */
     public function getLocalIp(): string
     {
-        return $this->connection->getLocalIp();
+        return $this->connection ? $this->connection->getLocalIp() : '0.0.0.0';
     }
 
     /**
@@ -202,7 +202,7 @@ class Request extends \Workerman\Protocols\Http\Request
      */
     public function getLocalPort(): int
     {
-        return $this->connection->getLocalPort();
+        return $this->connection ? $this->connection->getLocalPort() : 0;
     }
 
     /**
@@ -323,48 +323,54 @@ class Request extends \Workerman\Protocols\Http\Request
 
     /**
      * Set get.
-     * @param array $get
+     * @param array|string $input
+     * @param mixed $value
      * @return Request
      */
-    public function setGet(array $get): Request
+    public function setGet(array|string $input, mixed $value = null): Request
     {
         $this->isDirty = true;
+        $input = is_array($input) ? $input : array_merge($this->get(), [$input => $value]);
         if (isset($this->data)) {
-            $this->data['get'] = $get;
+            $this->data['get'] = $input;
         } else {
-            $this->_data['get'] = $get;
+            $this->_data['get'] = $input;
         }
         return $this;
     }
 
     /**
      * Set post.
-     * @param array $post
+     * @param array|string $input
+     * @param mixed $value
      * @return Request
      */
-    public function setPost(array $post): Request
+    public function setPost(array|string $input, mixed $value = null): Request
     {
         $this->isDirty = true;
+        $input = is_array($input) ? $input : array_merge($this->post(), [$input => $value]);
         if (isset($this->data)) {
-            $this->data['post'] = $post;
+            $this->data['post'] = $input;
         } else {
-            $this->_data['post'] = $post;
+            $this->_data['post'] = $input;
         }
         return $this;
     }
 
     /**
-     * Set headers.
-     * @param array $headers
-     * @return $this
+     * Set header.
+     * @param array|string $input
+     * @param mixed $value
+     * @return Request
      */
-    public function setHeaders(array $headers): Request
+    public function setHeader(array|string $input, mixed $value = null): Request
     {
         $this->isDirty = true;
+        $input = is_array($input) ? $input : array_merge($this->header(), [$input => $value]);
         if (isset($this->data)) {
-            $this->data['headers'] = $headers;
+            $this->data['headers'] = $input;
         } else {
-            $this->_data['headers'] = $headers;
+            $this->_data['headers'] = $input;
         }
         return $this;
     }

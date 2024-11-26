@@ -12,6 +12,9 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+use Yangweijie\WebmanIgnition\ExceptionHandle;
+
 return [
-    '' => support\exception\Handler::class,
+//    '' => support\exception\Handler::class,
+    ''=>ExceptionHandle::class
 ];

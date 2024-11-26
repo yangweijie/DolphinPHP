@@ -45,6 +45,12 @@ class App
         }
 
         static::loadAllConfig(['route', 'container']);
+
+        if (DIRECTORY_SEPARATOR === '\\' && empty(config('server.listen'))) {
+            echo "Please run 'php windows.php' on windows system." . PHP_EOL;
+            exit;
+        }
+
         $errorReporting = config('app.error_reporting');
         if (isset($errorReporting)) {
             error_reporting($errorReporting);

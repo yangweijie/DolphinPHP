@@ -28,6 +28,9 @@ use think\model\contract\EnumTransform;
 use think\model\contract\FieldTypeTransform;
 use think\model\contract\Modelable;
 use think\model\contract\Typeable;
+use think\model\type\Date;
+use think\model\type\DateTime;
+use think\model\type\Json;
 use WeakMap;
 
 /**
@@ -167,11 +170,11 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
         }
 
         if (!empty($origin) && !$fromSave) {
-            $this->setWeakData('origin', $origin);
+            $this->setWeak('origin', $origin);
         }
     }
 
-    protected function setWeakData($name, $value)
+    protected function setWeak($name, $value)
     {
         self::$weakMap[$this][$name] = $value;
     }
@@ -181,7 +184,7 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
         return self::$weakMap[$this][$name] ?? $default;
     }
 
-    protected function setData($key, $name, $value)
+    protected function setWeakData($key, $name, $value)
     {
         self::$weakMap[$this][$key][$name] = $value;
     }
@@ -189,7 +192,7 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
     /**
      * 获取实际字段名.
      * 严格模式下 完全和数据表字段对应一致（默认）
-     * 非严格模式 统一转换为snake规范
+     * 非严格模式 统一转换为snake规范（支持驼峰规范读取）
      *
      * @param string $name  字段名
      *
@@ -237,12 +240,16 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
 
         return match ($type) {
             'string' => (string) $value,
-            'int'    => (int) $value,
-            'float'  => (float) $value,
-            'bool'   => (bool) $value,
-            'array'  => empty($value) ? [] : json_decode($value, true),
-            'object' => empty($value) ? new \stdClass() : json_decode($value),
-            default  => $typeTransform($type, $value, $this),
+            'int'       => (int) $value,
+            'float'     => (float) $value,
+            'bool'      => (bool) $value,
+            'array'     => empty($value) ? [] : json_decode($value, true),
+            'object'    => empty($value) ? new \stdClass() : json_decode($value),
+            'json'      => $typeTransform(Json::class, $value, $this),
+            'date'      => $typeTransform(Date::class, $value, $this),
+            'datetime'  => $typeTransform(DateTime::class, $value, $this),
+            'timestamp' => $typeTransform(Json::class, $value, $this),
+            default     => $typeTransform($type, $value, $this),
         };
     }
 
@@ -281,13 +288,17 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
         };
 
         return match ($type) {
-            'string' => (string) $value,
-            'int'    => (int) $value,
-            'float'  => (float) $value,
-            'bool'   => (bool) $value,
-            'object' => is_object($value) ? json_encode($value, JSON_FORCE_OBJECT) : $value,
-            'array'  => json_encode((array) $value, JSON_UNESCAPED_UNICODE),
-            default  => $typeTransform($type, $value, $this),
+            'string'    => (string) $value,
+            'int'       => (int) $value,
+            'float'     => (float) $value,
+            'bool'      => (bool) $value,
+            'object'    => is_object($value) ? json_encode($value, JSON_FORCE_OBJECT) : $value,
+            'array'     => json_encode((array) $value, JSON_UNESCAPED_UNICODE),
+            'json'      => $typeTransform(Json::class, $value, $this),
+            'date'      => $typeTransform(Date::class, $value, $this),
+            'datetime'  => $typeTransform(DateTime::class, $value, $this),
+            'timestamp' => $typeTransform(Json::class, $value, $this),
+            default     => $typeTransform($type, $value, $this),
         };
     }
 
@@ -302,7 +313,7 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
             $schema = self::$_schema[static::class];
         } else {
             $class     = new ReflectionClass($this);
-            $propertys = $class->getProperties(ReflectionProperty::IS_PUBLIC);
+            $propertys = $class->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED);
             $schema    = [];
 
             foreach ($propertys as $property) {
@@ -314,8 +325,9 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
 
             if (empty($schema)) {
                 // 获取数据表信息
-                $fields = self::$weakMap[$this]['model']->getFieldsType(self::$weakMap[$this]['model']->getTable());
-                $schema = array_merge($fields, self::$weakMap[$this]['type'] ?: self::$weakMap[$this]['model']->getType());
+                $model = self::$weakMap[$this]['model'];
+                $fields = $model->getFieldsType($model->getTable());
+                $schema = array_merge($fields, self::$weakMap[$this]['type'] ?: $model->getType());
             }
 
             self::$_schema[static::class] = $schema;
@@ -355,7 +367,7 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
      */
     public function together(array $relation)
     {
-        $this->setWeakData('together', $relation);
+        $this->setWeak('together', $relation);
 
         return $this;
     }
@@ -367,9 +379,9 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
      *
      * @return $this
      */
-    public function allow(array $allow)
+    public function allowField(array $allow)
     {
-        $this->setWeakData('allow', $allow);
+        $this->setWeak('allow', $allow);
 
         return $this;
     }
@@ -526,8 +538,11 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
                 unset($data[$name]);
             } else {
                 // 统一执行修改器或类型转换后写入
-                $method = 'set' . Str::studly($name) . 'Attr';
-                if (method_exists($this, $method)) {
+                $attr   = Str::studly($name);
+                $method = 'set' . $attr . 'Attr';
+                if (method_exists($this, $attr) && $set = $this->$attr()['set'] ?? '') {
+                    $val = $set($val, $data);
+                } elseif (method_exists($this, $method)) {
                     $val = $this->$method($val, $data);
                 } else {
                     // 类型转换
@@ -542,7 +557,7 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
 
         // 自动时间戳处理
         $this->autoDateTime($data, $isUpdate);
-        $result = $this->model()->save($data);
+        $result = $this->model()->allowField($allow)->save($data);
 
         if (false === $result) {
             return false;
@@ -599,7 +614,7 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
                 $value = $obj->__toString();
             }
         } else {
-            $value = \think\model\type\DateTime::from('now', $this)->value();
+            $value = DateTime::from('now', $this)->value();
         }
         return $value;
     }
@@ -715,7 +730,7 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
         $model = new static();
 
         if (!empty($allowField)) {
-            $model->allow($allowField);
+            $model->allowField($allowField);
         }
 
         $model->replace($replace);
@@ -737,7 +752,7 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
         $model = new static();
 
         if (!empty($allowField)) {
-            $model->allow($allowField);
+            $model->allowField($allowField);
         }
 
         if (!empty($where)) {
@@ -795,8 +810,19 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
                 return get_object_vars($object);
             }
         };
-        $data = $class->getPublicVars($this);
-        return array_merge($data, self::$weakMap[$this]['data']);
+        return array_merge($class->getPublicVars($this), self::$weakMap[$this]['data']);
+    }
+
+    /**
+     * 重置模型数据.
+     *
+     * @param array $data
+     *
+     * @return $this
+     */
+    public function setData(array $data)
+    {
+        $this->initializeData($data);
     }
 
     /**
@@ -861,7 +887,7 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
                 if (method_exists($this, $method)) {
                     // 使用获取器转换输出
                     $item = $this->$method($item, $data);
-                    $this->setData('get', $name, $item);
+                    $this->setWeakData('get', $name, $item);
                 }
             }
 
@@ -911,9 +937,12 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
         if (property_exists($this, $name)) {
             $this->$name = $value;
         } else {
-            $this->setData('data', $name, $value);
+            $this->setWeakData('data', $name, $value);
         }
-        $this->setData('get', $name, null);
+
+        if (isset(self::$weakMap[$this]['get'][$name])) {
+            self::$weakMap[$this]['get'][$name] = null;
+        }
     }
 
     /**
@@ -931,24 +960,39 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
         }
 
         $name = $this->getRealFieldName($name);
-        if (array_key_exists($name, self::$weakMap[$this]['get'])) {
+        if (isset(self::$weakMap[$this]['get'][$name])) {
             return self::$weakMap[$this]['get'][$name];
         }
 
         $value  = $this->getValue($name);
-        $method = 'get' . Str::studly($name) . 'Attr';
-        if (method_exists($this, $method)) {
+        $attr   = Str::studly($name);
+        $method = 'get' . $attr . 'Attr';
+        if (method_exists($this, $attr) && $get = $this->$attr()['get'] ?? '') {
+            $value = $get($value, $this->getData());
+        } elseif (method_exists($this, $method)) {
             $value = $this->$method($value, $this->getData());
+        } elseif (is_subclass_of($this->getFields($name), Entity::class) ||
+            is_subclass_of($this->getFields($name), Collection::class)
+        ) {
+            // 动态获取关联数据
+            $value = $this->model()->getRelation($name, true);
         }
 
-        $this->setData('get', $name, $value);
+        $this->setWeakData('get', $name, $value);
         return $value;
     }
 
+    /**
+     * 获取数据对象的值
+     *
+     * @param string $name 名称
+     *
+     * @return mixed
+     */
     private function getValue(string $name)
     {
         if (property_exists($this, $name)) {
-            return $this->$name;
+            return $this->$name ?? null;
         }
         return self::$weakMap[$this]['data'][$name] ?? null;
     }
@@ -966,7 +1010,7 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
     }
 
     /**
-     * 获取属性（非严格模式）
+     * 获取属性
      *
      * @param string $name 名称
      *
@@ -978,7 +1022,7 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
     }
 
     /**
-     * 设置数据（非严格模式）
+     * 设置数据
      *
      * @param string $name  名称
      * @param mixed  $value 值
@@ -991,7 +1035,7 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
     }
 
     /**
-     * 检测数据对象的值（非严格模式）
+     * 检测数据对象的值
      *
      * @param string $name 名称
      *
@@ -1007,7 +1051,7 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
     }
 
     /**
-     * 销毁数据对象的值（非严格模式）
+     * 销毁数据对象的值
      *
      * @param string $name 名称
      *
@@ -1016,7 +1060,11 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
     public function __unset(string $name): void
     {
         $name = $this->getRealFieldName($name);
-        unset(self::$weakMap[$this]['data'][$name]);
+        if (property_exists($this, $name)) {
+            unset($this->name);
+        } else {
+            self::$weakMap[$this]['data'][$name] = null;
+        }
     }
 
     public function __toString()
@@ -1031,7 +1079,6 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
             'origin' => self::$weakMap[$this]['origin'],
             'schema' => self::$_schema[static::class],
         ];
-
     }
 
     // JsonSerializable
@@ -1043,22 +1090,22 @@ abstract class Entity implements JsonSerializable, ArrayAccess, Arrayable, Jsona
     // ArrayAccess
     public function offsetSet(mixed $name, mixed $value): void
     {
-        $this->$name = $value;
-    }
-
-    public function offsetExists(mixed $name): bool
-    {
-        return isset($this->$name);
-    }
-
-    public function offsetUnset(mixed $name): void
-    {
-        unset($this->$name);
+        $this->set($name, $value);
     }
 
     public function offsetGet(mixed $name): mixed
     {
-        return $this->$name ?? null;
+        return $this->get($name);
+    }
+
+    public function offsetExists(mixed $name): bool
+    {
+        return __isset($name);
+    }
+
+    public function offsetUnset(mixed $name): void
+    {
+        $this->__unset($name);
     }
 
     public static function __callStatic($method, $args)

@@ -55,6 +55,7 @@
   },
   "autoload": {
     "psr-4": {
+      "Yangweijie\\WebmanIgnition\\" : "vendor/yangweijie/webman-ignition/src",
       "": "./",
       "app\\": "./app",
       "App\\": "./app",
@@ -65,7 +66,7 @@
     },
     "files": [
       "MultiAppDolphinAdapter.php",
-      "./support/helpers.php"
+      "./support/helper.php"
     ]
   },
   "scripts": {
@@ -80,5 +81,8 @@
     ]
   },
   "minimum-stability": "dev",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "require-dev": {
+    "spatie/ignition": "^1.15"
+  }
 }

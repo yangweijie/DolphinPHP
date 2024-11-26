@@ -298,7 +298,7 @@ class App
      * @throws NotFoundExceptionInterface
      * @throws ReflectionException
      */
-    public static function getCallback(string $plugin, string $app, $call, array $args = [], bool $withGlobalMiddleware = true, RouteObject $route = null)
+    public static function getCallback(string $plugin, string $app, $call, array $args = [], bool $withGlobalMiddleware = true, ?RouteObject $route = null)
     {
         $middlewares = [];
         if ($route) {
@@ -758,8 +758,7 @@ class App
         $pathExplode = $relativePath ? explode('/', $relativePath) : [];
 
         $action = 'index';
-        $controllerAction = static::guessControllerAction($pathExplode, $action, $suffix, $classPrefix);
-        if (!$controllerAction) {
+        if (!$controllerAction = static::guessControllerAction($pathExplode, $action, $suffix, $classPrefix)) {
             if (count($pathExplode) <= 1) {
                 return false;
             }
@@ -785,7 +784,7 @@ class App
      * @return array|false
      * @throws ReflectionException
      */
-    public static function guessControllerAction($pathExplode, $action, $suffix, $classPrefix)
+    protected static function guessControllerAction($pathExplode, $action, $suffix, $classPrefix)
     {
         $map[] = trim("$classPrefix\\app\\controller\\" . implode('\\', $pathExplode), '\\');
         foreach ($pathExplode as $index => $section) {
@@ -999,10 +998,10 @@ class App
      * Config.
      * @param string $plugin
      * @param string $key
-     * @param $default
-     * @return array|mixed|null
+     * @param mixed $default
+     * @return mixed
      */
-    protected static function config(string $plugin, string $key, $default = null)
+    protected static function config(string $plugin, string $key, mixed $default = null)
     {
         return Config::get($plugin ? "plugin.$plugin.$key" : $key, $default);
     }

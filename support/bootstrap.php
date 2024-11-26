@@ -105,6 +105,7 @@ foreach (config('plugin', []) as $firm => $projects) {
             continue;
         }
         foreach ($project['bootstrap'] ?? [] as $className) {
+            Log::info($className);
             if (!class_exists($className)) {
                 $log = "Warning: Class $className setting in config/plugin/$firm/$name/bootstrap.php not found\r\n";
                 echo $log;
@@ -116,6 +117,7 @@ foreach (config('plugin', []) as $firm => $projects) {
         }
     }
     foreach ($projects['bootstrap'] ?? [] as $className) {
+        Log::info($className);
         /** @var string $className */
         if (!class_exists($className)) {
             $log = "Warning: Class $className setting in plugin/$firm/config/bootstrap.php not found\r\n";

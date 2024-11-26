@@ -1,4 +1,5 @@
 .idea
+.env
 composer.lock
 /runtime/
 /.settings/
@@ -6,3 +7,4 @@ composer.lock
 /.buildpath
 /.project
 *.log
+/vendor
