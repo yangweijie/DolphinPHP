@@ -110,7 +110,7 @@ class Field extends Admin
                 if ($FieldModel->newField($data)) {
                     // 记录行为
                     $details    = '详情：文档模型('.get_model_title($data['model']).')、字段名称('.$data['name'].')、字段标题('.$data['title'].')、字段类型('.$data['type'].')';
-                    action_log('field_add', 'cms_field', $field['id'], UID, $details);
+                    action_log('field_add', 'cms_field', $field['id'], session('uid'), $details);
                     // 清除缓存
                     cache('cms_system_fields', null);
                     $this->success('新增成功', cookie('__forward__'));
@@ -204,7 +204,7 @@ class Field extends Admin
             if ($FieldModel->updateField($data)) {
                 if ($FieldModel->isUpdate(true)->save($data)) {
                     // 记录行为
-                    action_log('field_edit', 'cms_field', $id, UID, $data['name']);
+                    action_log('field_edit', 'cms_field', $id, session('uid'), $data['name']);
                     $this->success('字段更新成功', cookie('__forward__'));
                 }
             }
@@ -268,7 +268,7 @@ class Field extends Admin
             if ($FieldModel->where('id', $ids)->delete()) {
                 // 记录行为
                 $details = '详情：文档模型('.get_model_title($field['model']).')、字段名称('.$field['name'].')、字段标题('.$field['title'].')、字段类型('.$field['type'].')';
-                action_log('field_delete', 'cms_field', $ids, UID, $details);
+                action_log('field_delete', 'cms_field', $ids, session('uid'), $details);
                 $this->success('删除成功', cookie('__forward__'));
             }
         }
@@ -309,7 +309,7 @@ class Field extends Admin
         $ids          = $this->request->isPost() ? input('post.ids/a') : input('param.ids');
         $field_delete = is_array($ids) ? '' : $ids;
         $field_names  = FieldModel::where('id', 'in', $ids)->column('name');
-        return parent::setStatus($type, ['field_'.$type, 'cms_field', $field_delete, UID, implode('、', $field_names)]);
+        return parent::setStatus($type, ['field_'.$type, 'cms_field', $field_delete, session('uid'), implode('、', $field_names)]);
     }
 
     /**
@@ -325,6 +325,6 @@ class Field extends Admin
         $value   = input('post.value', '');
         $config  = FieldModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $config . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['field_edit', 'cms_field', $id, UID, $details]);
+        return parent::quickEdit(['field_edit', 'cms_field', $id, session('uid'), $details]);
     }
 }

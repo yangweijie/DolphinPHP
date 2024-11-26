@@ -116,7 +116,7 @@ class Menu extends Admin
                 Cache::clear();
                 // 记录行为
                 $details = '所属模块('.$data['module'].'),所属节点ID('.$data['pid'].'),节点标题('.$data['title'].'),节点链接('.$data['url_value'].')';
-                action_log('menu_add', 'admin_menu', $menu['id'], UID, $details);
+                action_log('menu_add', 'admin_menu', $menu['id'], session('uid'), $details);
                 $this->success('新增成功', cookie('__forward__'));
             } else {
                 $this->error('新增失败');
@@ -192,7 +192,7 @@ class Menu extends Admin
                 Cache::clear();
                 // 记录行为
                 $details = '节点ID('.$id.')';
-                action_log('menu_edit', 'admin_menu', $id, UID, $details);
+                action_log('menu_edit', 'admin_menu', $id, session('uid'), $details);
                 $this->success('编辑成功', cookie('__forward__'));
             } else {
                 $this->error('编辑失败');
@@ -336,7 +336,7 @@ class Menu extends Admin
             Cache::clear();
             // 记录行为
             $details = '节点ID('.$id.'),节点标题('.$menu['title'].'),节点链接('.$menu['url_value'].')';
-            action_log('menu_delete', 'admin_menu', $id, UID, $details);
+            action_log('menu_delete', 'admin_menu', $id, session('uid'), $details);
             $this->success('删除成功');
         } else {
             $this->error('删除失败');
@@ -500,7 +500,7 @@ class Menu extends Admin
         $id      = input('param.ids');
         $menu    = MenuModel::where('id', $id)->find();
         $details = '节点ID('.$id.'),节点标题('.$menu['title'].'),节点链接('.$menu['url_value'].')';
-        $this->setStatus('enable', ['menu_enable', 'admin_menu', $id, UID, $details]);
+        $this->setStatus('enable', ['menu_enable', 'admin_menu', $id, session('uid'), $details]);
     }
 
     /**
@@ -516,7 +516,7 @@ class Menu extends Admin
         $id      = input('param.ids');
         $menu    = MenuModel::where('id', $id)->find();
         $details = '节点ID('.$id.'),节点标题('.$menu['title'].'),节点链接('.$menu['url_value'].')';
-        $this->setStatus('disable', ['menu_disable', 'admin_menu', $id, UID, $details]);
+        $this->setStatus('disable', ['menu_disable', 'admin_menu', $id, session('uid'), $details]);
     }
 
     /**

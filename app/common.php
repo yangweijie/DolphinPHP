@@ -1255,7 +1255,7 @@ if (!function_exists('load_assets')) {
                 $result .= '<script src="'.$item.'?v='.config('asset_version').'"></script>';
             }
         }
-        $result = str_replace(array_keys(config('template.tpl_replace_string')), array_values(config('template.tpl_replace_string')), $result);
+        $result = str_replace(array_keys(config('view.options.tpl_replace_string')), array_values(config('view.options.tpl_replace_string')), $result);
         return $result;
     }
 }

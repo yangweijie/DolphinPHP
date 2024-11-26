@@ -75,7 +75,7 @@ class Link extends Admin
 
             if ($link = LinkModel::create($data)) {
                 // 记录行为
-                action_log('link_add', 'cms_link', $link['id'], UID, $data['title']);
+                action_log('link_add', 'cms_link', $link['id'], session('uid'), $data['title']);
                 $this->success('新增成功', 'index');
             } else {
                 $this->error('新增失败');
@@ -120,7 +120,7 @@ class Link extends Admin
 
             if (LinkModel::update($data)) {
                 // 记录行为
-                action_log('link_edit', 'cms_link', $id, UID, $data['title']);
+                action_log('link_edit', 'cms_link', $id, session('uid'), $data['title']);
                 $this->success('编辑成功', 'index');
             } else {
                 $this->error('编辑失败');
@@ -195,7 +195,7 @@ class Link extends Admin
     {
         $ids        = $this->request->isPost() ? input('post.ids/a') : input('param.ids');
         $link_title = LinkModel::where('id', 'in', $ids)->column('title');
-        return parent::setStatus($type, ['link_'.$type, 'cms_link', 0, UID, implode('、', $link_title)]);
+        return parent::setStatus($type, ['link_'.$type, 'cms_link', 0, session('uid'), implode('、', $link_title)]);
     }
 
     /**
@@ -211,6 +211,6 @@ class Link extends Admin
         $value   = input('post.value', '');
         $link    = LinkModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $link . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['link_edit', 'cms_link', $id, UID, $details]);
+        return parent::quickEdit(['link_edit', 'cms_link', $id, session('uid'), $details]);
     }
 }

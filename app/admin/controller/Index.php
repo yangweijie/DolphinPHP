@@ -85,7 +85,7 @@ class Index extends Admin
             $data = $this->request->post();
 
             $data['nickname'] == '' && $this->error('昵称不能为空');
-            $data['id'] = UID;
+            $data['id'] = session('uid');
 
             // 如果没有填写密码，则不更新密码
             if ($data['password'] == '') {
@@ -95,7 +95,7 @@ class Index extends Admin
             $UserModel = new UserModel();
             if ($UserModel->allowField(['nickname', 'email', 'password', 'mobile', 'avatar'])->update($data)) {
                 // 记录行为
-                action_log('user_edit', 'admin_user', UID, UID, get_nickname(UID));
+                action_log('user_edit', 'admin_user', session('uid'), session('uid'), get_nickname(session('uid')));
                 $this->success('编辑成功');
             } else {
                 $this->error('编辑失败');
@@ -103,7 +103,7 @@ class Index extends Admin
         }
 
         // 获取数据
-        $info = UserModel::where('id', UID)->field('password', true)->find();
+        $info = UserModel::where('id', session('uid'))->field('password', true)->find();
 
         // 使用ZBuilder快速创建表单
         return ZBuilder::make('form')

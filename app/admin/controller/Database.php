@@ -225,7 +225,7 @@ class Database extends Admin
                 // 备份完成，删除锁定文件
                 unlink($lock);
                 // 记录行为
-                action_log('database_export', 'database', 0, UID, implode(',', $tables));
+                action_log('database_export', 'database', 0, session('uid'), implode(',', $tables));
                 $this->success('备份完成！');
             } else {
                 $this->error('初始化失败，备份文件创建失败！');
@@ -277,7 +277,7 @@ class Database extends Admin
                 }
             }
             // 记录行为
-            action_log('database_import', 'database', 0, UID, date('Ymd-His', $time));
+            action_log('database_import', 'database', 0, session('uid'), date('Ymd-His', $time));
             $this->success('还原完成！');
         } else {
             $this->error('备份文件可能已经损坏，请检查！');
@@ -299,7 +299,7 @@ class Database extends Admin
 
                 if($list){
                     // 记录行为
-                    action_log('database_optimize', 'database', 0, UID, "`{$tables}`");
+                    action_log('database_optimize', 'database', 0, session('uid'), "`{$tables}`");
                     $this->success("数据表优化完成！");
                 } else {
                     $this->error("数据表优化出错请重试！");
@@ -308,7 +308,7 @@ class Database extends Admin
                 $list = Db::query("OPTIMIZE TABLE `{$tables}`");
                 if($list){
                     // 记录行为
-                    action_log('database_optimize', 'database', 0, UID, $tables);
+                    action_log('database_optimize', 'database', 0, session('uid'), $tables);
                     $this->success("数据表'{$tables}'优化完成！");
                 } else {
                     $this->error("数据表'{$tables}'优化出错请重试！");
@@ -334,7 +334,7 @@ class Database extends Admin
 
                 if($list){
                     // 记录行为
-                    action_log('database_repair', 'database', 0, UID, "`{$tables}`");
+                    action_log('database_repair', 'database', 0, session('uid'), "`{$tables}`");
                     $this->success("数据表修复完成！");
                 } else {
                     $this->error("数据表修复出错请重试！");
@@ -343,7 +343,7 @@ class Database extends Admin
                 $list = Db::query("REPAIR TABLE `{$tables}`");
                 if($list){
                     // 记录行为
-                    action_log('database_repair', 'database', 0, UID, $tables);
+                    action_log('database_repair', 'database', 0, session('uid'), $tables);
                     $this->success("数据表'{$tables}'修复完成！");
                 } else {
                     $this->error("数据表'{$tables}'修复出错请重试！");
@@ -371,7 +371,7 @@ class Database extends Admin
             $this->error('备份文件删除失败，请检查权限！');
         } else {
             // 记录行为
-            action_log('database_backup_delete', 'database', 0, UID, date('Ymd-His', $ids));
+            action_log('database_backup_delete', 'database', 0, session('uid'), date('Ymd-His', $ids));
             $this->success('备份文件删除成功！');
         }
     }

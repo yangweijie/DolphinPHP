@@ -180,7 +180,7 @@ class Common
         return view($template_path, $vars);
     }
     
-    public function assign($key ,$value): void
+    public function assign($key ,$value)
     {
         View::assign($key, $value);
     }

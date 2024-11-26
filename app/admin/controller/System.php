@@ -80,7 +80,7 @@ class System extends Admin
             }
             cache('system_config', null);
             // 记录行为
-            action_log('system_config_update', 'admin_config', 0, UID, "分组($group)");
+            action_log('system_config_update', 'admin_config', 0, session('uid'), "分组($group)");
             $this->success('更新成功', url('index', ['group' => $group]));
         } else {
             // 配置分组信息
@@ -179,7 +179,7 @@ class System extends Admin
      */
     private function createLinkagesToken($table = '', $option = '', $key = '')
     {
-        $table_token = substr(sha1($table.'-'.$option.'-'.$key.'-'.session('user_auth.last_login_ip').'-'.UID.'-'.session('user_auth.last_login_time')), 0, 8);
+        $table_token = substr(sha1($table.'-'.$option.'-'.$key.'-'.session('user_auth.last_login_ip').'-'.session('uid').'-'.session('user_auth.last_login_time')), 0, 8);
         session($table_token, ['table' => $table, 'option' => $option, 'key' => $key]);
         return $table_token;
     }

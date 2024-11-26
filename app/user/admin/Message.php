@@ -85,7 +85,7 @@ class Message extends Admin
             foreach ($data['uid'] as $uid) {
                 $list[] = [
                     'uid_receive' => $uid,
-                    'uid_send'    => UID,
+                    'uid_send'    => session('uid'),
                     'type'        => $data['type'],
                     'content'     => $data['content'],
                 ];

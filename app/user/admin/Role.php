@@ -111,7 +111,7 @@ class Role extends Admin
             // 添加数据
             if ($role = RoleModel::create($data)) {
                 // 记录行为
-                action_log('role_add', 'admin_role', $role['id'], UID, $data['name']);
+                action_log('role_add', 'admin_role', $role['id'], session('uid'), $data['name']);
                 $this->success('新增成功', url('index'));
             } else {
                 $this->error('新增失败');
@@ -243,7 +243,7 @@ class Role extends Admin
                 RoleModel::resetAuth($id, $data['menu_auth']);
                 role_auth();
                 // 记录行为
-                action_log('role_edit', 'admin_role', $id, UID, $data['name']);
+                action_log('role_edit', 'admin_role', $id, session('uid'), $data['name']);
                 $this->success('编辑成功', url('index'));
             } else {
                 $this->error('编辑失败');
@@ -421,7 +421,7 @@ class Role extends Admin
                     $this->error('非法操作');
             }
 
-            action_log('role_'.$type, 'admin_role', $id, UID);
+            action_log('role_'.$type, 'admin_role', $id, session('uid'));
         }
 
         $this->success('操作成功');
@@ -449,6 +449,6 @@ class Role extends Admin
 
         $config  = RoleModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $config . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['role_edit', 'admin_role', $id, UID, $details]);
+        return parent::quickEdit(['role_edit', 'admin_role', $id, session('uid'), $details]);
     }
 }

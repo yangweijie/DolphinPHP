@@ -81,7 +81,7 @@ class Support extends Admin
 
             if ($support = SupportModel::create($data)) {
                 // 记录行为
-                action_log('support_add', 'cms_support', $support['id'], UID, $data['name']);
+                action_log('support_add', 'cms_support', $support['id'], session('uid'), $data['name']);
                 $this->success('新增成功', 'index');
             } else {
                 $this->error('新增失败');
@@ -125,7 +125,7 @@ class Support extends Admin
 
             if (SupportModel::update($data)) {
                 // 记录行为
-                action_log('support_edit', 'cms_support', $id, UID, $data['name']);
+                action_log('support_edit', 'cms_support', $id, session('uid'), $data['name']);
                 $this->success('编辑成功', 'index');
             } else {
                 $this->error('编辑失败');
@@ -199,7 +199,7 @@ class Support extends Admin
     {
         $ids           = $this->request->isPost() ? input('post.ids/a') : input('param.ids');
         $support_title = SupportModel::where('id', 'in', $ids)->column('name');
-        return parent::setStatus($type, ['support_'.$type, 'cms_support', 0, UID, implode('、', $support_title)]);
+        return parent::setStatus($type, ['support_'.$type, 'cms_support', 0, session('uid'), implode('、', $support_title)]);
     }
 
     /**
@@ -215,6 +215,6 @@ class Support extends Admin
         $value   = input('post.value', '');
         $support = SupportModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $support . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['support_edit', 'cms_support', $id, UID, $details]);
+        return parent::quickEdit(['support_edit', 'cms_support', $id, session('uid'), $details]);
     }
 }

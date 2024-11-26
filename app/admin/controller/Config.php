@@ -105,7 +105,7 @@ class Config extends Admin
                 $forward = $this->request->param('_pop') == 1 ? null : cookie('__forward__');
                 // 记录行为
                 $details = '详情：分组('.$data['group'].')、类型('.$data['type'].')、标题('.$data['title'].')、名称('.$data['name'].')';
-                action_log('config_add', 'admin_config', $config['id'], UID, $details);
+                action_log('config_add', 'admin_config', $config['id'], session('uid'), $details);
                 $this->success('新增成功', $forward);
             } else {
                 $this->error('新增失败');
@@ -179,7 +179,7 @@ class Config extends Admin
                 cache('system_config', null);
                 $forward = $this->request->param('_pop') == 1 ? null : cookie('__forward__');
                 // 记录行为
-                action_log('config_edit', 'admin_config', $config['id'], UID, $details);
+                action_log('config_edit', 'admin_config', $config['id'], session('uid'), $details);
                 $this->success('编辑成功', $forward, '_parent_reload');
             } else {
                 $this->error('编辑失败');
@@ -268,7 +268,7 @@ class Config extends Admin
         $ids        = $this->request->isPost() ? input('post.ids/a') : input('param.ids');
         $uid_delete = is_array($ids) ? '' : $ids;
         $ids        = ConfigModel::where('id', 'in', $ids)->column('title');
-        return parent::setStatus($type, ['config_'.$type, 'admin_config', $uid_delete, UID, implode('、', $ids)]);
+        return parent::setStatus($type, ['config_'.$type, 'admin_config', $uid_delete, session('uid'), implode('、', $ids)]);
     }
 
     /**
@@ -284,6 +284,6 @@ class Config extends Admin
         $value   = input('post.value', '');
         $config  = ConfigModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $config . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['config_edit', 'admin_config', $id, UID, $details]);
+        return parent::quickEdit(['config_edit', 'admin_config', $id, session('uid'), $details]);
     }
 }

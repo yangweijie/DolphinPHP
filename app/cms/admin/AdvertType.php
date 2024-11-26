@@ -75,7 +75,7 @@ class AdvertType extends Admin
 
             if ($type = AdvertTypeModel::create($data)) {
                 // 记录行为
-                action_log('advert_type_add', 'cms_advert_type', $type['id'], UID, $data['name']);
+                action_log('advert_type_add', 'cms_advert_type', $type['id'], session('uid'), $data['name']);
                 $this->success('新增成功', 'index');
             } else {
                 $this->error('新增失败');
@@ -114,7 +114,7 @@ class AdvertType extends Admin
 
             if (AdvertTypeModel::update($data)) {
                 // 记录行为
-                action_log('advert_type_edit', 'cms_advert_type', $id, UID, $data['name']);
+                action_log('advert_type_edit', 'cms_advert_type', $id, session('uid'), $data['name']);
                 $this->success('编辑成功', 'index');
             } else {
                 $this->error('编辑失败');
@@ -183,7 +183,7 @@ class AdvertType extends Admin
     {
         $ids       = $this->request->isPost() ? input('post.ids/a') : input('param.ids');
         $type_name = AdvertTypeModel::where('id', 'in', $ids)->column('name');
-        return parent::setStatus($type, ['advert_type_'.$type, 'cms_advert_type', 0, UID, implode('、', $type_name)]);
+        return parent::setStatus($type, ['advert_type_'.$type, 'cms_advert_type', 0, session('uid'), implode('、', $type_name)]);
     }
 
     /**
@@ -199,6 +199,6 @@ class AdvertType extends Admin
         $value   = input('post.value', '');
         $type    = AdvertTypeModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $type . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['advert_type_edit', 'cms_advert_type', $id, UID, $details]);
+        return parent::quickEdit(['advert_type_edit', 'cms_advert_type', $id, session('uid'), $details]);
     }
 }

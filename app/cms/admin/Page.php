@@ -73,7 +73,7 @@ class Page extends Admin
 
             if ($page = PageModel::create($data)) {
                 // 记录行为
-                action_log('page_add', 'cms_page', $page['id'], UID, $data['title']);
+                action_log('page_add', 'cms_page', $page['id'], session('uid'), $data['title']);
                 $this->success('新增成功', 'index');
             } else {
                 $this->error('新增失败');
@@ -117,7 +117,7 @@ class Page extends Admin
 
             if (PageModel::update($data)) {
                 // 记录行为
-                action_log('page_edit', 'cms_page', $id, UID, $data['title']);
+                action_log('page_edit', 'cms_page', $id, session('uid'), $data['title']);
                 $this->success('编辑成功', 'index');
             } else {
                 $this->error('编辑失败');
@@ -191,7 +191,7 @@ class Page extends Admin
     {
         $ids        = $this->request->isPost() ? input('post.ids/a') : input('param.ids');
         $page_title = PageModel::where('id', 'in', $ids)->column('title');
-        return parent::setStatus($type, ['page_'.$type, 'cms_page', 0, UID, implode('、', $page_title)]);
+        return parent::setStatus($type, ['page_'.$type, 'cms_page', 0, session('uid'), implode('、', $page_title)]);
     }
 
     /**
@@ -207,6 +207,6 @@ class Page extends Admin
         $value   = input('post.value', '');
         $page    = PageModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $page . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['page_edit', 'cms_page', $id, UID, $details]);
+        return parent::quickEdit(['page_edit', 'cms_page', $id, session('uid'), $details]);
     }
 }

@@ -85,7 +85,7 @@ class Config
                 // 修改默认访问控制器层
                 config('url_controller_layer', 'admin');
                 // 修改视图模板路径
-                config('template.view_path', Env::get('app_path'). $module. '/view/admin/');
+                config('template.view_path', app_path(). $module. '/view/admin/');
             }
 
             // 插件静态资源目录

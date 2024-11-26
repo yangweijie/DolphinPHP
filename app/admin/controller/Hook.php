@@ -79,7 +79,7 @@ class Hook extends Admin
             if ($hook = HookModel::create($data)) {
                 cache('hook_plugins', null);
                 // 记录行为
-                action_log('hook_add', 'admin_hook', $hook['id'], UID, $data['name']);
+                action_log('hook_add', 'admin_hook', $hook['id'], session('uid'), $data['name']);
                 $this->success('新增成功', 'index');
             } else {
                 $this->error('新增失败');
@@ -119,7 +119,7 @@ class Hook extends Admin
                 }
                 cache('hook_plugins', null);
                 // 记录行为
-                action_log('hook_edit', 'admin_hook', $hook['id'], UID, $data['name']);
+                action_log('hook_edit', 'admin_hook', $hook['id'], session('uid'), $data['name']);
                 $this->success('编辑成功', 'index');
             } else {
                 $this->error('编辑失败');
@@ -161,7 +161,7 @@ class Hook extends Admin
         }
         cache('hook_plugins', null);
         $details = $status == 'true' ? '启用钩子' : '禁用钩子';
-        return parent::quickEdit(['hook_edit', 'admin_hook', $id, UID, $details]);
+        return parent::quickEdit(['hook_edit', 'admin_hook', $id, session('uid'), $details]);
     }
 
     /**
@@ -237,6 +237,6 @@ class Hook extends Admin
         cache('hook_plugins', null);
         $hook_delete = is_array($ids) ? '' : $ids;
         $hook_names  = HookModel::where('id', 'in', $ids)->column('name');
-        return parent::setStatus($type, ['hook_'.$type, 'admin_hook', $hook_delete, UID, implode('、', $hook_names)]);
+        return parent::setStatus($type, ['hook_'.$type, 'admin_hook', $hook_delete, session('uid'), implode('、', $hook_names)]);
     }
 }

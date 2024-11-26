@@ -128,7 +128,7 @@ class Packet extends Admin
         }
         // 记录行为
         $packet_titles = PacketModel::where('name', 'in', $names)->column('title');
-        action_log('packet_install', 'admin_packet', 0, UID, implode('、', $packet_titles));
+        action_log('packet_install', 'admin_packet', 0, session('uid'), implode('、', $packet_titles));
         $this->success('安装成功');
     }
 
@@ -143,7 +143,7 @@ class Packet extends Admin
 
         // 记录行为
         $packet_titles = PacketModel::where('name', 'in', $names)->column('title');
-        action_log('packet_uninstall', 'admin_packet', 0, UID, implode('、', $packet_titles));
+        action_log('packet_uninstall', 'admin_packet', 0, session('uid'), implode('、', $packet_titles));
 
         foreach ($names as $name) {
             PacketModel::uninstall($name);

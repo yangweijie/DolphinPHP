@@ -75,10 +75,10 @@ class Builder extends ZBuilder
      */
     public function initialize()
     {
-        $this->_template = Env::get('app_path'). 'common/builder/form/layout.html';
-        $this->_vars['post_url'] = $this->request->url(true);
+        $this->_template = app_path(). '/common/builder/form/layout.html';
+        $this->_vars['post_url'] = request()->url();
         $this->_vars['_token_name'] = config('zbuilder.form_token_name');
-        $this->_vars['_token_value'] = $this->request->token($this->_vars['_token_name']);
+        $this->_vars['_token_value'] = request()->post($this->_vars['_token_name']);
     }
 
     /**
@@ -1095,7 +1095,7 @@ class Builder extends ZBuilder
      */
     private function createLinkagesToken($table = '', $option = '', $key = '')
     {
-        $table_token = substr(sha1($table.'-'.$option.'-'.$key.'-'.session('user_auth.last_login_ip').'-'.UID.'-'.session('user_auth.last_login_time')), 0, 8);
+        $table_token = substr(sha1($table.'-'.$option.'-'.$key.'-'.session('user_auth.last_login_ip').'-'.session('uid').'-'.session('user_auth.last_login_time')), 0, 8);
         session($table_token, ['table' => $table, 'option' => $option, 'key' => $key]);
         return $table_token;
     }
@@ -2301,7 +2301,7 @@ class Builder extends ZBuilder
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      */
-    public function fetch($template = '', $vars = [], $config = [])
+    public function fetch($template = '', $vars = [], $config = []): \support\Response
     {
         if (!empty($vars)) {
             $this->_vars['form_data'] = array_merge($this->_vars['form_data'], $vars);

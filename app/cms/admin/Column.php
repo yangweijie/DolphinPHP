@@ -102,7 +102,7 @@ class Column extends Admin
             if ($column = ColumnModel::create($data)) {
                 cache('cms_column_list', null);
                 // 记录行为
-                action_log('column_add', 'cms_column', $column['id'], UID, $data['name']);
+                action_log('column_add', 'cms_column', $column['id'], session('uid'), $data['name']);
                 $this->success('新增成功', 'index');
             } else {
                 $this->error('新增失败');
@@ -159,7 +159,7 @@ class Column extends Admin
 
             if (ColumnModel::update($data)) {
                 // 记录行为
-                action_log('column_edit', 'cms_column', $id, UID, $data['name']);
+                action_log('column_edit', 'cms_column', $id, session('uid'), $data['name']);
                 $this->success('编辑成功', 'index');
             } else {
                 $this->error('编辑失败');
@@ -225,7 +225,7 @@ class Column extends Admin
 
         // 删除并记录日志
         $column_name = get_column_name($ids);
-        return parent::delete(['column_delete', 'cms_column', 0, UID, $column_name]);
+        return parent::delete(['column_delete', 'cms_column', 0, session('uid'), $column_name]);
     }
 
     /**
@@ -265,7 +265,7 @@ class Column extends Admin
         $ids           = $this->request->isPost() ? input('post.ids/a') : input('param.ids');
         $column_delete = is_array($ids) ? '' : $ids;
         $column_names  = ColumnModel::where('id', 'in', $ids)->column('name');
-        return parent::setStatus($type, ['column_'.$type, 'cms_column', $column_delete, UID, implode('、', $column_names)]);
+        return parent::setStatus($type, ['column_'.$type, 'cms_column', $column_delete, session('uid'), implode('、', $column_names)]);
     }
 
     /**
@@ -281,6 +281,6 @@ class Column extends Admin
         $value   = input('post.value', '');
         $column  = ColumnModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $column . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['column_edit', 'cms_column', $id, UID, $details]);
+        return parent::quickEdit(['column_edit', 'cms_column', $id, session('uid'), $details]);
     }
 }

@@ -271,7 +271,7 @@ class Document extends Admin
         }
 
         // 删除并记录日志
-        action_log('document_trash', $table, $document_id, UID, implode('、', $document_title));
+        action_log('document_trash', $table, $document_id, session('uid'), implode('、', $document_title));
         $this->success('删除成功');
     }
 
@@ -318,7 +318,7 @@ class Document extends Admin
         $ids            = $this->request->isPost() ? input('post.ids/a') : input('param.ids');
         $document_id    = is_array($ids) ? '' : $ids;
         $document_title = Db::name($table_name)->where('id', 'in', $ids)->column('title');
-        return parent::setStatus($type, ['document_'.$type, 'cms_document', $document_id, UID, implode('、', $document_title)]);
+        return parent::setStatus($type, ['document_'.$type, 'cms_document', $document_id, session('uid'), implode('、', $document_title)]);
     }
 
     /**
@@ -340,6 +340,6 @@ class Document extends Admin
         $value      = input('post.value', '');
         $document   = Db::name($table)->where('id', $id)->value($field);
         $details    = '表名(' . $table . ')，字段(' . $field . ')，原值(' . $document . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['document_edit', 'cms_document', $id, UID, $details]);
+        return parent::quickEdit(['document_edit', 'cms_document', $id, session('uid'), $details]);
     }
 }

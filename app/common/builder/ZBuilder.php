@@ -40,7 +40,7 @@ class ZBuilder extends Common
      * 初始化
      * @author 蔡伟明 <314013107@qq.com>
      */
-    public function initialize(): void
+    public function initialize()
     {
     }
 

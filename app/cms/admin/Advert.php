@@ -142,7 +142,7 @@ class Advert extends Admin
 
             if ($advert = AdvertModel::create($data)) {
                 // 记录行为
-                action_log('advert_add', 'cms_advert', $advert['id'], UID, $data['name']);
+                action_log('advert_add', 'cms_advert', $advert['id'], session('uid'), $data['name']);
                 $this->success('新增成功', 'index');
             } else {
                 $this->error('新增失败');
@@ -204,7 +204,7 @@ class Advert extends Admin
 
             if (AdvertModel::update($data)) {
                 // 记录行为
-                action_log('advert_edit', 'cms_advert', $id, UID, $data['name']);
+                action_log('advert_edit', 'cms_advert', $id, session('uid'), $data['name']);
                 $this->success('编辑成功', 'index');
             } else {
                 $this->error('编辑失败');
@@ -285,7 +285,7 @@ class Advert extends Admin
     {
         $ids         = $this->request->isPost() ? input('post.ids/a') : input('param.ids');
         $advert_name = AdvertModel::where('id', 'in', $ids)->column('name');
-        return parent::setStatus($type, ['advert_'.$type, 'cms_advert', 0, UID, implode('、', $advert_name)]);
+        return parent::setStatus($type, ['advert_'.$type, 'cms_advert', 0, session('uid'), implode('、', $advert_name)]);
     }
 
     /**
@@ -301,6 +301,6 @@ class Advert extends Admin
         $value   = input('post.value', '');
         $advert  = AdvertModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $advert . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['advert_edit', 'cms_advert', $id, UID, $details]);
+        return parent::quickEdit(['advert_edit', 'cms_advert', $id, session('uid'), $details]);
     }
 }

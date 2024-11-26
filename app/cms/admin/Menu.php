@@ -110,7 +110,7 @@ class Menu extends Admin
 
             if ($menu = MenuModel::create($data)) {
                 // 记录行为
-                action_log('menu_add', 'cms_menu', $menu['id'], UID, $data['title']);
+                action_log('menu_add', 'cms_menu', $menu['id'], session('uid'), $data['title']);
                 $this->success('新增成功', url('index', ['id' => $nid]));
             } else {
                 $this->error('新增失败');
@@ -160,7 +160,7 @@ class Menu extends Admin
 
             if (MenuModel::update($data)) {
                 // 记录行为
-                action_log('menu_edit', 'cms_menu', $id, UID, $data['title']);
+                action_log('menu_edit', 'cms_menu', $id, session('uid'), $data['title']);
                 $this->success('编辑成功', url('index', ['id' => $data['nid']]));
             } else {
                 $this->error('编辑失败');
@@ -242,7 +242,7 @@ class Menu extends Admin
     {
         $ids        = $this->request->isPost() ? input('post.ids/a') : input('param.ids');
         $menu_title = MenuModel::where('id', 'in', $ids)->column('title');
-        return parent::setStatus($type, ['menu_'.$type, 'cms_menu', 0, UID, implode('、', $menu_title)]);
+        return parent::setStatus($type, ['menu_'.$type, 'cms_menu', 0, session('uid'), implode('、', $menu_title)]);
     }
 
     /**
@@ -258,6 +258,6 @@ class Menu extends Admin
         $value   = input('post.value', '');
         $menu    = MenuModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $menu . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['menu_edit', 'cms_menu', $id, UID, $details]);
+        return parent::quickEdit(['menu_edit', 'cms_menu', $id, session('uid'), $details]);
     }
 }

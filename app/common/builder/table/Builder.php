@@ -168,7 +168,7 @@ class Builder extends ZBuilder
         $this->_controller = parse_name($this->request->controller());
         $this->_action     = $this->request->action();
         $this->_table_name = strtolower($this->_module.'_'.$this->_controller);
-        $this->_template   = Env::get('app_path'). 'common/builder/table/layout.html';
+        $this->_template   = app_path(). 'common/builder/table/layout.html';
 
         // 默认加载快速编辑所需js和css
         $this->_vars['_js_files'][]  = 'editable_js';
@@ -1598,7 +1598,7 @@ class Builder extends ZBuilder
     public function setExtraHtmlFile($template = '', $tag = '', $vars = [])
     {
         $template = $template == '' ? $this->_action : $template;
-        $file = Env::get('app_path'). $this->_module.'/view/admin/'.$this->_controller.'/'.$template.'.html';
+        $file = app_path(). $this->_module.'/view/admin/'.$this->_controller.'/'.$template.'.html';
         if (file_exists($file)) {
             $content = file_get_contents($file);
             $content = $this->view->display($content, $vars);

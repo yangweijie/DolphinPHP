@@ -94,7 +94,7 @@ class Document extends ThinkModel
     public function saveData()
     {
         $data = request()->post();
-        $data['uid'] = UID;
+        $data['uid'] = session('uid');
 
         // 文档模型
         $model = Db::name('cms_model')->where('id', $data['model'])->find();
@@ -161,7 +161,7 @@ class Document extends ThinkModel
                     return false;
                 } else {
                     // 记录行为
-                    action_log('document_add', $model['table'], $insert_id, UID, $data['title']);
+                    action_log('document_add', $model['table'], $insert_id, session('uid'), $data['title']);
                     return true;
                 }
             } else {
@@ -178,7 +178,7 @@ class Document extends ThinkModel
                         }
                     }
                     // 记录行为
-                    action_log('document_add', 'cms_document', $document['id'], UID, $document['title']);
+                    action_log('document_add', 'cms_document', $document['id'], session('uid'), $document['title']);
                     return true;
                 } else {
                     $this->error = '新增基础内容出错';
@@ -195,7 +195,7 @@ class Document extends ThinkModel
                     return false;
                 } else {
                     // 记录行为
-                    action_log('document_edit', $model['table'], $data['id'], UID, $data['title']);
+                    action_log('document_edit', $model['table'], $data['id'], session('uid'), $data['title']);
                     return true;
                 }
             } else {
@@ -205,7 +205,7 @@ class Document extends ThinkModel
                     $data['aid'] = $data['id'];
                     if (false !== Db::table($model['table'])->update($data)) {
                         // 记录行为
-                        action_log('document_edit', 'cms_document', $data['id'], UID, $data['title']);
+                        action_log('document_edit', 'cms_document', $data['id'], session('uid'), $data['title']);
                         return true;
                     } else {
                         $this->error = '更新扩展内容出错';

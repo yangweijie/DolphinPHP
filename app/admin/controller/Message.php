@@ -28,7 +28,7 @@ class Message extends Admin
     public function index()
     {
         $data_list = MessageModel::where($this->getMap())
-            ->where('uid_receive', UID)
+            ->where('uid_receive', session('uid'))
             ->order($this->getOrder('id DESC'))
             ->paginate();
 
@@ -64,7 +64,7 @@ class Message extends Admin
     {
         empty($ids) && $this->error('参数错误');
         $map = [
-            ['uid_receive', '=', UID],
+            ['uid_receive', '=', session('uid')],
             ['id', 'in', $ids]
         ];
         $result = MessageModel::where($map)

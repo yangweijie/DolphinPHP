@@ -83,7 +83,7 @@ class Nav extends Admin
 
             if ($nav = NavModel::create($data)) {
                 // 记录行为
-                action_log('nav_add', 'cms_nav', $nav['id'], UID, $data['title']);
+                action_log('nav_add', 'cms_nav', $nav['id'], session('uid'), $data['title']);
                 $this->success('新增成功', 'index');
             } else {
                 $this->error('新增失败');
@@ -154,7 +154,7 @@ class Nav extends Admin
     {
         $ids        = $this->request->isPost() ? input('post.ids/a') : input('param.ids');
         $nav_title = NavModel::where('id', 'in', $ids)->column('title');
-        return parent::setStatus($type, ['nav_'.$type, 'cms_nav', 0, UID, implode('、', $nav_title)]);
+        return parent::setStatus($type, ['nav_'.$type, 'cms_nav', 0, session('uid'), implode('、', $nav_title)]);
     }
 
     /**
@@ -170,6 +170,6 @@ class Nav extends Admin
         $value   = input('post.value', '');
         $nav     = NavModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $nav . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['nav_edit', 'cms_nav', $id, UID, $details]);
+        return parent::quickEdit(['nav_edit', 'cms_nav', $id, session('uid'), $details]);
     }
 }

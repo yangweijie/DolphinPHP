@@ -150,13 +150,13 @@ class Module extends Admin
         }
 
         // 执行安装文件
-        $install_file = realpath(Env::get('app_path').$name.'/install.php');
+        $install_file = realpath(app_path().$name.'/install.php');
         if (file_exists($install_file)) {
             @include($install_file);
         }
 
         // 执行安装模块sql文件
-        $sql_file = realpath(Env::get('app_path').$name.'/sql/install.sql');
+        $sql_file = realpath(app_path().$name.'/sql/install.sql');
         if (file_exists($sql_file)) {
             if (isset($module_info['database_prefix']) && !empty($module_info['database_prefix'])) {
                 $sql_statement = Sql::getSqlFromFile($sql_file, false, [$module_info['database_prefix'] => config('database.prefix')]);
@@ -207,13 +207,13 @@ class Module extends Admin
 
         if ($ModuleModel->allowField($allowField)->save()) {
             // 复制静态资源目录
-            File::copy_dir(Env::get('app_path'). $name. '/public', Env::get('root_path'). 'public');
+            File::copy_dir(app_path(). $name. '/public', Env::get('root_path'). 'public');
             // 删除静态资源目录
-            File::del_dir(Env::get('app_path'). $name. '/public');
+            File::del_dir(app_path(). $name. '/public');
             cache('modules', null);
             cache('module_all', null);
             // 记录行为
-            action_log('module_install', 'admin_module', 0, UID, $module_info['title']);
+            action_log('module_install', 'admin_module', 0, session('uid'), $module_info['title']);
             $this->success('模块安装成功', 'index');
         } else {
             MenuModel::where('module', $name)->delete();
@@ -248,7 +248,7 @@ class Module extends Admin
         }
 
         // 执行卸载文件
-        $uninstall_file = realpath(Env::get('app_path').$name.'/uninstall.php');
+        $uninstall_file = realpath(app_path().$name.'/uninstall.php');
         if (file_exists($uninstall_file)) {
             @include($uninstall_file);
         }
@@ -256,7 +256,7 @@ class Module extends Admin
         // 执行卸载模块sql文件
         $clear = $this->request->get('clear');
         if ($clear == 1) {
-            $sql_file = realpath(Env::get('app_path').$name.'/sql/uninstall.sql');
+            $sql_file = realpath(app_path().$name.'/sql/uninstall.sql');
             if (file_exists($sql_file)) {
                 if (isset($module_info['database_prefix']) && !empty($module_info['database_prefix'])) {
                     $sql_statement = Sql::getSqlFromFile($sql_file, false, [$module_info['database_prefix'] => config('database.prefix')]);
@@ -294,13 +294,13 @@ class Module extends Admin
         // 删除模块信息
         if (ModuleModel::where('name', $name)->delete()) {
             // 复制静态资源目录
-            File::copy_dir(Env::get('root_path'). 'public/static/'. $name, Env::get('app_path').$name.'/public/static/'. $name);
+            File::copy_dir(Env::get('root_path'). 'public/static/'. $name, app_path().$name.'/public/static/'. $name);
             // 删除静态资源目录
             File::del_dir(Env::get('root_path'). 'public/static/'. $name);
             cache('modules', null);
             cache('module_all', null);
             // 记录行为
-            action_log('module_uninstall', 'admin_module', 0, UID, $module_info['title']);
+            action_log('module_uninstall', 'admin_module', 0, session('uid'), $module_info['title']);
             $this->success('模块卸载成功', 'index');
         } else {
             $this->error('模块卸载失败');
@@ -378,7 +378,7 @@ class Module extends Admin
         }
 
         // 复制模块目录到导出目录
-        File::copy_dir(Env::get('app_path'). $name, $module_dir);
+        File::copy_dir(app_path(). $name, $module_dir);
         // 复制静态资源目录
         File::copy_dir(Env::get('root_path'). 'public/static/'. $name, $module_dir.'/public/static/'. $name);
 
@@ -428,7 +428,7 @@ class Module extends Admin
         }
 
         // 记录行为
-        action_log('module_export', 'admin_module', 0, UID, $module_info['title']);
+        action_log('module_export', 'admin_module', 0, session('uid'), $module_info['title']);
 
         // 打包下载
         $archive = new PHPZip;
@@ -539,7 +539,7 @@ INFO;
 
         if (false !== ModuleModel::where('id', $ids)->setField('status', $status)) {
             // 记录日志
-            call_user_func_array('action_log', ['module_'.$type, 'admin_module', 0, UID, $module['title']]);
+            call_user_func_array('action_log', ['module_'.$type, 'admin_module', 0, session('uid'), $module['title']]);
             $this->success('操作成功');
         } else {
             $this->error('操作失败');

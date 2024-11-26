@@ -112,7 +112,7 @@ class Model extends Admin
                 MenuModel::create($menu_data);
 
                 // 记录行为
-                action_log('model_add', 'cms_model', $model['id'], UID, $data['title']);
+                action_log('model_add', 'cms_model', $model['id'], session('uid'), $data['title']);
                 Cache::clear();
                 $this->success('新增成功', 'index');
             } else {
@@ -158,7 +158,7 @@ class Model extends Admin
                 cache('cms_model_list', null);
                 cache('cms_model_title_list', null);
                 // 记录行为
-                action_log('model_edit', 'cms_model', $id, UID, "ID({$id}),标题({$data['title']})");
+                action_log('model_edit', 'cms_model', $id, session('uid'), "ID({$id}),标题({$data['title']})");
                 $this->success('编辑成功', 'index');
             } else {
                 $this->error('编辑失败');

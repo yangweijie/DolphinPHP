@@ -333,9 +333,9 @@ class Module extends Model
     public static function getMenusFromFile($name = '')
     {
         $menus = [];
-        if ($name != '' && is_file(Env::get('app_path'). $name . '/menus.php')) {
+        if ($name != '' && is_file(app_path(). $name . '/menus.php')) {
             // 从菜单文件获取
-            $menus = include Env::get('app_path'). $name . '/menus.php';
+            $menus = include app_path(). $name . '/menus.php';
         }
         return $menus;
     }

@@ -754,7 +754,7 @@ class Attachment extends Admin {
 	public function setStatus($type = '', $record = []) {
 		$ids = $this->request->isPost() ? input('post.ids/a') : input('param.ids');
 		$ids = is_array($ids) ? implode(',', $ids) : $ids;
-		return parent::setStatus($type, ['attachment_' . $type, 'admin_attachment', 0, UID, $ids]);
+		return parent::setStatus($type, ['attachment_' . $type, 'admin_attachment', 0, session('uid'), $ids]);
 	}
 
 	/**
@@ -786,7 +786,7 @@ class Attachment extends Admin {
 		if (AttachmentModel::where('id', 'in', $ids)->delete()) {
 			// 记录行为
 			$ids = is_array($ids) ? implode(',', $ids) : $ids;
-			action_log('attachment_delete', 'admin_attachment', 0, UID, $ids);
+			action_log('attachment_delete', 'admin_attachment', 0, session('uid'), $ids);
 			$this->success('删除成功');
 		} else {
 			$this->error('删除失败');
@@ -801,6 +801,6 @@ class Attachment extends Admin {
 	 */
 	public function quickEdit($record = []) {
 		$id = input('post.pk', '');
-		return parent::quickEdit(['attachment_edit', 'admin_attachment', 0, UID, $id]);
+		return parent::quickEdit(['attachment_edit', 'admin_attachment', 0, session('uid'), $id]);
 	}
 }

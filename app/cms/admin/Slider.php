@@ -75,7 +75,7 @@ class Slider extends Admin
 
             if ($slider = SliderModel::create($data)) {
                 // 记录行为
-                action_log('slider_add', 'cms_slider', $slider['id'], UID, $data['title']);
+                action_log('slider_add', 'cms_slider', $slider['id'], session('uid'), $data['title']);
                 $this->success('新增成功', 'index');
             } else {
                 $this->error('新增失败');
@@ -116,7 +116,7 @@ class Slider extends Admin
 
             if (SliderModel::update($data)) {
                 // 记录行为
-                action_log('slider_add', 'cms_slider', $id, UID, $data['title']);
+                action_log('slider_add', 'cms_slider', $id, session('uid'), $data['title']);
                 $this->success('编辑成功', 'index');
             } else {
                 $this->error('编辑失败');
@@ -187,7 +187,7 @@ class Slider extends Admin
     {
         $ids          = $this->request->isPost() ? input('post.ids/a') : input('param.ids');
         $slider_title = SliderModel::where('id', 'in', $ids)->column('title');
-        return parent::setStatus($type, ['slider_'.$type, 'cms_slider', 0, UID, implode('、', $slider_title)]);
+        return parent::setStatus($type, ['slider_'.$type, 'cms_slider', 0, session('uid'), implode('、', $slider_title)]);
     }
 
     /**
@@ -203,6 +203,6 @@ class Slider extends Admin
         $value   = input('post.value', '');
         $slider  = SliderModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $slider . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['slider_edit', 'cms_slider', $id, UID, $details]);
+        return parent::quickEdit(['slider_edit', 'cms_slider', $id, session('uid'), $details]);
     }
 }
