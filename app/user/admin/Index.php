@@ -222,8 +222,8 @@ class Index extends Admin
             $data['roles'] = isset($data['roles']) ? implode(',', $data['roles']) : '';
 
             if (UserModel::update($data)) {
-                $user = UserModel::get($data['id']);
-                Hook::listen('user_edit', $user);
+                $user = UserModel::find($data['id']);
+                hook('user_edit', $user);
                 // 记录行为
                 action_log('user_edit', 'admin_user', $user['id'], session('uid'), get_nickname($user['id']));
                 $this->success('编辑成功', cookie('__forward__'));

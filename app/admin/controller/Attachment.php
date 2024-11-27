@@ -142,7 +142,7 @@ class Attachment extends Admin {
 		$file = $this->request->file($file_input_name);
 
 		// 判断附件是否已存在
-		if ($file_exists = AttachmentModel::get(['md5' => $file->hash('md5')])) {
+		if ($file_exists = AttachmentModel::where(['md5' => $file->hash('md5')])->find()) {
 			if ($file_exists['driver'] == 'local') {
 				$file_path = PUBLIC_PATH . $file_exists['path'];
 			} else {

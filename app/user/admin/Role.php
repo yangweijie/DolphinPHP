@@ -196,7 +196,7 @@ class Role extends Admin
         }
 
         // 获取数据
-        $info = RoleModel::get($id);
+        $info = RoleModel::find($id);
 
         // 保存数据
         if ($this->request->isPost()) {

@@ -294,9 +294,9 @@ class Module extends Admin
         // 删除模块信息
         if (ModuleModel::where('name', $name)->delete()) {
             // 复制静态资源目录
-            File::copy_dir(Env::get('root_path'). 'public/static/'. $name, app_path().$name.'/public/static/'. $name);
+            File::copy_dir(base_path(). '/public/static/'. $name, app_path().$name.'/public/static/'. $name);
             // 删除静态资源目录
-            File::del_dir(Env::get('root_path'). 'public/static/'. $name);
+            File::del_dir(base_path(). '/public/static/'. $name);
             cache('modules', null);
             cache('module_all', null);
             // 记录行为
@@ -316,7 +316,7 @@ class Module extends Admin
     {
         $name == '' && $this->error('缺少模块名！');
 
-        $Module = ModuleModel::get(['name' => $name]);
+        $Module = ModuleModel::where(['name' => $name])->find();
         !$Module && $this->error('模块不存在，或未安装');
 
         // 模块配置信息
@@ -370,7 +370,7 @@ class Module extends Admin
         }
 
         // 模块导出目录
-        $module_dir = Env::get('root_path'). 'export/module/'. $name;
+        $module_dir = base_path(). '/export/module/'. $name;
 
         // 删除旧的导出数据
         if (is_dir($module_dir)) {
@@ -380,7 +380,7 @@ class Module extends Admin
         // 复制模块目录到导出目录
         File::copy_dir(app_path(). $name, $module_dir);
         // 复制静态资源目录
-        File::copy_dir(Env::get('root_path'). 'public/static/'. $name, $module_dir.'/public/static/'. $name);
+        File::copy_dir(base_path(). '/public/static/'. $name, $module_dir.'/public/static/'. $name);
 
         // 模块本地配置信息
         $module_info = ModuleModel::getInfoFromFile($name);
@@ -470,7 +470,7 @@ return {$menus};
 
 INFO;
         // 写入到文件
-        return file_put_contents(Env::get('root_path'). 'export/module/'. $name. '/menus.php', $content);
+        return file_put_contents(base_path(). '/export/module/'. $name. '/menus.php', $content);
     }
 
     /**
@@ -508,7 +508,7 @@ return {$info};
 
 INFO;
         // 写入到文件
-        return file_put_contents(Env::get('root_path'). 'export/module/'. $name. '/info.php', $content);
+        return file_put_contents(base_path(). '/export/module/'. $name. '/info.php', $content);
     }
 
     /**

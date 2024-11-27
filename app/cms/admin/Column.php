@@ -167,7 +167,7 @@ class Column extends Admin
         }
 
         // 获取数据
-        $info = ColumnModel::get($id);
+        $info = ColumnModel::find($id);
 
         $template_list   = File::get_dirs(app_path().'cms/view/column/')['file'];
         $template_detail = File::get_dirs(app_path().'cms/view/document/')['file'];

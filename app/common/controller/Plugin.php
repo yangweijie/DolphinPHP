@@ -9,6 +9,7 @@
 
 namespace app\common\controller;
 
+use support\View;
 use think\Container;
 use think\Exception;
 
@@ -84,7 +85,7 @@ abstract class Plugin
                 }
             }
 
-            echo $this->view->fetch($template, $vars, $config, $renderContent);
+            echo view($template, $vars);
         }
     }
 
@@ -97,7 +98,7 @@ abstract class Plugin
      */
     final protected function assign($name = '', $value='')
     {
-        $this->view->assign($name, $value);
+        View::assign($name, $value);
         return $this;
     }
 

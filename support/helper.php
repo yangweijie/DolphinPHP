@@ -49,10 +49,10 @@ function run_path(string $path = ''): string
 
 /**
  * if the param $path equal false,will return this program current execute directory
- * @param string|false $path
+ * @param bool|string $path
  * @return string
  */
-function base_path($path = ''): string
+function base_path(bool|string $path = ''): string
 {
     if (false === $path) {
         return run_path();
