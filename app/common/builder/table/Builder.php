@@ -12,6 +12,7 @@ namespace app\common\builder\table;
 use app\admin\model\Menu;
 use app\common\builder\ZBuilder;
 use app\user\model\Role;
+use support\Response;
 use think\facade\Cache;
 use think\facade\Env;
 
@@ -164,11 +165,11 @@ class Builder extends ZBuilder
      */
     public function initialize()
     {
-        $this->_module     = $this->request->module();
+        $this->_module     = request()->app;
         $this->_controller = parse_name($this->request->controller());
         $this->_action     = $this->request->action();
         $this->_table_name = strtolower($this->_module.'_'.$this->_controller);
-        $this->_template   = app_path(). 'common/builder/table/layout.html';
+        $this->_template   = app_path(). '/common/builder/table/layout.html';
 
         // 默认加载快速编辑所需js和css
         $this->_vars['_js_files'][]  = 'editable_js';
@@ -2539,7 +2540,7 @@ class Builder extends ZBuilder
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      */
-    public function fetch($template = '', $vars = [], $config = [])
+    public function fetch($template = '', $vars = [], $config = []): Response
     {
         // 编译表格数据
         $this->compileTable();

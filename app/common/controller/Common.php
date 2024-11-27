@@ -28,6 +28,7 @@ class Common
 
     public function __construct()
     {
+        $this->request = request();
         $this->initialize();
     }
 

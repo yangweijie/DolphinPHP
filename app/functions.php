@@ -4,6 +4,7 @@
  */
 
 use support\Cache;
+use support\Request;
 use think\Template;
 
 if(!function_exists('model')){
@@ -87,18 +88,32 @@ if (!function_exists('cache')) {
         }
         return Cache::set($name, $value, $expire);
     }
+}
+if (!function_exists('cookie')) {
+    /**
+     * Cookie管理
+     * @param string $name cookie名称
+     * @return mixed
+     */
+    function cookie(string $name): mixed
+    {
+        $request = request();
+        // 获取
+        return str_starts_with($name, '?') ? $request->cookie($name) !== null : $request->cookie($name);
+    }
+}
+if(!function_exists('token')){
+    /**
+     * 生成表单令牌
+     * @param string $name 令牌名称
+     * @param string|null $type 令牌生成方法
+     * @return string
+     * @throws Exception
+     */
+    function token(string $name = '__token__', null|string $type = 'md5'): string
+    {
+        $token = request()->token($name, $type);
 
-    if (!function_exists('cookie')) {
-        /**
-         * Cookie管理
-         * @param string $name cookie名称
-         * @return mixed
-         */
-        function cookie(string $name): mixed
-        {
-            $request = request();
-            // 获取
-            return str_starts_with($name, '?') ? $request->cookie($name) !== null : $request->cookie($name);
-        }
+        return '<input type="hidden" name="' . $name . '" value="' . $token . '" />';
     }
 }
