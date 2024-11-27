@@ -453,10 +453,11 @@ if (!function_exists('plugin_menage')) {
     /**
      * 显示插件的管理页面
      * @param string $name 插件名
-     * @author caiweiming <314013107@qq.com>
      * @return mixed
+     * @throws \think\Exception
+     * @author caiweiming <314013107@qq.com>
      */
-    function plugin_menage($name = '')
+    function plugin_menage($name = ''): mixed
     {
         return (new \app\admin\controller\Plugin())->manage($name);
     }
@@ -476,12 +477,12 @@ if (!function_exists('plugin_config')) {
             // 获取插件配置
             if (strpos($name, '.')) {
                 list($name, $item) = explode('.', $name);
-                return model('admin/plugin')->getConfig($name, $item);
+                return model('admin/plugin')->getConfigs($name, $item);
             } else {
-                return model('admin/plugin')->getConfig($name);
+                return model('admin/plugin')->getConfigs($name);
             }
         } else {
-            return model('admin/plugin')->setConfig($name, $value);
+            return model('admin/plugin')->setConfigs($name, $value);
         }
     }
 }

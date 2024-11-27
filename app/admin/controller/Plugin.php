@@ -12,10 +12,9 @@ namespace app\admin\controller;
 use app\common\builder\ZBuilder;
 use app\admin\model\Plugin as PluginModel;
 use app\admin\model\HookPlugin as HookPluginModel;
-use think\facade\Cache;
+use support\Cache;
+use think\facade\Db;
 use util\Sql;
-use think\Db;
-use think\facade\Hook;
 
 /**
  * 插件管理控制器

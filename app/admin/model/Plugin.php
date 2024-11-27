@@ -9,6 +9,7 @@
 
 namespace app\admin\model;
 
+use think\db\exception\DbException;
 use think\Model;
 
 /**
@@ -41,14 +42,17 @@ class Plugin extends Model
         $result = cache('plugin_all');
         if (!$result) {
             // 获取插件目录下的所有插件目录
-            $dirs = array_map('basename', glob(config('plugin_path').'*', GLOB_ONLYDIR));
-            if ($dirs === false || !file_exists(config('plugin_path'))) {
+            $dirs = array_map('basename', glob(config('app.plugin_path').'*', GLOB_ONLYDIR));
+            if ($dirs === false || !file_exists(config('app.plugin_path'))) {
                 $this->error = '插件目录不可读或者不存在';
                 return false;
             }
 
             // 读取数据库插件表
-            $plugins = $this->order('sort asc,id desc')->column(true, 'name');
+            $plugins = $this->order('sort asc,id desc')->column([
+                'id','name','title','icon','description','author','author_url','config','version',
+                'identifier','admin','create_time','update_time','sort','status'
+            ], 'name');
 
             // 读取未安装的插件
             foreach ($dirs as $plugin) {
@@ -223,7 +227,7 @@ class Plugin extends Model
      * @author 蔡伟明 <314013107@qq.com>
      * @return array|mixed
      */
-    public function getConfig($name = '', $item = '')
+    public function getConfigs($name = '', $item = '')
     {
         $config = cache('plugin_config_'.$name);
         if (!$config) {
@@ -258,10 +262,11 @@ class Plugin extends Model
      * 设置插件配置
      * @param string $name 插件名.配置名
      * @param string $value 配置值
-     * @author caiweiming <314013107@qq.com>
      * @return bool
+     * @throws DbException
+     * @author caiweiming <314013107@qq.com>
      */
-    public function setConfig($name = '', $value = '')
+    public function setConfigs($name = '', $value = '')
     {
         $item = '';
         if (strpos($name, '.')) {

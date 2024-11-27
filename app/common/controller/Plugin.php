@@ -44,9 +44,8 @@ abstract class Plugin
      * 构造方法
      */
     public function __construct()
-    {
-        $this->view = Container::get('view');
-        $this->plugin_path = config('plugin_path').$this->getName().'/';
+    {;
+        $this->plugin_path = config('app.plugin_path').'/'.$this->getName().'/';
         if (is_file($this->plugin_path.'config.php')) {
             $this->config_file = $this->plugin_path.'config.php';
         }

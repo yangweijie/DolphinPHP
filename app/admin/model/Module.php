@@ -66,7 +66,10 @@ class Module extends Model
             $dirs = array_diff($dirs, $except_module);
 
             // 读取数据库模块表
-            $modules = $this->order('sort asc,id desc')->column(true, 'name');
+            $modules = $this->order('sort asc,id desc')->column([
+                'id','name','title','icon','description','author','author_url','config','access',
+                'version','identifier','system_module','create_time','update_time','sort','status'
+            ], 'name');
 
             // 读取未安装的模块
             foreach ($dirs as $module) {
