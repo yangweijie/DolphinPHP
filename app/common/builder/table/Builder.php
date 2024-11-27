@@ -12,9 +12,8 @@ namespace app\common\builder\table;
 use app\admin\model\Menu;
 use app\common\builder\ZBuilder;
 use app\user\model\Role;
+use support\Cache;
 use support\Response;
-use think\facade\Cache;
-use think\facade\Env;
 
 /**
  * 表格构建器
@@ -577,7 +576,7 @@ class Builder extends ZBuilder
             }
 
             // 缓存名称
-            $cache_name = strtolower($this->_module.'/'.$this->_controller.'/add');
+            $cache_name = strtolower($this->_module.'_'.$this->_controller.'_add');
 
             // 自动插入时间
             if ($auto_time != '') {
@@ -591,7 +590,7 @@ class Builder extends ZBuilder
                 'validate'  => $validate === true ? ucfirst($this->_controller) : $validate,
                 'auto_time' => $auto_time,
                 'format'    => $format,
-                'go_back'   => $this->request->server('REQUEST_URI')
+                'go_back'   => $this->request->url()
             ];
 
             // 开发模式
@@ -856,7 +855,7 @@ class Builder extends ZBuilder
             }
 
             // 缓存名称
-            $cache_name = strtolower($this->_module.'/'.$this->_controller.'/edit');
+            $cache_name = strtolower($this->_module.'_'.$this->_controller.'_edit');
 
             // 自动插入时间
             if ($auto_time != '') {
@@ -870,7 +869,7 @@ class Builder extends ZBuilder
                 'validate'  => $validate === true ? ucfirst($this->_controller) : $validate,
                 'auto_time' => $auto_time,
                 'format'    => $format,
-                'go_back'   => $this->request->server('REQUEST_URI')
+                'go_back'   => $this->request->url()
             ];
 
             // 开发模式
