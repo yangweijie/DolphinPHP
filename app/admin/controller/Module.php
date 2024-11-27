@@ -13,14 +13,13 @@ use app\admin\model\Module as ModuleModel;
 use app\admin\model\Plugin as PluginModel;
 use app\admin\model\Menu as MenuModel;
 use app\admin\model\Action as ActionModel;
-use think\facade\Cache;
+use support\Cache;
 use util\Database;
 use util\Sql;
 use util\File;
 use util\PHPZip;
 use util\Tree;
 use think\Db;
-use think\facade\Hook;
 use think\facade\Env;
 
 /**
@@ -207,7 +206,7 @@ class Module extends Admin
 
         if ($ModuleModel->allowField($allowField)->save()) {
             // 复制静态资源目录
-            File::copy_dir(app_path(). $name. '/public', Env::get('root_path'). 'public');
+            File::copy_dir(app_path(). $name. '/public', base_path(). '/public');
             // 删除静态资源目录
             File::del_dir(app_path(). $name. '/public');
             cache('modules', null);
