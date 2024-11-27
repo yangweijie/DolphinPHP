@@ -121,7 +121,7 @@ class Index extends Admin
             $data['roles'] = isset($data['roles']) ? implode(',', $data['roles']) : '';
 
             if ($user = UserModel::create($data)) {
-                Hook::listen('user_add', $user);
+                hook('user_add', $user);
                 // 记录行为
                 action_log('user_add', 'admin_user', $user['id'], session('uid'));
                 $this->success('新增成功', url('index'));
@@ -496,7 +496,7 @@ class Index extends Admin
      */
     public function delete($ids = [])
     {
-        Hook::listen('user_delete', $ids);
+        hook('user_delete', $ids);
         return $this->setStatus('delete');
     }
 
@@ -509,7 +509,7 @@ class Index extends Admin
      */
     public function enable($ids = [])
     {
-        Hook::listen('user_enable', $ids);
+        hook('user_enable', $ids);
         return $this->setStatus('enable');
     }
 
@@ -522,7 +522,7 @@ class Index extends Admin
      */
     public function disable(array $record = [])
     {
-        Hook::listen('user_disable', $record);
+        hook('user_disable', $record);
         return $this->setStatus('disable');
     }
 
@@ -553,12 +553,12 @@ class Index extends Admin
 
         switch ($type) {
             case 'enable':
-                if (false === UserModel::where('id', 'in', $ids)->setField('status', 1)) {
+                if (false === UserModel::where('id', 'in', $ids)->update(['status'=> 1])) {
                     $this->error('启用失败');
                 }
                 break;
             case 'disable':
-                if (false === UserModel::where('id', 'in', $ids)->setField('status', 0)) {
+                if (false === UserModel::where('id', 'in', $ids)->update(['status'=> 0])) {
                     $this->error('禁用失败');
                 }
                 break;

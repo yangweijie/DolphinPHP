@@ -208,10 +208,10 @@ class Common
      * @param  string|array $validate 验证器名或者验证规则数组
      * @param  array        $message  提示信息
      * @param  bool         $batch    是否批量验证
-     * @return array|string|true
+     * @return string|true
      * @throws ValidateException
      */
-    protected function validate(array $data, string|array $validate, array $message = [], bool $batch = false)
+    protected function validate(array $data, string|array $validate, array $message = [], bool $batch = false): bool|string
     {
 
         if (class_exists($validate)) {

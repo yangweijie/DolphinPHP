@@ -109,7 +109,7 @@ class Hook extends Admin
         if ($this->request->isPost()) {
             $data = $this->request->post();
             // 验证
-            $result = $this->validate($data, 'Hook');
+            $result = $this->validate($data, 'app\admin\validate\Hook');
             if(true !== $result) $this->error($result);
 
             if ($hook = HookModel::update($data)) {
@@ -156,7 +156,7 @@ class Hook extends Admin
         $status    = $this->request->param('value');
         $hook_name = HookModel::where('id', $id)->value('name');
 
-        if (false === HookPluginModel::where('hook', $hook_name)->setField('status', $status == 'true' ? 1 : 0)) {
+        if (false === HookPluginModel::where('hook', $hook_name)->update(['status'=>$status == 'true' ? 1 : 0])) {
             $this->error('操作失败，请重试');
         }
         cache('hook_plugins', null);
@@ -230,7 +230,7 @@ class Hook extends Admin
         $ids = $this->request->param('ids/a');
         foreach ($ids as $id) {
             $hook_name = HookModel::where('id', $id)->value('name');
-            if (false === HookPluginModel::where('hook', $hook_name)->setField('status', $type == 'enable' ? 1 : 0)) {
+            if (false === HookPluginModel::where('hook', $hook_name)->update(['status'=>$type == 'enable' ? 1 : 0])) {
                 $this->error('操作失败，请重试');
             }
         }
