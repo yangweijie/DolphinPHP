@@ -33,14 +33,17 @@ class Packet extends Model
     public function getAll()
     {
         // 获取数据包目录下的所有插件目录
-        $dirs = array_map('basename', glob(config('packet_path').'*', GLOB_ONLYDIR));
-        if ($dirs === false || !file_exists(config('packet_path'))) {
+        $dirs = array_map('basename', glob(config('app.packet_path').'*', GLOB_ONLYDIR));
+        if ($dirs === false || !file_exists(config('app.packet_path'))) {
             $this->error = '插件目录不可读或者不存在';
             return false;
         }
 
         // 读取数据库数据包表
-        $packets = $this->column(true, 'name');
+        $packets = $this->column([
+            'id', 'name', 'title', 'author', 'author_url',
+            'version', 'tables', 'create_time', 'update_time', 'status'
+        ], 'name');
 
         // 读取未安装的数据包
         foreach ($dirs as $packet) {
@@ -65,8 +68,8 @@ class Packet extends Model
         $info = [];
         if ($name != '') {
             // 从配置文件获取
-            if (is_file(config('packet_path'). $name . '/info.php')) {
-                $info = include config('packet_path'). $name . '/info.php';
+            if (is_file(config('app.packet_path'). $name . '/info.php')) {
+                $info = include config('app.packet_path'). $name . '/info.php';
             }
         }
         return $info;
