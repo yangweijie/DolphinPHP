@@ -254,6 +254,38 @@ class Request extends \Webman\Http\Request
     }
 
     /**
+     * 是否存在某个请求参数
+     * @access public
+     * @param string $name 变量名
+     * @param string $type 变量类型
+     * @param bool $checkEmpty 是否检测空值
+     * @return bool
+     */
+    public function has(string $name, string $type = 'param', bool $checkEmpty = false): bool
+    {
+        if (!in_array($type, ['param', 'get', 'post', 'request', 'put', 'patch', 'file', 'session', 'cookie', 'env', 'header', 'route'])) {
+            return false;
+        }
+
+        if (empty($this->$type)) {
+            $param = $this->$type();
+        } else {
+            $param = $this->$type;
+        }
+
+        // 按.拆分成多维数组进行判断
+        foreach (explode('.', $name) as $val) {
+            if (isset($param[$val])) {
+                $param = $param[$val];
+            } else {
+                return false;
+            }
+        }
+
+        return !(($checkEmpty && '' === $param));
+    }
+
+    /**
      * 获取变量 支持过滤和默认值
      * @access public
      * @param  array         $data 数据源

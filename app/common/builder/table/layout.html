@@ -208,7 +208,7 @@
                                                 {php}if (isset($order_columns[$column['name']])): {/php}
                                                     {php}
                                                         $_by = input('param._by') == 'asc' ? 'desc' : 'asc';
-                                                        $_param = array_merge(input('get.'), ['_by' => $_by, '_order' => $order_columns[$column['name']]]);
+                                                        $_param = array_merge(input('get.')??[], ['_by' => $_by, '_order' => $order_columns[$column['name']]]);
                                                         if ($_param) {
                                                             $_get = [];
                                                             foreach ($_param as $key => $value) {
@@ -325,7 +325,7 @@
                                                     {php}if (isset($order_columns[$column['name']])): {/php}
                                                         {php}
                                                             $_by = input('param._by') == 'asc' ? 'desc' : 'asc';
-                                                            $_param = array_merge(input('get.'), ['_by' => $_by, '_order' => $order_columns[$column['name']]]);
+                                                            $_param = array_merge(input('get.')??[], ['_by' => $_by, '_order' => $order_columns[$column['name']]]);
                                                             if ($_param) {
                                                                 $_get = [];
                                                                 foreach ($_param as $key => $value) {
@@ -440,7 +440,7 @@
                                                         {php}if (isset($order_columns[$column['name']])): {/php}
                                                             {php}
                                                                 $_by = input('param._by') == 'asc' ? 'desc' : 'asc';
-                                                                $_param = array_merge(input('get.'), ['_by' => $_by, '_order' => $order_columns[$column['name']]]);
+                                                                $_param = array_merge(input('get.')??[], ['_by' => $_by, '_order' => $order_columns[$column['name']]]);
                                                                 if ($_param) {
                                                                     $_get = [];
                                                                     foreach ($_param as $key => $value) {
