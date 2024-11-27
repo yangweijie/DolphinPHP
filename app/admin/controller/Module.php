@@ -214,10 +214,10 @@ class Module extends Admin
             cache('module_all', null);
             // 记录行为
             action_log('module_install', 'admin_module', 0, session('uid'), $module_info['title']);
-            $this->success('模块安装成功', 'index');
+            return $this->success('模块安装成功', 'index');
         } else {
             MenuModel::where('module', $name)->delete();
-            $this->error('模块安装失败');
+            return $this->error('模块安装失败');
         }
     }
 
@@ -301,9 +301,9 @@ class Module extends Admin
             cache('module_all', null);
             // 记录行为
             action_log('module_uninstall', 'admin_module', 0, session('uid'), $module_info['title']);
-            $this->success('模块卸载成功', 'index');
+            return $this->success('模块卸载成功', 'index');
         } else {
-            $this->error('模块卸载失败');
+            return $this->error('模块卸载失败');
         }
     }
 
@@ -339,9 +339,9 @@ class Module extends Admin
 
         // 更新模块信息
         if (false !== $Module->save($module_info)) {
-            $this->success('模块配置更新成功');
+            return $this->success('模块配置更新成功');
         } else {
-            $this->error('模块配置更新失败，请重试');
+            return $this->error('模块配置更新失败，请重试');
         }
     }
 
@@ -540,9 +540,9 @@ INFO;
         if (false !== ModuleModel::where('id', $ids)->update(['status'=>$status])) {
             // 记录日志
             call_user_func_array('action_log', ['module_'.$type, 'admin_module', 0, session('uid'), $module['title']]);
-            $this->success('操作成功');
+            return $this->success('操作成功');
         } else {
-            $this->error('操作失败');
+            return $this->error('操作失败');
         }
     }
 

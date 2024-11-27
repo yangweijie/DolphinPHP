@@ -113,11 +113,11 @@ class Field extends Admin
                     action_log('field_add', 'cms_field', $field['id'], session('uid'), $details);
                     // 清除缓存
                     cache('cms_system_fields', null);
-                    $this->success('新增成功', cookie('__forward__'));
+                    return $this->success('新增成功', cookie('__forward__'));
                 } else {
                     // 添加失败，删除新增的数据
                     FieldModel::destroy($field['id']);
-                    $this->error($FieldModel->getError());
+                    return $this->error($FieldModel->getError());
                 }
             } else {
                 $this->error('新增失败');
@@ -205,10 +205,10 @@ class Field extends Admin
                 if ($FieldModel->isUpdate(true)->save($data)) {
                     // 记录行为
                     action_log('field_edit', 'cms_field', $id, session('uid'), $data['name']);
-                    $this->success('字段更新成功', cookie('__forward__'));
+                    return $this->success('字段更新成功', cookie('__forward__'));
                 }
             }
-            $this->error('字段更新失败');
+            return $this->error('字段更新失败');
         }
 
         // 获取数据
@@ -269,7 +269,7 @@ class Field extends Admin
                 // 记录行为
                 $details = '详情：文档模型('.get_model_title($field['model']).')、字段名称('.$field['name'].')、字段标题('.$field['title'].')、字段类型('.$field['type'].')';
                 action_log('field_delete', 'cms_field', $ids, session('uid'), $details);
-                $this->success('删除成功', cookie('__forward__'));
+                return $this->success('删除成功', cookie('__forward__'));
             }
         }
         return $this->error('删除失败');

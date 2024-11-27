@@ -106,9 +106,9 @@ class Config extends Admin
                 // 记录行为
                 $details = '详情：分组('.$data['group'].')、类型('.$data['type'].')、标题('.$data['title'].')、名称('.$data['name'].')';
                 action_log('config_add', 'admin_config', $config['id'], session('uid'), $details);
-                $this->success('新增成功', $forward);
+                return $this->success('新增成功', $forward);
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 
@@ -180,9 +180,9 @@ class Config extends Admin
                 $forward = $this->request->param('_pop') == 1 ? null : cookie('__forward__');
                 // 记录行为
                 action_log('config_edit', 'admin_config', $config['id'], session('uid'), $details);
-                $this->success('编辑成功', $forward, '_parent_reload');
+                return $this->success('编辑成功', $forward, '_parent_reload');
             } else {
-                $this->error('编辑失败');
+                return $this->error('编辑失败');
             }
         }
 

@@ -124,9 +124,9 @@ class Index extends Admin
                 hook('user_add', $user);
                 // 记录行为
                 action_log('user_add', 'admin_user', $user['id'], session('uid'));
-                $this->success('新增成功', url('index'));
+                return $this->success('新增成功', url('index'));
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 
@@ -226,9 +226,9 @@ class Index extends Admin
                 hook('user_edit', $user);
                 // 记录行为
                 action_log('user_edit', 'admin_user', $user['id'], session('uid'), get_nickname($user['id']));
-                $this->success('编辑成功', cookie('__forward__'));
+                return $this->success('编辑成功', cookie('__forward__'));
             } else {
-                $this->error('编辑失败');
+                return $this->error('编辑失败');
             }
         }
 
@@ -382,16 +382,16 @@ class Index extends Admin
                     $nids = implode(',', $post['nodes']);
                     $details = "模块($module)，分组(".$post['tag'].")，授权节点ID($nids)";
                     action_log('user_access', 'admin_user', $uid, session('uid'), $details);
-                    $this->success('操作成功', url('access', ['uid' => $post['uid'], 'module' => $module, 'tab' => $tab]));
+                    return $this->success('操作成功', url('access', ['uid' => $post['uid'], 'module' => $module, 'tab' => $tab]));
                 } else {
                     // 清除所有数据授权
                     $map['module'] = $post['module'];
                     $map['tag']    = $post['tag'];
                     $map['uid']    = $post['uid'];
                     if (false === AccessModel::where($map)->delete()) {
-                        $this->error('清除旧授权失败');
+                        return $this->error('清除旧授权失败');
                     } else {
-                        $this->success('操作成功');
+                        return $this->success('操作成功');
                     }
                 }
             } else {
@@ -573,7 +573,7 @@ class Index extends Admin
 
         action_log('user_'.$type, 'admin_user', '', session('uid'));
 
-        $this->success('操作成功');
+        return $this->success('操作成功');
     }
 
     /**

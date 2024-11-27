@@ -111,9 +111,9 @@ class Menu extends Admin
             if ($menu = MenuModel::create($data)) {
                 // 记录行为
                 action_log('menu_add', 'cms_menu', $menu['id'], session('uid'), $data['title']);
-                $this->success('新增成功', url('index', ['id' => $nid]));
+                return $this->success('新增成功', url('index', ['id' => $nid]));
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 
@@ -161,9 +161,9 @@ class Menu extends Admin
             if (MenuModel::update($data)) {
                 // 记录行为
                 action_log('menu_edit', 'cms_menu', $id, session('uid'), $data['title']);
-                $this->success('编辑成功', url('index', ['id' => $data['nid']]));
+                return $this->success('编辑成功', url('index', ['id' => $data['nid']]));
             } else {
-                $this->error('编辑失败');
+                return $this->error('编辑失败');
             }
         }
 

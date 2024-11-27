@@ -76,9 +76,9 @@ class Link extends Admin
             if ($link = LinkModel::create($data)) {
                 // 记录行为
                 action_log('link_add', 'cms_link', $link['id'], session('uid'), $data['title']);
-                $this->success('新增成功', 'index');
+                return $this->success('新增成功', 'index');
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 
@@ -121,9 +121,9 @@ class Link extends Admin
             if (LinkModel::update($data)) {
                 // 记录行为
                 action_log('link_edit', 'cms_link', $id, session('uid'), $data['title']);
-                $this->success('编辑成功', 'index');
+                return $this->success('编辑成功', 'index');
             } else {
-                $this->error('编辑失败');
+                return $this->error('编辑失败');
             }
         }
 

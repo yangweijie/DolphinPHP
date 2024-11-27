@@ -112,9 +112,9 @@ class Role extends Admin
             if ($role = RoleModel::create($data)) {
                 // 记录行为
                 action_log('role_add', 'admin_role', $role['id'], session('uid'), $data['name']);
-                $this->success('新增成功', url('index'));
+                return $this->success('新增成功', url('index'));
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 
@@ -244,9 +244,9 @@ class Role extends Admin
                 role_auth();
                 // 记录行为
                 action_log('role_edit', 'admin_role', $id, session('uid'), $data['name']);
-                $this->success('编辑成功', url('index'));
+                return $this->success('编辑成功', url('index'));
             } else {
-                $this->error('编辑失败');
+                return $this->error('编辑失败');
             }
         }
 
@@ -424,7 +424,7 @@ class Role extends Admin
             action_log('role_'.$type, 'admin_role', $id, session('uid'));
         }
 
-        $this->success('操作成功');
+        return $this->success('操作成功');
     }
 
     /**

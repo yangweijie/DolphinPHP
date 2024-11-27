@@ -116,15 +116,15 @@ class Icon extends Admin
                     }
                     $IconListModel = new IconListModel();
                     if ($IconListModel->saveAll($icon_list)) {
-                        $this->success('新增成功', 'index');
+                        return $this->success('新增成功', 'index');
                     } else {
                         $IconModel->where('id', $id)->delete();
-                        $this->error('图标添加失败');
+                        return $this->error('图标添加失败');
                     }
                 }
-                $this->success('新增成功', 'index');
+                return $this->success('新增成功', 'index');
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 
@@ -215,12 +215,12 @@ class Icon extends Admin
             $IconListModel = new IconListModel();
             $IconListModel->where('icon_id', $id)->delete();
             if ($IconListModel->saveAll($icon_list)) {
-                $this->success('更新成功');
+                return $this->success('更新成功');
             } else {
-                $this->error('图标添加失败');
+                return $this->error('图标添加失败');
             }
         }
-        $this->success('更新成功');
+        return $this->success('更新成功');
     }
 
     /**
@@ -239,10 +239,10 @@ class Icon extends Admin
         if (false !== IconListModel::where('icon_id', 'in', $ids)->delete()) {
             // 删除图标库
             if (false !== IconModel::where('id', 'in', $ids)->delete()) {
-                $this->success('删除成功');
+                return $this->success('删除成功');
             }
         }
-        $this->error('删除失败');
+        return $this->error('删除失败');
     }
 
     /**

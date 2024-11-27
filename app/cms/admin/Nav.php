@@ -84,9 +84,9 @@ class Nav extends Admin
             if ($nav = NavModel::create($data)) {
                 // 记录行为
                 action_log('nav_add', 'cms_nav', $nav['id'], session('uid'), $data['title']);
-                $this->success('新增成功', 'index');
+                return $this->success('新增成功', 'index');
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 

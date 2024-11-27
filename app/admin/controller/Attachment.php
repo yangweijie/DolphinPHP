@@ -787,9 +787,9 @@ class Attachment extends Admin {
 			// 记录行为
 			$ids = is_array($ids) ? implode(',', $ids) : $ids;
 			action_log('attachment_delete', 'admin_attachment', 0, session('uid'), $ids);
-			$this->success('删除成功');
+			return $this->success('删除成功');
 		} else {
-			$this->error('删除失败');
+			return $this->error('删除失败');
 		}
 	}
 

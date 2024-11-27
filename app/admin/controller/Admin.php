@@ -276,9 +276,9 @@ class Admin extends Common
             if (!empty($record)) {
                 call_user_func_array('action_log', $record);
             }
-            $this->success('操作成功');
+            return $this->success('操作成功');
         } else {
-            $this->error('操作失败');
+            return $this->error('操作失败');
         }
     }
 
@@ -295,7 +295,7 @@ class Admin extends Common
         $cache_name = strtolower($cache_name);
         $form       = Cache::get($cache_name, []);
         if (!$form) {
-            $this->error('自动新增数据不存在，请重新打开此页面');
+            return $this->error('自动新增数据不存在，请重新打开此页面');
         }
 
         // 保存数据
@@ -326,12 +326,12 @@ class Admin extends Common
             // 插入数据
             if (Db::name($form['table'])->insert($data)) {
                 if ($_pop == 1) {
-                    $this->success('新增成功', null, '_parent_reload');
+                    return $this->success('新增成功', null, '_parent_reload');
                 } else {
-                    $this->success('新增成功', $form['go_back']);
+                    return $this->success('新增成功', $form['go_back']);
                 }
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 
@@ -391,12 +391,12 @@ class Admin extends Common
             // 更新数据
             if (false !== Db::name($form['table'])->update($data)) {
                 if ($_pop == 1) {
-                    $this->success('编辑成功', null, '_parent_reload');
+                    return $this->success('编辑成功', null, '_parent_reload');
                 } else {
-                    $this->success('编辑成功', $form['go_back']);
+                    return $this->success('编辑成功', $form['go_back']);
                 }
             } else {
-                $this->error('编辑失败');
+                return $this->error('编辑失败');
             }
         }
 
@@ -496,9 +496,9 @@ class Admin extends Common
 
             if (false !== ModuleModel::where('name', $module)->update(['config' => $data])) {
                 cache('module_config_'.$module, null);
-                $this->success('更新成功');
+                return $this->success('更新成功');
             } else {
-                $this->error('更新失败');
+                return $this->error('更新失败');
             }
         }
 

@@ -143,9 +143,9 @@ class Advert extends Admin
             if ($advert = AdvertModel::create($data)) {
                 // 记录行为
                 action_log('advert_add', 'cms_advert', $advert['id'], session('uid'), $data['name']);
-                $this->success('新增成功', 'index');
+                return $this->success('新增成功', 'index');
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 
@@ -205,9 +205,9 @@ class Advert extends Admin
             if (AdvertModel::update($data)) {
                 // 记录行为
                 action_log('advert_edit', 'cms_advert', $id, session('uid'), $data['name']);
-                $this->success('编辑成功', 'index');
+                return $this->success('编辑成功', 'index');
             } else {
-                $this->error('编辑失败');
+                return $this->error('编辑失败');
             }
         }
 

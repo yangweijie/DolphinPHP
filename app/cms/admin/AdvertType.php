@@ -76,9 +76,9 @@ class AdvertType extends Admin
             if ($type = AdvertTypeModel::create($data)) {
                 // 记录行为
                 action_log('advert_type_add', 'cms_advert_type', $type['id'], session('uid'), $data['name']);
-                $this->success('新增成功', 'index');
+                return $this->success('新增成功', 'index');
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 
@@ -115,9 +115,9 @@ class AdvertType extends Admin
             if (AdvertTypeModel::update($data)) {
                 // 记录行为
                 action_log('advert_type_edit', 'cms_advert_type', $id, session('uid'), $data['name']);
-                $this->success('编辑成功', 'index');
+                return $this->success('编辑成功', 'index');
             } else {
-                $this->error('编辑失败');
+                return $this->error('编辑失败');
             }
         }
 

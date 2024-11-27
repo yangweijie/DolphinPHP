@@ -13,7 +13,12 @@ use app\common\builder\ZBuilder;
 use app\admin\model\Module as ModuleModel;
 use app\admin\model\Menu as MenuModel;
 use app\user\model\Role as RoleModel;
-use think\facade\Cache;
+use Exception;
+use support\Cache;
+use support\Response;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 /**
  * 节点管理
@@ -24,11 +29,11 @@ class Menu extends Admin
     /**
      * 节点首页
      * @param string $group 分组
+     * @return Response
+     * @throws Exception
      * @author 蔡伟明 <314013107@qq.com>
-     * @return mixed
-     * @throws \Exception
      */
-    public function index($group = 'admin')
+    public function index(string $group = 'admin'): Response
     {
         // 保存模块排序
         if ($this->request->isPost()) {
@@ -43,9 +48,9 @@ class Menu extends Admin
                 }
                 $MenuModel = new MenuModel();
                 if (false !== $MenuModel->saveAll($data)) {
-                    $this->success('保存成功');
+                    return $this->success('保存成功');
                 } else {
-                    $this->error('保存失败');
+                    return $this->error('保存失败');
                 }
             }
         }
@@ -82,11 +87,11 @@ class Menu extends Admin
      * 新增节点
      * @param string $module 所属模块
      * @param string $pid 所属节点id
-     * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
+     *@author 蔡伟明 <314013107@qq.com>
      */
-    public function add($module = 'admin', $pid = '')
+    public function add(string $module = 'admin', string $pid = '')
     {
         // 保存数据
         if ($this->request->isPost()) {
@@ -117,9 +122,9 @@ class Menu extends Admin
                 // 记录行为
                 $details = '所属模块('.$data['module'].'),所属节点ID('.$data['pid'].'),节点标题('.$data['title'].'),节点链接('.$data['url_value'].')';
                 action_log('menu_add', 'admin_menu', $menu['id'], session('uid'), $details);
-                $this->success('新增成功', cookie('__forward__'));
+                return $this->success('新增成功', cookie('__forward__'));
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 
@@ -155,12 +160,11 @@ class Menu extends Admin
      * @param int $id 节点ID
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
-     * @throws \Exception
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws Exception
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
      */
-    public function edit($id = 0)
+    public function edit($id = 0): mixed
     {
         if ($id === 0) $this->error('缺少参数');
 
@@ -193,9 +197,9 @@ class Menu extends Admin
                 // 记录行为
                 $details = '节点ID('.$id.')';
                 action_log('menu_edit', 'admin_menu', $id, session('uid'), $details);
-                $this->success('编辑成功', cookie('__forward__'));
+                return $this->success('编辑成功', cookie('__forward__'));
             } else {
-                $this->error('编辑失败');
+                return $this->error('编辑失败');
             }
         }
 
@@ -233,7 +237,7 @@ class Menu extends Admin
      * @param string $role_id 角色id
      * @param array $roles 角色id
      * @author 蔡伟明 <314013107@qq.com>
-     * @throws \Exception
+     * @throws Exception
      */
     private function setRoleMenu($role_id = '', $roles = [])
     {
@@ -313,10 +317,9 @@ class Menu extends Admin
     /**
      * 删除节点
      * @param array $record 行为日志内容
-     * @author 蔡伟明 <314013107@qq.com>
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException|DbException
+     *@author 蔡伟明 <314013107@qq.com>
      */
     public function delete($record = [])
     {
@@ -337,9 +340,9 @@ class Menu extends Admin
             // 记录行为
             $details = '节点ID('.$id.'),节点标题('.$menu['title'].'),节点链接('.$menu['url_value'].')';
             action_log('menu_delete', 'admin_menu', $id, session('uid'), $details);
-            $this->success('删除成功');
+            return $this->success('删除成功');
         } else {
-            $this->error('删除失败');
+            return $this->error('删除失败');
         }
     }
 
@@ -360,9 +363,9 @@ class Menu extends Admin
                     MenuModel::update($menu);
                 }
                 Cache::clear();
-                $this->success('保存成功');
+                return $this->success('保存成功');
             } else {
-                $this->error('没有需要保存的节点');
+                return $this->error('没有需要保存的节点');
             }
         }
         $this->error('非法请求');
@@ -490,10 +493,9 @@ class Menu extends Admin
     /**
      * 启用节点
      * @param array $record 行为日志
-     * @author 蔡伟明 <314013107@qq.com>
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException|DbException
+     *@author 蔡伟明 <314013107@qq.com>
      */
     public function enable($record = [])
     {
@@ -506,9 +508,8 @@ class Menu extends Admin
     /**
      * 禁用节点
      * @param array $record 行为日志
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException|DbException
      *@author 蔡伟明 <314013107@qq.com>
      */
     public function disable(array $record = [])
@@ -523,6 +524,8 @@ class Menu extends Admin
      * 设置状态
      * @param string $type 类型
      * @param array $record 行为日志
+     * @return Response
+     * @throws DbException
      * @author 小乌 <82950492@qq.com>
      */
     public function setStatus($type = '', $record = [])
@@ -537,9 +540,9 @@ class Menu extends Admin
             if (!empty($record)) {
                 call_user_func_array('action_log', $record);
             }
-            $this->success('操作成功');
+            return $this->success('操作成功');
         } else {
-            $this->error('操作失败');
+            return $this->error('操作失败');
         }
     }
 }

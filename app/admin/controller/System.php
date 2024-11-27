@@ -81,7 +81,7 @@ class System extends Admin
             cache('system_config', null);
             // 记录行为
             action_log('system_config_update', 'admin_config', 0, session('uid'), "分组($group)");
-            $this->success('更新成功', url('index', ['group' => $group]));
+            return $this->success('更新成功', url('index', ['group' => $group]));
         } else {
             // 配置分组信息
             $list_group = config('config_group');

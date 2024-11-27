@@ -13,6 +13,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+use support\Cache;
 use support\Container;
 use support\Request;
 use support\Response;
@@ -154,7 +155,7 @@ function json($data, int $options = JSON_UNESCAPED_UNICODE): Response
         foreach (cache('header_merge') as $name=>$value){
             $response->header($name, $value);
         }
-        \support\Cache::delete('header_merge');
+        Cache::delete('header_merge');
     }
     return $response;
 }
@@ -274,7 +275,7 @@ function twig_view(mixed $template = null, array $vars = [], ?string $app = null
  * Get request
  * @return \Webman\Http\Request|Request|null
  */
-function request()
+function request(): Request|\Webman\Http\Request|null
 {
     return App::request();
 }
@@ -677,7 +678,7 @@ if (!function_exists('input')) {
         }
 
         if (isset($has)) {
-            return request()->has($key, $method, $default);
+            return request()->has($key, $method);
         } else {
             return request()->$method($key, $default, $filter);
         }

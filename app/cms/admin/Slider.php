@@ -76,9 +76,9 @@ class Slider extends Admin
             if ($slider = SliderModel::create($data)) {
                 // 记录行为
                 action_log('slider_add', 'cms_slider', $slider['id'], session('uid'), $data['title']);
-                $this->success('新增成功', 'index');
+                return $this->success('新增成功', 'index');
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 
@@ -117,9 +117,9 @@ class Slider extends Admin
             if (SliderModel::update($data)) {
                 // 记录行为
                 action_log('slider_add', 'cms_slider', $id, session('uid'), $data['title']);
-                $this->success('编辑成功', 'index');
+                return $this->success('编辑成功', 'index');
             } else {
-                $this->error('编辑失败');
+                return $this->error('编辑失败');
             }
         }
 

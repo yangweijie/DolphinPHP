@@ -148,7 +148,7 @@ class Recycle extends Admin
 
         // 删除并记录日志
         action_log('document_restore', $table, $document_id, session('uid'), implode('、', $document_title));
-        $this->success('还原成功');
+        return $this->success('还原成功');
     }
 
     /**
@@ -197,6 +197,6 @@ class Recycle extends Admin
             // 记录行为
             action_log('document_delete', $table, 0, session('uid'), '表('.$table.'),文档('.implode('、', $document_title).')');
         }
-        $this->success('删除成功');
+        return $this->success('删除成功');
     }
 }

@@ -184,9 +184,9 @@ class Ajax extends Common
         $map['group'] = 'system';
 
         if (Db::name('admin_config')->where($map)->update(['value'=>$theme])) {
-            $this->success('设置成功');
+            return $this->success('设置成功');
         } else {
-            $this->error('设置失败，请重试');
+            return $this->error('设置失败，请重试');
         }
     }
 
@@ -270,7 +270,7 @@ class Ajax extends Common
         }
         $roles = array_unique($roles);
         $roles = Db::name('admin_role')->where('id', 'in', $roles)->column('id,name');
-        $this->success('获取成功', null, [
+        return $this->success('获取成功', null, [
             'curr'  => session('user_auth.role'),
             'roles' => $roles
         ]);
@@ -309,6 +309,6 @@ class Ajax extends Common
         session('user_auth.role', $id);
         session('user_auth.role_name', Db::name('admin_role')->where('id', $id)->value('name'));
         session('user_auth_sign', data_auth_sign(session('user_auth')));
-        $this->success('设置成功');
+        return $this->success('设置成功');
     }
 }

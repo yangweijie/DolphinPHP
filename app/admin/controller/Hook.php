@@ -80,9 +80,9 @@ class Hook extends Admin
                 cache('hook_plugins', null);
                 // 记录行为
                 action_log('hook_add', 'admin_hook', $hook['id'], session('uid'), $data['name']);
-                $this->success('新增成功', 'index');
+                return $this->success('新增成功', 'index');
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 

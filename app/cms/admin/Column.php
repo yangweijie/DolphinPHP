@@ -103,9 +103,9 @@ class Column extends Admin
                 cache('cms_column_list', null);
                 // 记录行为
                 action_log('column_add', 'cms_column', $column['id'], session('uid'), $data['name']);
-                $this->success('新增成功', 'index');
+                return $this->success('新增成功', 'index');
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 
@@ -160,9 +160,9 @@ class Column extends Admin
             if (ColumnModel::update($data)) {
                 // 记录行为
                 action_log('column_edit', 'cms_column', $id, session('uid'), $data['name']);
-                $this->success('编辑成功', 'index');
+                return $this->success('编辑成功', 'index');
             } else {
-                $this->error('编辑失败');
+                return $this->error('编辑失败');
             }
         }
 

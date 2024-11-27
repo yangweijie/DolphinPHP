@@ -77,7 +77,7 @@ class Document extends Admin
             if (false === $DocumentModel->saveData()) {
                 $this->error($DocumentModel->getError());
             }
-            $this->success('新增成功', cookie('__forward__'));
+            return $this->success('新增成功', cookie('__forward__'));
         }
 
         // 第二步，填写文档信息
@@ -180,7 +180,7 @@ class Document extends Admin
             if (false === $result) {
                 $this->error($DocumentModel->getError());
             }
-            $this->success('编辑成功', cookie('__forward__'));
+            return $this->success('编辑成功', cookie('__forward__'));
         }
 
         // 获取数据
@@ -272,7 +272,7 @@ class Document extends Admin
 
         // 删除并记录日志
         action_log('document_trash', $table, $document_id, session('uid'), implode('、', $document_title));
-        $this->success('删除成功');
+        return $this->success('删除成功');
     }
 
     /**

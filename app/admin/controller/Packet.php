@@ -129,7 +129,7 @@ class Packet extends Admin
         // 记录行为
         $packet_titles = PacketModel::where('name', 'in', $names)->column('title');
         action_log('packet_install', 'admin_packet', 0, session('uid'), implode('、', $packet_titles));
-        $this->success('安装成功');
+        return $this->success('安装成功');
     }
 
     /**
@@ -149,6 +149,6 @@ class Packet extends Admin
             PacketModel::uninstall($name);
         }
 
-        $this->success('卸载成功');
+        return $this->success('卸载成功');
     }
 }

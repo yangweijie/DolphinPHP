@@ -70,9 +70,9 @@ class Message extends Admin
         $result = MessageModel::where($map)
             ->update(['status' => 1, 'read_time' => $this->request->time()]);
         if (false !== $result) {
-            $this->success('设置成功');
+            return $this->success('设置成功');
         } else {
-            $this->error('设置失败');
+            return $this->error('设置失败');
         }
     }
 }

@@ -82,9 +82,9 @@ class Support extends Admin
             if ($support = SupportModel::create($data)) {
                 // 记录行为
                 action_log('support_add', 'cms_support', $support['id'], session('uid'), $data['name']);
-                $this->success('新增成功', 'index');
+                return $this->success('新增成功', 'index');
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 
@@ -126,9 +126,9 @@ class Support extends Admin
             if (SupportModel::update($data)) {
                 // 记录行为
                 action_log('support_edit', 'cms_support', $id, session('uid'), $data['name']);
-                $this->success('编辑成功', 'index');
+                return $this->success('编辑成功', 'index');
             } else {
-                $this->error('编辑失败');
+                return $this->error('编辑失败');
             }
         }
 

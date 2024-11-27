@@ -143,9 +143,9 @@ class Plugin extends Admin
         // 将插件信息写入数据库
         if (PluginModel::create($plugin_info)) {
             cache('plugin_all', null);
-            $this->success('插件安装成功');
+            return $this->success('插件安装成功');
         } else {
-            $this->error('插件安装失败');
+            return $this->error('插件安装失败');
         }
     }
 
@@ -159,11 +159,11 @@ class Plugin extends Admin
     public function uninstall($name = '')
     {
         $plug_name = trim($name);
-        if ($plug_name == '') $this->error('插件不存在！');
+        if ($plug_name == '') return $this->error('插件不存在！');
 
         $class = get_plugin_class($plug_name);
         if (!class_exists($class)) {
-            $this->error('插件不存在！');
+            return $this->error('插件不存在！');
         }
 
         // 实例化插件
@@ -198,9 +198,9 @@ class Plugin extends Admin
         // 删除插件信息
         if (PluginModel::where('name', $plug_name)->delete()) {
             cache('plugin_all', null);
-            $this->success('插件卸载成功');
+            return $this->success('插件卸载成功');
         } else {
-            $this->error('插件卸载失败');
+            return $this->error('插件卸载失败');
         }
     }
 
@@ -325,9 +325,9 @@ class Plugin extends Admin
             // 实例化模型并添加数据
             $PluginModel = get_plugin_model($plugin_name);
             if ($PluginModel->data($data)->save()) {
-                $this->success('新增成功', cookie('__forward__'));
+                return $this->success('新增成功', cookie('__forward__'));
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 
@@ -382,9 +382,9 @@ class Plugin extends Admin
             // 实例化模型并添加数据
             $PluginModel = get_plugin_model($plugin_name);
             if (false !== $PluginModel->isUpdate(true)->save($data)) {
-                $this->success('编辑成功', cookie('__forward__'));
+                return $this->success('编辑成功', cookie('__forward__'));
             } else {
-                $this->error('编辑失败');
+                return $this->error('编辑失败');
             }
         }
 
@@ -435,9 +435,9 @@ class Plugin extends Admin
             $data = json_encode($data);
 
             if (false !== PluginModel::where('name', $name)->update(['config' => $data])) {
-                $this->success('更新成功', 'index');
+                return $this->success('更新成功', 'index');
             } else {
-                $this->error('更新失败');
+                return $this->error('更新失败');
             }
         }
 
@@ -487,9 +487,9 @@ class Plugin extends Admin
             }
 
             if (false !== PluginModel::where('id', 'in', $ids)->update(['status'=>$status])) {
-                $this->success('操作成功');
+                return $this->success('操作成功');
             } else {
-                $this->error('操作失败');
+                return $this->error('操作失败');
             }
         }
     }

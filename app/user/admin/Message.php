@@ -93,9 +93,9 @@ class Message extends Admin
 
             $MessageModel = new MessageModel;
             if (false !== $MessageModel->saveAll($list)) {
-                $this->success('新增成功', 'index');
+                return $this->success('新增成功', 'index');
             } else {
-                $this->error('新增失败');
+                return $this->error('新增失败');
             }
         }
 
