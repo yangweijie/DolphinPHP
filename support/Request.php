@@ -184,7 +184,7 @@ class Request extends \Webman\Http\Request
         $token = call_user_func($type, $this->time(true));
 
         if ($this->isAjax()) {
-            header($name . ': ' . $token);
+            Cache::set('header_merge', [$name=>$token]);
         }
 
         session([$name=>$token]);

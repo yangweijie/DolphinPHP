@@ -149,7 +149,14 @@ function response(string $body = '', int $status = 200, array $headers = []): Re
  */
 function json($data, int $options = JSON_UNESCAPED_UNICODE): Response
 {
-    return new Response(200, ['Content-Type' => 'application/json'], json_encode($data, $options));
+    $response = new Response(200, ['Content-Type' => 'application/json'], json_encode($data, $options));
+    if(cache('?header_merge')){
+        foreach (cache('header_merge') as $name=>$value){
+            $response->header($name, $value);
+        }
+        \support\Cache::delete('header_merge');
+    }
+    return $response;
 }
 
 /**

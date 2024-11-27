@@ -22,10 +22,12 @@ if(extension_loaded('opentelemetry')){
             if(str_contains($pathExplode[array_key_last($pathExplode)], '.')){
                 return $returnValue;
             }
-            var_dump('post:');
-            var_dump('params');
-            var_dump($params);
-            var_dump($returnValue);
+            if(!headers_sent()){
+                var_dump('post:');
+                var_dump('params');
+                var_dump($params);
+                var_dump($returnValue);
+            }
             $default_controller_layer = \Webman\Config::get('module.default_controller_layer', []);
             if(!in_array($app, $default_controller_layer)){
                 if(!$returnValue){
@@ -62,8 +64,10 @@ if(extension_loaded('opentelemetry')){
                     ];
                 }
             }
-            var_dump('after_post：');
-            var_dump($returnValue);
+            if(!headers_sent()){
+                var_dump('after_post：');
+                var_dump($returnValue);
+            }
             return $returnValue;
         }
     );
