@@ -12,8 +12,13 @@ namespace app\admin\controller;
 use app\common\controller\Common;
 use app\admin\model\Menu as MenuModel;
 use app\admin\model\Attachment as AttachmentModel;
-use think\facade\Cache;
-use think\Db;
+use Exception;
+use support\Cache;
+use support\Response;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
+use think\facade\Db;
 
 /**
  * 用于处理ajax请求的控制器
@@ -26,8 +31,9 @@ class Ajax extends Common
      * @param string $token token
      * @param int $pid 父级ID
      * @param string $pidkey 父级id字段名
+     * @return Response
+     * @throws Exception
      * @author 蔡伟明 <314013107@qq.com>
-     * @return \think\response\Json
      */
     public function getLevelData($token = '', $pid = 0, $pidkey = 'pid')
     {
@@ -64,8 +70,9 @@ class Ajax extends Common
      * @param array $map 查询条件
      * @param string $options 选项，用于显示转换
      * @param string $list 选项缓存列表名称
+     * @return Response
+     * @throws Exception
      * @author 蔡伟明 <314013107@qq.com>
-     * @return \think\response\Json
      */
     public function getFilterList($token = '', $map = [], $options = '', $list = '')
     {
@@ -141,10 +148,11 @@ class Ajax extends Common
     /**
      * 获取指定模块的菜单
      * @param string $module 模块名
-     * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
+     * @throws Exception
+     * @author 蔡伟明 <314013107@qq.com>
      */
-    public function getModuleMenus($module = '')
+    public function getModuleMenus(string $module = '')
     {
         if (!is_signin()) {
             $this->error('请先登录');
@@ -161,9 +169,10 @@ class Ajax extends Common
     /**
      * 设置配色方案
      * @param string $theme 配色名称
+     * @throws Exception
      * @author 蔡伟明 <314013107@qq.com>
      */
-    public function setTheme($theme = '') {
+    public function setTheme(string $theme = '') {
         if (!is_signin()) {
             $this->error('请先登录');
         }
@@ -192,7 +201,7 @@ class Ajax extends Common
     public function getSidebarMenu($module_id = '', $module = '', $controller = '')
     {
         if (!is_signin()) {
-            $this->error('登录已失效，请重新登录', 'user/publics/signin');
+            return $this->error('登录已失效，请重新登录', 'user/publics/signin');
         }
 
         role_auth();
@@ -209,16 +218,15 @@ class Ajax extends Common
                 break;
             }
         }
-        $this->success('获取成功', null, $output);
+        return $this->success('获取成功', null, $output);
     }
 
     /**
      * 检查附件是否存在
      * @param string $md5 文件md5
      * @author 蔡伟明 <314013107@qq.com>
-     * @return \think\response\Json
      */
-    public function check($md5 = '')
+    public function check(string $md5 = '')
     {
         $md5 == '' && $this->error('参数错误');
 
@@ -237,15 +245,14 @@ class Ajax extends Common
                 'path'   => $file_path
             ]);
         } else {
-            $this->error('文件不存在');
+            return $this->error('文件不存在');
         }
     }
 
     /**
      * 获取我的角色集合
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException|DbException
      * @author 蔡伟明 <314013107@qq.com>
      */
     public function getMyRoles()
@@ -272,9 +279,8 @@ class Ajax extends Common
     /**
      * 设置我的当前角色
      * @param string $id
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException|DbException
      * @author 蔡伟明 <314013107@qq.com>
      */
     public function setMyRole($id = '')

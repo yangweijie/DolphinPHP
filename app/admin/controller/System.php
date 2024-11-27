@@ -87,7 +87,7 @@ class System extends Admin
             $list_group = config('config_group');
 
             // 读取模型配置
-            $modules = ModuleModel::where('config', 'neq', '')
+            $modules = ModuleModel::where('config', '<>', '')
                 ->where('status', 1)
                 ->column('config,title,name', 'name');
             foreach ($modules as $name => $module) {
@@ -95,9 +95,11 @@ class System extends Admin
             }
 
             $tab_list = [];
-            foreach ($list_group as $key => $value) {
-                $tab_list[$key]['title'] = $value;
-                $tab_list[$key]['url']   = url('index', ['group' => $key]);
+            if($list_group){
+                foreach ($list_group as $key => $value) {
+                    $tab_list[$key]['title'] = $value;
+                    $tab_list[$key]['url']   = url('index', ['group' => $key]);
+                }
             }
 
             if (isset(config('config_group')[$group])) {
@@ -150,12 +152,12 @@ class System extends Admin
             } else {
                 // 模块配置
                 $module_info = ModuleModel::getInfoFromFile($group);
-                $config      = $module_info['config'];
+                $config      = $module_info['config']??[];
                 $trigger     = isset($module_info['trigger']) ? $module_info['trigger'] : [];
 
                 // 数据库内的模块信息
                 $db_config = ModuleModel::where('name', $group)->value('config');
-                $db_config = json_decode($db_config, true);
+                $db_config = $db_config?json_decode($db_config, true):[];
 
                 // 使用ZBuilder快速创建表单
                 return ZBuilder::make('form')

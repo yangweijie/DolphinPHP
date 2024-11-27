@@ -288,8 +288,8 @@ class Index extends Admin
         }
 
         // 获取所有授权配置信息
-        $list_module = ModuleModel::where('access', 'neq', '')
-            ->where('access', 'neq', '')
+        $list_module = ModuleModel::where('access', '<>', '')
+            ->where('access', '<>', '')
             ->where('status', 1)
             ->column('name,title,access');
 

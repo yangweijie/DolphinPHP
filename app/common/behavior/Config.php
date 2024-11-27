@@ -115,7 +115,7 @@ class Config
             $ConfigModel   = new ConfigModel();
             $system_config = $ConfigModel->getConfigs();
             // 所有模型配置
-            $module_config = ModuleModel::where('config', 'neq', '')->column('config', 'name');
+            $module_config = ModuleModel::where('config', '<>', '')->column('config', 'name');
             foreach ($module_config as $module_name => $config) {
                 $system_config[strtolower($module_name).'_config'] = json_decode($config, true);
             }

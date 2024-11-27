@@ -48,6 +48,12 @@ class Request extends \Webman\Http\Request
     protected array $filter = [];
 
     /**
+     * 基础URL
+     * @var string
+     */
+    protected string $baseUrl = '';
+
+    /**
      * 获取当前的控制器名
      * @access public
      * @param  bool $convert 转换为小写
@@ -444,6 +450,34 @@ class Request extends \Webman\Http\Request
                 }
                 break;
         }
+    }
+
+    /**
+     * 设置当前完整URL 不包括QUERY_STRING
+     * @access public
+     * @param  string $url URL
+     * @return $this
+     */
+    public function setBaseUrl($url)
+    {
+        $this->baseUrl = $url;
+        return $this;
+    }
+
+    /**
+     * 获取当前URL 不含QUERY_STRING
+     * @access public
+     * @param  bool     $domain 是否包含域名
+     * @return string|$this
+     */
+    public function baseUrl($domain = false)
+    {
+        if (!$this->baseUrl) {
+            $str           = $this->url();
+            $this->baseUrl = strpos($str, '?') ? strstr($str, '?', true) : $str;
+        }
+
+        return $domain ? $this->domain() . $this->baseUrl : $this->baseUrl;
     }
 
 }
