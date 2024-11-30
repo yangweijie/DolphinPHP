@@ -32,11 +32,11 @@ class Module extends Model
      */
     public static function getModule()
     {
-        $modules = cache('modules');
+        $modules = cache('modules', []);
         if (!$modules) {
-            $modules = self::where('status', '>=', 0)->order('id')->column('name,title');
+            $modules = self::where('status', '>=', 0)->order('id')->column('title', 'name');
             // 非开发模式，缓存数据
-            if (config('develop_mode') == 0) {
+            if (config('app.develop_mode') == 0) {
                 cache('modules', $modules);
             }
         }

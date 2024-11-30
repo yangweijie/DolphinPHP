@@ -12,6 +12,7 @@ namespace app\common\builder\table;
 use app\admin\model\Menu;
 use app\common\builder\ZBuilder;
 use app\user\model\Role;
+use Exception;
 use support\Cache;
 use support\Response;
 
@@ -856,6 +857,9 @@ class Builder extends ZBuilder
 
             // 缓存名称
             $cache_name = strtolower($this->_module.'_'.$this->_controller.'_edit');
+            var_dump([
+                'builder_edit_cache'=>$cache_name,
+            ]);
 
             // 自动插入时间
             if ($auto_time != '') {
@@ -873,9 +877,9 @@ class Builder extends ZBuilder
             ];
 
             // 开发模式
-            if (config('develop_mode')) {
-                Cache::set($cache_name, $form);
-            }
+//            if (config('app.develop_mode')) {
+//                Cache::set($cache_name, $form);
+//            }
 
             if (!Cache::get($cache_name)) {
                 Cache::set($cache_name, $form);
@@ -891,8 +895,9 @@ class Builder extends ZBuilder
      * 创建表名Token
      * @param string $table 表名
      * @param int $prefix 前缀类型：0使用Db类(不添加表前缀)，1使用Db类(添加表前缀)，2使用模型
+     * @return string
+     * @throws Exception
      * @author 蔡伟明 <314013107@qq.com>
-     * @return bool|string
      */
     private function createTableToken($table = '', $prefix = 1)
     {
@@ -1488,7 +1493,7 @@ class Builder extends ZBuilder
         if (is_object($this->data) && is_object(current($this->data->getIterator()))) {
             try {
                 $result = $this->data[$index]->getData($field);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $result = isset($this->data[$index][$field]) ? $this->data[$index][$field] : '';
             }
             return $result;
