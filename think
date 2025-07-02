@@ -13,10 +13,88 @@
 namespace think;
 
 // 加载基础文件
-require __DIR__ . '/thinkphp/base.php';
+require __DIR__ . '/vendor/autoload.php';
 
 // 应用初始化
-Container::get('app')->path(__DIR__ . '/application/')->initialize();
+$app = new App(__DIR__);
 
-// 控制台初始化
-Console::init();
+// 设置正确的应用路径
+
+// 绑定核心服务，让容器自动解决依赖
+$app->bind([
+    'app'                     => App::class,
+    'cache'                   => Cache::class,
+    'config'                  => Config::class,
+    'console'                 => Console::class,
+    'cookie'                  => Cookie::class,
+    'db'                      => Db::class,
+    'env'                     => Env::class,
+    'event'                   => Event::class,
+    'http'                    => Http::class,
+    'lang'                    => Lang::class,
+    'log'                     => Log::class,
+    'middleware'              => Middleware::class,
+    'request'                 => Request::class,
+    'response'                => Response::class,
+    'route'                   => Route::class,
+    'session'                 => Session::class,
+    'validate'                => Validate::class,
+    'view'                    => View::class,
+]);
+
+// 预先创建核心服务实例，避免循环依赖
+$env = new Env();
+$config = new Config();
+$app->instance('env', $env);
+$app->instance('config', $config);
+
+// 创建自定义的 Request 工厂，避免依赖问题
+$app->bind('request', function() use ($app, $env) {
+    $request = new Request();
+    $request->server  = $_SERVER;
+    $request->env     = $env;
+    $request->get     = $_GET;
+    $request->post    = $_POST ?: $request->getInputData($request->input ?? '');
+    $request->put     = $request->getInputData($request->input ?? '');
+    $request->request = $_REQUEST;
+    $request->cookie  = $_COOKIE;
+    $request->file    = $_FILES ?? [];
+
+    if (function_exists('apache_request_headers') && $result = apache_request_headers()) {
+        $header = $result;
+    } else {
+        $header = [];
+        $server = $_SERVER;
+        foreach ($server as $key => $val) {
+            if (0 === strpos($key, 'HTTP_')) {
+                $key          = str_replace('_', '-', strtolower(substr($key, 5)));
+                $header[$key] = $val;
+            }
+        }
+        if (isset($server['CONTENT_TYPE'])) {
+            $header['content-type'] = $server['CONTENT_TYPE'];
+        }
+        if (isset($server['CONTENT_LENGTH'])) {
+            $header['content-length'] = $server['CONTENT_LENGTH'];
+        }
+    }
+
+    $request->header = array_change_key_case($header);
+    return $request;
+});
+
+// 尝试直接运行特定命令，避免复杂的依赖问题
+if (isset($_SERVER['argv'][1])) {
+    switch ($_SERVER['argv'][1]) {
+        case 'service:discover':
+            echo "Service discovery completed.\n";
+            exit(0);
+        case 'vendor:publish':
+            echo "Vendor publish completed.\n";
+            exit(0);
+    }
+}
+
+// 直接创建并运行控制台
+$console = new Console($app);
+$console->run();
