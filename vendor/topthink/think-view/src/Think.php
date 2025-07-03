@@ -13,15 +13,15 @@ declare (strict_types = 1);
 namespace think\view\driver;
 
 use think\App;
-use think\contract\TemplateHandlerInterface;
 use think\helper\Str;
 use think\Template;
 use think\template\exception\TemplateNotFoundException;
 
-class Think implements TemplateHandlerInterface
+class Think
 {
     // 模板引擎实例
     private $template;
+    private $app;
 
     // 模板引擎参数
     protected $config = [
@@ -39,8 +39,10 @@ class Think implements TemplateHandlerInterface
         'tpl_cache'     => true,
     ];
 
-    public function __construct(private App $app, array $config = [])
+    public function __construct(App $app, array $config = [])
     {
+        $this->app = $app;
+
         $this->config = array_merge($this->config, (array) $config);
 
         if (empty($this->config['cache_path'])) {
@@ -53,15 +55,30 @@ class Think implements TemplateHandlerInterface
             $type  = strtoupper(trim(array_shift($vars)));
             $param = implode('.', $vars);
 
-            return match ($type) {
-                'CONST'     =>  strtoupper($param),
-                'CONFIG'    =>  'config(\'' . $param . '\')',
-                'LANG'      =>  'lang(\'' . $param . '\')',
-                'NOW'       =>  "date('Y-m-d g:i a',time())",
-                'LDELIM'    =>  '\'' . ltrim($this->getConfig('tpl_begin'), '\\') . '\'',
-                'RDELIM'    =>  '\'' . ltrim($this->getConfig('tpl_end'), '\\') . '\'',
-                default     =>  defined($type) ? $type : '\'\'',
-            };
+            switch ($type) {
+                case 'CONST':
+                    $parseStr = strtoupper($param);
+                    break;
+                case 'CONFIG':
+                    $parseStr = 'config(\'' . $param . '\')';
+                    break;
+                case 'LANG':
+                    $parseStr = 'lang(\'' . $param . '\')';
+                    break;
+                case 'NOW':
+                    $parseStr = "date('Y-m-d g:i a',time())";
+                    break;
+                case 'LDELIM':
+                    $parseStr = '\'' . ltrim($this->getConfig('tpl_begin'), '\\') . '\'';
+                    break;
+                case 'RDELIM':
+                    $parseStr = '\'' . ltrim($this->getConfig('tpl_end'), '\\') . '\'';
+                    break;
+                default:
+                    $parseStr = defined($type) ? $type : '\'\'';
+            }
+
+            return $parseStr;
         });
 
         $this->template->extend('$Request', function (array $vars) {
@@ -88,25 +105,12 @@ class Think implements TemplateHandlerInterface
      */
     public function exists(string $template): bool
     {
-        $template = $this->getTemplateFile($template);
-
-        return is_file($template);
-    }
-
-    protected function getTemplateFile(string $template): string
-    {
         if ('' == pathinfo($template, PATHINFO_EXTENSION)) {
             // 获取模板文件名
             $template = $this->parseTemplate($template);
-        } else{
-            $path = $this->config['view_path'] ?: $this->getViewPath($this->app->http->getName());
-            if (!is_file($template)) {
-                $template = $path . $template;
-            }
-            $this->template->view_path = $path;
         }
 
-        return $template;
+        return is_file($template);
     }
 
     /**
@@ -118,7 +122,24 @@ class Think implements TemplateHandlerInterface
      */
     public function fetch(string $template, array $data = []): void
     {
-        $template = $this->getTemplateFile($template);
+        if (empty($this->config['view_path'])) {
+            $view = $this->config['view_dir_name'];
+
+            if (is_dir($this->app->getAppPath() . $view)) {
+                $path = $this->app->getAppPath() . $view . DIRECTORY_SEPARATOR;
+            } else {
+                $appName = $this->app->http->getName();
+                $path    = $this->app->getRootPath() . $view . DIRECTORY_SEPARATOR . ($appName ? $appName . DIRECTORY_SEPARATOR : '');
+            }
+
+            $this->config['view_path'] = $path;
+            $this->template->view_path = $path;
+        }
+
+        if ('' == pathinfo($template, PATHINFO_EXTENSION)) {
+            // 获取模板文件名
+            $template = $this->parseTemplate($template);
+        }
 
         // 模板不存在 抛出异常
         if (!is_file($template)) {
@@ -140,25 +161,6 @@ class Think implements TemplateHandlerInterface
         $this->template->display($template, $data);
     }
 
-    protected function getViewPath(string $app): string
-    {
-        $view  = $this->config['view_dir_name'] . DIRECTORY_SEPARATOR;
-        $app   = $app ? str_replace('.', DIRECTORY_SEPARATOR, $app) . DIRECTORY_SEPARATOR : '';
-        $paths = [
-            $this->app->getBasePath() . $app . $view,
-            $this->app->getBasePath() . $view . $app,
-            $this->app->getRootPath() . $view . $app
-        ];
-
-        foreach ($paths as $path) {
-            if (is_dir($path)) {
-                return $path;
-            }
-        }
-
-        return '';
-    }
-
     /**
      * 自动定位模板文件
      * @access private
@@ -174,25 +176,28 @@ class Think implements TemplateHandlerInterface
         if (strpos($template, '@')) {
             // 跨模块调用
             list($app, $template) = explode('@', $template);
-        } elseif ($this->app->http->getName()) {
-            $app = $this->app->http->getName();
-        } elseif (method_exists($request, 'layer') && $request->layer()) {
-            $app        = $request->layer();
-            $controller = $request->controller(false, true);
         }
 
-        if ($this->config['view_path']) {
-            $path = $this->config['view_path'];
-        } else {
-            $path = $this->getViewPath($app ?? $this->app->http->getName());
+        if (isset($app)) {
+            $view     = $this->config['view_dir_name'];
+            $viewPath = $this->app->getBasePath() . $app . DIRECTORY_SEPARATOR . $view . DIRECTORY_SEPARATOR;
+
+            if (is_dir($viewPath)) {
+                $path = $viewPath;
+            } else {
+                $path = $this->app->getRootPath() . $view . DIRECTORY_SEPARATOR . $app . DIRECTORY_SEPARATOR;
+            }
+
             $this->template->view_path = $path;
+        } else {
+            $path = $this->config['view_path'];
         }
 
         $depr = $this->config['view_depr'];
 
         if (0 !== strpos($template, '/')) {
             $template   = str_replace(['/', ':'], $depr, $template);
-            $controller = $controller ?? $request->controller();
+            $controller = $request->controller();
 
             if (strpos($controller, '.')) {
                 $pos        = strrpos($controller, '.');

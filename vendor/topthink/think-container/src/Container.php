@@ -29,7 +29,6 @@ use ReflectionParameter;
 use think\exception\ClassNotFoundException;
 use think\exception\FuncNotFoundException;
 use think\helper\Str;
-use Throwable;
 use Traversable;
 
 /**
@@ -500,11 +499,7 @@ class Container implements ContainerInterface, ArrayAccess, IteratorAggregate, C
             $result = $value;
             array_shift($vars);
         } else {
-            if ($param->isDefaultValueAvailable()) {
-                $result = $this->bound($className) ? $this->make($className) : $param->getDefaultValue();
-            } else {
-                $result = $this->make($className);
-            }
+            $result = $param->isDefaultValueAvailable() ? $param->getDefaultValue() : $this->make($className);
         }
 
         return $result;

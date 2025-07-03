@@ -11,6 +11,7 @@ namespace app\common\controller;
 
 use think\Container;
 use think\Exception;
+use think\facade\View;
 
 /**
  * 插件类
@@ -44,13 +45,13 @@ abstract class Plugin
      */
     public function __construct()
     {
-        $this->view = Container::get('view');
-        $this->plugin_path = config('plugin_path').$this->getName().'/';
-        if (is_file($this->plugin_path.'config.php')) {
-            $this->config_file = $this->plugin_path.'config.php';
+
+        $this->plugin_path = config('app.plugin_path') . $this->getName() . '/';
+        if (is_file($this->plugin_path . 'config.php')) {
+            $this->config_file = $this->plugin_path . 'config.php';
         }
-        if (is_file($this->plugin_path.'common.php')) {
-            include $this->plugin_path.'common.php';
+        if (is_file($this->plugin_path . 'common.php')) {
+            include $this->plugin_path . 'common.php';
         }
     }
 
@@ -74,31 +75,19 @@ abstract class Plugin
      * @throws \Exception
      * @author 蔡伟明 <314013107@qq.com>
      */
-    final protected function fetch($template = '', $vars = [], $config = [], $renderContent = false)
+    final protected function fetch($template = '', $vars = [])
     {
         if ($template != '') {
             if (!is_file($template)) {
-                $template = $this->plugin_path. 'view/'. $template . '.' . config('template.view_suffix');
+                $template = $this->plugin_path . 'view/' . $template . '.' . config('view.view_suffix');
+
                 if (!is_file($template)) {
-                    throw new Exception('模板不存在：'.$template, 5001);
+                    throw new Exception('模板不存在：' . $template, 5001);
                 }
             }
 
-            echo $this->view->fetch($template, $vars, $config, $renderContent);
+            echo View::fetch($template, $vars);
         }
-    }
-
-    /**
-     * 模板变量赋值
-     * @param string $name 要显示的模板变量
-     * @param string $value 变量的值
-     * @author 蔡伟明 <314013107@qq.com>
-     * @return $this
-     */
-    final protected function assign($name = '', $value='')
-    {
-        $this->view->assign($name, $value);
-        return $this;
     }
 
     /**
@@ -107,13 +96,13 @@ abstract class Plugin
      * @author 蔡伟明 <314013107@qq.com>
      * @return array|mixed
      */
-    final public function getConfigValue($name='')
+    final public function getConfigValue($name = '')
     {
         static $_config = array();
-        if(empty($name)){
+        if (empty($name)) {
             $name = $this->getName();
         }
-        if(isset($_config[$name])){
+        if (isset($_config[$name])) {
             return $_config[$name];
         }
 

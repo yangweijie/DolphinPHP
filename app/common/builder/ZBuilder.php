@@ -11,6 +11,7 @@ namespace app\common\builder;
 
 use app\common\controller\Common;
 use think\Exception;
+use think\facade\View;
 
 /**
  * 构建器
@@ -77,13 +78,12 @@ class ZBuilder extends Common
      * 加载模板输出
      * @param string $template 模板文件名
      * @param array  $vars     模板输出变量
-     * @param array  $config   模板参数
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      */
-    public function fetch($template = '', $vars = [], $config = [])
+    public function fetch($template = '', $vars = [])
     {
         $vars = array_merge($vars, self::$vars);
-        return parent::fetch($template, $vars, $config);
+        return View::fetch($template, $vars);
     }
 }

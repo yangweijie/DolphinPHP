@@ -10,6 +10,7 @@
 namespace app\common\builder\aside;
 
 use app\common\builder\ZBuilder;
+use think\facade\View;
 
 /**
  * 侧栏构建器
@@ -73,7 +74,7 @@ class Builder extends ZBuilder
      */
     public function addTabNav($tab = '', $content = '')
     {
-        if ($tab != '' && $content !='') {
+        if ($tab != '' && $content != '') {
             static::$vars['aside']['tab_nav']['tab_list'][$tab] = $content;
             if (!isset(static::$vars['aside']['tab_con'][$tab])) {
                 static::$vars['aside']['tab_con'][$tab] = [];
@@ -165,7 +166,7 @@ class Builder extends ZBuilder
     {
         if ($type != '') {
             if ($type == 'html') {
-                $title = $this->display($title, $list);
+                $title = View::display($title, $list);
             }
             $block = [
                 'type'  => $type,
@@ -193,6 +194,6 @@ class Builder extends ZBuilder
         }
 
         // 设置侧栏变量，供没有经过ZBuilder渲染页面的时候用
-        $this->assign('aside', static::$vars['aside']);
+        View::assign('aside', static::$vars['aside']);
     }
 }

@@ -12,6 +12,8 @@ namespace app\common\builder\form;
 use app\common\builder\ZBuilder;
 use think\Exception;
 use think\facade\Env;
+use think\facade\Event;
+use think\facade\View;
 
 /**
  * 表单构建器
@@ -58,8 +60,8 @@ class Builder extends ZBuilder
         'submit_confirm'  => false, // 提交确认
         'extend_js_list'  => [],    // 扩展表单项js列表
         'extend_css_list' => [],    // 扩展表单项css列表
-        '_method'         => 'post',// 表单提交方式
-        'empty_tips'      => '暂无数据',// 没有表单项时的提示信息
+        '_method'         => 'post', // 表单提交方式
+        'empty_tips'      => '暂无数据', // 没有表单项时的提示信息
         '_token_name'     => '__token__', // 表单令牌名称
         '_token_value'    => '', // 表单令牌值
     ];
@@ -75,10 +77,10 @@ class Builder extends ZBuilder
      */
     public function initialize()
     {
-        $this->_template = Env::get('app_path'). 'common/builder/form/layout.html';
+        $this->_template = root_path() . 'app/common/builder/form/layout.html';
         $this->_vars['post_url'] = $this->request->url(true);
         $this->_vars['_token_name'] = config('zbuilder.form_token_name');
-        $this->_vars['_token_value'] = $this->request->token($this->_vars['_token_name']);
+        $this->_vars['_token_value'] = $this->request->buildToken($this->_vars['_token_name']);
     }
 
     /**
@@ -123,7 +125,7 @@ class Builder extends ZBuilder
     public function setPageTips($tips = '', $type = 'info', $pos = 'top')
     {
         if ($tips != '') {
-            $this->_vars['page_tips_'.$pos] = $tips;
+            $this->_vars['page_tips_' . $pos] = $tips;
             $this->_vars['tips_type'] = $type != '' ? trim($type) : 'info';
         }
         return $this;
@@ -234,7 +236,7 @@ class Builder extends ZBuilder
     public function setToken($name = '__token__', $type = 'md5')
     {
         $this->_vars['_token_name']  = $name === '' ? '__token__' : $name;
-        $this->_vars['_token_value'] = $this->request->token($this->_vars['_token_name'], $type);
+        $this->_vars['_token_value'] = $this->request->buildToken($this->_vars['_token_name'], $type);
         return $this;
     }
 
@@ -252,14 +254,14 @@ class Builder extends ZBuilder
         if (!empty($trigger)) {
             if (is_array($trigger)) {
                 foreach ($trigger as $item) {
-                    $this->_vars['field_hide']   .= $item[2].',';
-                    $this->_vars['field_values'] .= $item[1].',';
+                    $this->_vars['field_hide']   .= $item[2] . ',';
+                    $this->_vars['field_values'] .= $item[1] . ',';
                     $this->_vars['field_triggers'][$item[0]][] = [(string)$item[1], $item[2]];
                     $this->_vars['field_clear'][$item[0]] = isset($item[3]) ? ($item[3] === true ? 1 : 0) : 1;
                 }
             } else {
-                $this->_vars['field_hide']   .= $show.',';
-                $this->_vars['field_values'] .= (string)$values.',';
+                $this->_vars['field_hide']   .= $show . ',';
+                $this->_vars['field_values'] .= (string)$values . ',';
                 $this->_vars['field_triggers'][$trigger][] = [(string)$values, $show];
                 $this->_vars['field_clear'][$trigger] = $clear === true ? 1 : 0;
             }
@@ -292,7 +294,8 @@ class Builder extends ZBuilder
      * @author caiweiming <314013107@qq.com>
      * @return Builder
      */
-    public function addArray($name = '', $title = '', $tips = '', $default = '', $extra_attr = '', $extra_class = '') {
+    public function addArray($name = '', $title = '', $tips = '', $default = '', $extra_attr = '', $extra_class = '')
+    {
         return $this->addTextarea($name, $title, $tips, $default, $extra_attr, $extra_class);
     }
 
@@ -301,19 +304,17 @@ class Builder extends ZBuilder
      * @param string $name 表单项名
      * @param string $title 标题
      * @param string $tips 提示
-     * @param string $default 默认值
      * @param string $extra_class 额外css类名
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      */
-    public function addArchive($name = '', $title = '', $tips = '', $default = '' , $extra_class = '')
+    public function addArchive($name = '', $title = '', $tips = '', $extra_class = '')
     {
         $item = [
             'type'        => 'archive',
             'name'        => $name,
             'title'       => $title,
             'tips'        => $tips,
-            'value'       => $default,
             'extra_class' => $extra_class,
         ];
 
@@ -330,19 +331,17 @@ class Builder extends ZBuilder
      * @param string $name 表单项名
      * @param string $title 标题
      * @param string $tips 提示
-     * @param string $default 默认值
      * @param string $extra_class 额外css类名
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      */
-    public function addArchives($name = '', $title = '', $tips = '', $default = '' , $extra_class = '')
+    public function addArchives($name = '', $title = '', $tips = '', $extra_class = '')
     {
         $item = [
             'type'        => 'archives',
             'name'        => $name,
             'title'       => $title,
             'tips'        => $tips,
-            'value'       => $default,
             'extra_class' => $extra_class,
         ];
 
@@ -409,7 +408,7 @@ class Builder extends ZBuilder
         if ($attr) {
             foreach ($attr as $key => $value) {
                 if (substr($key, 0, 5) == 'data-') {
-                    $item['data'] .= $key. '=' . $value . ' ';
+                    $item['data'] .= $key . '=' . $value . ' ';
                 }
             }
             $item = array_merge($item, $attr);
@@ -696,8 +695,8 @@ class Builder extends ZBuilder
      */
     public function addFile($name = '', $title = '', $tips = '', $default = '', $size = '', $ext = '', $extra_class = '')
     {
-        $size = ($size != '' ? $size : config('upload_file_size')) * 1024;
-        $ext  = $ext != '' ? $ext : config('upload_file_ext');
+        $size = ($size != '' ? $size : config('app.upload_file_size')) * 1024;
+        $ext  = $ext != '' ? $ext : config('app.upload_file_ext');
 
         $item = [
             'type'        => 'file',
@@ -732,8 +731,8 @@ class Builder extends ZBuilder
      */
     public function addFiles($name = '', $title = '', $tips = '', $default = '', $size = '', $ext = '', $extra_class = '')
     {
-        $size = ($size != '' ? $size : config('upload_file_size')) * 1024;
-        $ext  = $ext != '' ? $ext : config('upload_file_ext');
+        $size = ($size != '' ? $size : config('app.upload_file_size')) * 1024;
+        $ext  = $ext != '' ? $ext : config('app.upload_file_ext');
 
         $item = [
             'type'        => 'files',
@@ -807,7 +806,7 @@ class Builder extends ZBuilder
                             'lg' => isset($layout[3]) ? ($layout[3] == '' ? $layout[0] : $layout[3]) : $layout[0],
                         ];
                     }
-                    $group[$key] = call_user_func_array([$this, 'add'.ucfirst($type)], $item);
+                    $group[$key] = call_user_func_array([$this, 'add' . ucfirst($type)], $item);
                 }
             }
             $this->_is_group = false;
@@ -898,8 +897,8 @@ class Builder extends ZBuilder
      */
     public function addImage($name = '', $title = '', $tips = '', $default = '', $size = '', $ext = '', $extra_class = '', $thumb = '', $watermark = '')
     {
-        $size = ($size != '' ? $size : config('upload_image_size')) * 1024;
-        $ext  = $ext != '' ? $ext : config('upload_image_ext');
+        $size = ($size != '' ? $size : config('app.upload_image_size')) * 1024;
+        $ext  = $ext != '' ? $ext : config('app.upload_image_ext');
 
         $item = [
             'type'        => 'image',
@@ -914,14 +913,14 @@ class Builder extends ZBuilder
 
         // 处理缩略图参数
         if (isset($thumb['size'])) {
-            $item['thumb'] = $thumb['size'].'|'.(isset($thumb['type']) ? $thumb['type'] : 1);
+            $item['thumb'] = $thumb['size'] . '|' . (isset($thumb['type']) ? $thumb['type'] : 1);
         } else {
             $item['thumb'] = $thumb;
         }
 
         // 处理水印参数
         if (isset($watermark['img'])) {
-            $item['watermark'] = $watermark['img'].'|'.(isset($watermark['pos']) ? $watermark['pos'] : 9).'|'.(isset($watermark['alpha']) ? $watermark['alpha'] : 50);
+            $item['watermark'] = $watermark['img'] . '|' . (isset($watermark['pos']) ? $watermark['pos'] : 9) . '|' . (isset($watermark['alpha']) ? $watermark['alpha'] : 50);
         } else {
             $item['watermark'] = $watermark;
         }
@@ -950,8 +949,8 @@ class Builder extends ZBuilder
      */
     public function addImages($name = '', $title = '', $tips = '', $default = '', $size = '', $ext = '', $extra_class = '', $thumb = '', $watermark = '')
     {
-        $size = ($size != '' ? $size : config('upload_image_size')) * 1024;
-        $ext  = $ext != '' ? $ext : config('upload_image_ext');
+        $size = ($size != '' ? $size : config('app.upload_image_size')) * 1024;
+        $ext  = $ext != '' ? $ext : config('app.upload_image_ext');
 
         $item = [
             'type'        => 'images',
@@ -966,14 +965,14 @@ class Builder extends ZBuilder
 
         // 处理缩略图参数
         if (isset($thumb['size'])) {
-            $item['thumb'] = $thumb['size'].'|'.(isset($thumb['type']) ? $thumb['type'] : 1);
+            $item['thumb'] = $thumb['size'] . '|' . (isset($thumb['type']) ? $thumb['type'] : 1);
         } else {
             $item['thumb'] = $thumb;
         }
 
         // 处理水印参数
         if (isset($watermark['img'])) {
-            $item['watermark'] = $watermark['img'].'|'.(isset($watermark['pos']) ? $watermark['pos'] : 9).'|'.(isset($watermark['alpha']) ? $watermark['alpha'] : 50);
+            $item['watermark'] = $watermark['img'] . '|' . (isset($watermark['pos']) ? $watermark['pos'] : 9) . '|' . (isset($watermark['alpha']) ? $watermark['alpha'] : 50);
         } else {
             $item['watermark'] = $watermark;
         }
@@ -1013,14 +1012,14 @@ class Builder extends ZBuilder
 
         // 处理缩略图参数
         if (isset($thumb['size'])) {
-            $item['thumb'] = $thumb['size'].'|'.(isset($thumb['type']) ? $thumb['type'] : 1);
+            $item['thumb'] = $thumb['size'] . '|' . (isset($thumb['type']) ? $thumb['type'] : 1);
         } else {
             $item['thumb'] = $thumb;
         }
 
         // 处理水印参数
         if (isset($watermark['img'])) {
-            $item['watermark'] = $watermark['img'].'|'.(isset($watermark['pos']) ? $watermark['pos'] : 9).'|'.(isset($watermark['alpha']) ? $watermark['alpha'] : 50);
+            $item['watermark'] = $watermark['img'] . '|' . (isset($watermark['pos']) ? $watermark['pos'] : 9) . '|' . (isset($watermark['alpha']) ? $watermark['alpha'] : 50);
         } else {
             $item['watermark'] = $watermark;
         }
@@ -1095,7 +1094,7 @@ class Builder extends ZBuilder
      */
     private function createLinkagesToken($table = '', $option = '', $key = '')
     {
-        $table_token = substr(sha1($table.'-'.$option.'-'.$key.'-'.session('user_auth.last_login_ip').'-'.UID.'-'.session('user_auth.last_login_time')), 0, 8);
+        $table_token = substr(sha1($table . '-' . $option . '-' . $key . '-' . session('user_auth.last_login_ip') . '-' . session('UID') . '-' . session('user_auth.last_login_time')), 0, 8);
         session($table_token, ['table' => $table, 'option' => $option, 'key' => $key]);
         return $table_token;
     }
@@ -1114,7 +1113,7 @@ class Builder extends ZBuilder
      */
     public function addLinkages($name = '', $title = '', $tips = '', $table = '', $level = 2, $default = '', $fields = [])
     {
-        if ($level > 4) {
+        if ($level > 5) {
             halt('目前最多只支持4级联动');
         }
 
@@ -1124,34 +1123,37 @@ class Builder extends ZBuilder
         $option = 'name';
         // 父级id字段名
         $pid    = 'pid';
-
+        $start_pid = 0;
         if (!empty($fields)) {
             if (!is_array($fields)) {
                 $fields = explode(',', $fields);
-                $key    = isset($fields[0]) ? $fields[0] : $key;
-                $option = isset($fields[1]) ? $fields[1] : $option;
-                $pid    = isset($fields[2]) ? $fields[2] : $pid;
+                $key    	= isset($fields[0]) ? $fields[0] : $key;
+                $option 	= isset($fields[1]) ? $fields[1] : $option;
+                $pid    	= isset($fields[2]) ? $fields[2] : $pid;
+                $start_pid  = isset($fields[3]) ? $fields[3] : $pid;
             } else {
-                $key    = isset($fields['id'])   ? $fields['id']   : $key;
-                $option = isset($fields['name']) ? $fields['name'] : $option;
-                $pid    = isset($fields['pid'])  ? $fields['pid']  : $pid;
+                $key    	= isset($fields['id'])   ? $fields['id']   : $key;
+                $option 	= isset($fields['name']) ? $fields['name'] : $option;
+                $pid    	= isset($fields['pid'])  ? $fields['pid']  : $pid;
+                $start_pid  = isset($fields['start_pid'])  ? $fields['start_pid']  : $pid;
             }
         }
 
         $linkages_token = $this->createLinkagesToken($table, $option, $key);
 
         $item = [
-            'type'   => 'linkages',
-            'name'   => $name,
-            'title'  => $title,
-            'tips'   => $tips,
-            'table'  => $table,
-            'level'  => $level,
-            'key'    => $key,
-            'option' => $option,
-            'pid'    => $pid,
-            'value'  => $default,
-            'token'  => $linkages_token,
+            'type'  	 => 'linkages',
+            'name'   	=> $name,
+            'title'  	=> $title,
+            'tips'   	=> $tips,
+            'table'  	=> $table,
+            'level'  	=> $level,
+            'key'    	=> $key,
+            'option' 	=> $option,
+            'pid'    	=> $pid,
+            'start_pid'	=> $start_pid,
+            'value'  	=> $default,
+            'token'  	=> $linkages_token,
         ];
 
         if ($this->_is_group) {
@@ -1227,7 +1229,7 @@ class Builder extends ZBuilder
             'step'        => $step,
             'extra_class' => $extra_class,
             'extra_attr'  => $extra_attr,
-            'placeholder' => isset($placeholder) ? $placeholder : '请输入'.$title,
+            'placeholder' => isset($placeholder) ? $placeholder : '请输入' . $title,
         ];
 
         if ($this->_is_group) {
@@ -1264,7 +1266,7 @@ class Builder extends ZBuilder
             'value'       => $default,
             'extra_class' => $extra_class,
             'extra_attr'  => $extra_attr,
-            'placeholder' => isset($placeholder) ? $placeholder : '请输入'.$title,
+            'placeholder' => isset($placeholder) ? $placeholder : '请输入' . $title,
         ];
 
         if ($this->_is_group) {
@@ -1363,6 +1365,7 @@ class Builder extends ZBuilder
      */
     public function addSelect($name = '', $title = '', $tips = '', $options = [], $default = '', $extra_attr = '', $extra_class = '')
     {
+
         $type = 'select';
 
         if ($extra_attr != '') {
@@ -1591,7 +1594,7 @@ class Builder extends ZBuilder
             'group'       => $group,
             'extra_class' => $extra_class,
             'extra_attr'  => $extra_attr,
-            'placeholder' => isset($placeholder) ? $placeholder : '请输入'.$title,
+            'placeholder' => isset($placeholder) ? $placeholder : '请输入' . $title,
         ];
 
         if ($this->_is_group) {
@@ -1628,7 +1631,7 @@ class Builder extends ZBuilder
             'value'       => $default,
             'extra_class' => $extra_class,
             'extra_attr'  => $extra_attr,
-            'placeholder' => isset($placeholder) ? $placeholder : '请输入'.$title,
+            'placeholder' => isset($placeholder) ? $placeholder : '请输入' . $title,
         ];
 
         if ($this->_is_group) {
@@ -1758,7 +1761,7 @@ class Builder extends ZBuilder
                 ];
             }
 
-            $method = 'add'. ucfirst($type);
+            $method = 'add' . ucfirst($type);
             call_user_func_array([$this, $method], $args);
         }
         return $this;
@@ -1805,7 +1808,6 @@ class Builder extends ZBuilder
                         break;
                 }
                 if ($item['type'] == 'group') {
-
                 } else {
                     $this->loadMinify($item['type']);
                 }
@@ -1840,30 +1842,53 @@ class Builder extends ZBuilder
         $type = strtolower(substr($methodName, 3));
 
         if ($type != '') {
-            $class_name = 'form\\'.$type.'\\Builder';
-            if (!class_exists($class_name)) {
-                throw new Exception('类：'.$class_name.'不存在', 7001);
-            }
 
-            if (method_exists($class_name, 'item')) {
-                $class = new $class_name;
-                $form_item = call_user_func_array([$class, 'item'], $argument);
-                $form_item['type'] = $type;
 
-                if (!empty($class->js)) {
-                    $this->_vars['extend_js_list'][$type] = $this->parseUrl($class->js, $type);
+            $plugin_form_items = Event::trigger($type, $argument);
+
+            if (count($plugin_form_items) > 0) {
+
+                $plugin_form_item = $plugin_form_items[0];
+
+                $plugin_form_item['item']['type'] = $type;
+
+                if (isset($plugin_form_item['js']) && !empty($plugin_form_item['js'])) {
+                    $this->_vars['extend_js_list'][$type] = $plugin_form_item['js'];
+                }else{
+                    $this->_vars['extend_js_list'][$type] = '';
                 }
-                if (!empty($class->css)) {
-                    $this->_vars['extend_css_list'][$type] = $this->parseUrl($class->css, $type);
+                if (isset($plugin_form_item['css']) && !empty($plugin_form_item['css'])) {
+                    $this->_vars['extend_css_list'][$type] = $plugin_form_item['css'];
+                }else{
+                    $this->_vars['extend_css_list'][$type] = '';
                 }
 
                 if ($this->_is_group) {
-                    return $form_item;
+                    return $plugin_form_item['item'];
                 }
-
-                $this->_vars['form_items'][] = $form_item;
+                // dump($plugin_form_item);
+                $this->_vars['form_items'][] = $plugin_form_item['item'];
             } else {
-                throw new Exception('扩展表单项未定义item()方法', 7001);
+                $class_name = 'form\\' . $type . '\\Builder';
+                if (class_exists($class_name) && method_exists($class_name, 'item')) {
+
+                    $class = new $class_name;
+                    $form_item = call_user_func_array([$class, 'item'], $argument);
+                    $form_item['type'] = $type;
+
+                    if (!empty($class->js)) {
+                        $this->_vars['extend_js_list'][$type] = $this->parseUrl($class->js, $type);
+                    }
+                    if (!empty($class->css)) {
+                        $this->_vars['extend_css_list'][$type] = $this->parseUrl($class->css, $type);
+                    }
+
+                    if ($this->_is_group) {
+                        return $form_item;
+                    }
+
+                    $this->_vars['form_items'][] = $form_item;
+                }
             }
         }
         return $this;
@@ -1880,9 +1905,9 @@ class Builder extends ZBuilder
     {
         foreach ($urls as $key => $item) {
             if (!preg_match('/__.*?__/', $item)) {
-                $urls[$key] = '__EXTEND_FORM__/'.$type.'/'.$item;
+                $urls[$key] = '__EXTEND_FORM__/' . $type . '/' . $item;
             }
-            $urls[$key] = str_replace(array_keys(config('template.tpl_replace_string')), array_values(config('template.tpl_replace_string')), $urls[$key]);
+            $urls[$key] = str_replace(array_keys(config('view.tpl_replace_string')), array_values(config('view.tpl_replace_string')), $urls[$key]);
         }
         return $urls;
     }
@@ -1929,8 +1954,8 @@ class Builder extends ZBuilder
     public function setExtraHtml($extra_html = '', $tag = '')
     {
         if ($extra_html != '') {
-            $tag != '' && $tag = '_'.$tag;
-            $this->_vars['extra_html'.$tag] = $extra_html;
+            $tag != '' && $tag = '_' . $tag;
+            $this->_vars['extra_html' . $tag] = $extra_html;
         }
         return $this;
     }
@@ -2040,15 +2065,15 @@ class Builder extends ZBuilder
     private function loadFile($type = '', $files_name = '', $module = '')
     {
         if ($files_name != '') {
-            $module = $module == '' ? $this->request->module() : $module;
+            $module = $module == '' ? app()->http->getName() : $module;
             if (!is_array($files_name)) {
                 $files_name = explode(',', $files_name);
             }
             foreach ($files_name as $item) {
                 if (strpos($item, '/')) {
-                    $this->_vars[$type.'_list'][] = PUBLIC_PATH. 'static/'. $item.'.'.$type;
+                    $this->_vars[$type . '_list'][] = Env::get('public_path') . 'static/' . $item . '.' . $type;
                 } else {
-                    $this->_vars[$type.'_list'][] = PUBLIC_PATH. 'static/'. $module .'/'.$type.'/'.$item.'.'.$type;
+                    $this->_vars[$type . '_list'][] = Env::get('public_path') . 'static/' . $module . '/' . $type . '/' . $item . '.' . $type;
                 }
             }
         }
@@ -2229,7 +2254,7 @@ class Builder extends ZBuilder
                                     }
                                     break;
                                 case 'bmap':
-                                    $group[$key]['address'] = $this->_vars['form_data'][$value['name'].'_address'];
+                                    $group[$key]['address'] = $this->_vars['form_data'][$value['name'] . '_address'];
                                 default:
                                     if (isset($this->_vars['form_data'][$value['name']])) {
                                         $group[$key]['value'] = $this->_vars['form_data'][$value['name']];
@@ -2271,14 +2296,13 @@ class Builder extends ZBuilder
                             }
                             break;
                         case 'bmap':
-                            $item['address'] = $this->_vars['form_data'][$item['name'].'_address'];
+                            $item['address'] = $this->_vars['form_data'][$item['name'] . '_address'];
                         default:
                             if (isset($this->_vars['form_data'][$item['name']])) {
                                 $item['value'] = $this->_vars['form_data'][$item['name']];
                             } else {
                                 $item['value'] = isset($item['value']) ? $item['value'] : '';
                             }
-
                     }
                     if ($item['type'] == 'static' && $item['hidden'] != '') {
                         $item['hidden'] = $this->_vars['form_data'][$item['name']];
@@ -2297,11 +2321,10 @@ class Builder extends ZBuilder
      * 加载模板输出
      * @param string $template 模板文件名
      * @param array  $vars     模板输出变量
-     * @param array  $config   模板参数
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      */
-    public function fetch($template = '', $vars = [], $config = [])
+    public function fetch($template = '', $vars = [])
     {
         if (!empty($vars)) {
             $this->_vars['form_data'] = array_merge($this->_vars['form_data'], $vars);
@@ -2314,7 +2337,7 @@ class Builder extends ZBuilder
         $this->loadMinify();
 
         // 处理页面标题
-        if ($this->_vars['page_title'] == '' && defined('ENTRANCE') && ENTRANCE == 'admin') {
+        if ($this->_vars['page_title'] == '' && request()->import == 'admin') {
             $location = get_location('', false, false);
             if ($location) {
                 $curr_location = end($location);
@@ -2354,8 +2377,8 @@ class Builder extends ZBuilder
 
         // 处理额外按钮
         $this->_vars['btn_extra'] = implode(' ', $this->_vars['btn_extra']);
-
+        // dump($this->_vars);die;
         // 实例化视图并渲染
-        return parent::fetch($this->_template, $this->_vars, $config);
+        return View::fetch($this->_template, $this->_vars);
     }
 }

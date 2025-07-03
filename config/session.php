@@ -14,13 +14,16 @@
 // +----------------------------------------------------------------------
 
 return [
-    'id'             => '',
+    // session name
+    'name'           => 'PHPSESSID',
     // SESSION_ID的提交变量,解决flash上传跨域
     'var_session_id' => '',
-    // SESSION 前缀
-    'prefix'         => 'dolphin_',
-    // 驱动方式 支持redis memcache memcached
-    'type'           => '',
-    // 是否自动开启 SESSION
-    'auto_start'     => true,
+    // 驱动方式 支持file cache
+    'type'           => 'cache',
+    // 存储连接标识 当type使用cache的时候有效
+    'store'          => null,
+    // 过期时间
+    'expire'         => 86400,
+    // 前缀
+    'prefix'         => 'session_',
 ];

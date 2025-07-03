@@ -16,16 +16,15 @@
         }
     ],
     "require": {
-        "php": ">=7.2.5",
-        "topthink/framework": "^6.0.0",
+        "php": ">=8.0",
+        "topthink/framework": "^8.0.0",
         "topthink/think-image": "^1.0",
-        "topthink/think-helper": "^1.0",
+        "topthink/think-helper": "^3.1",
         "ezyang/htmlpurifier": "^4.9",
-        "yangweijie/rector-thinkphp": "dev-main",
-        "topthink/think-orm": "^2.0",
+        "topthink/think-orm": "^2.0|^3.0",
         "topthink/think-view": "^1.0",
         "topthink/think-captcha": "^3.0",
-        "topthink/think-multi-app": "^1.0"
+        "topthink/think-queue": "*"
     },
     "config": {
         "preferred-install": "dist",
@@ -48,8 +47,8 @@
         "test": "phpunit",
         "test-coverage": "phpunit --coverage-html coverage",
         "post-autoload-dump": [
-            "php74 think service:discover",
-            "php74 think vendor:publish"
+            "php think service:discover",
+            "php think vendor:publish"
         ]
     }
 }

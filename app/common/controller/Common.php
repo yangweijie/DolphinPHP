@@ -9,13 +9,16 @@
 
 namespace app\common\controller;
 
+use app\BaseController;
 use think\Controller;
+use think\facade\Db;
+use think\facade\View;
 
 /**
  * 项目公共控制器
  * @package app\common\controller
  */
-class Common extends Controller
+class Common extends BaseController
 {
     /**
      * 初始化
@@ -23,12 +26,13 @@ class Common extends Controller
      */
     protected function initialize()
     {
+
         // 后台公共模板
-        $this->assign('_admin_base_layout', config('admin_base_layout'));
+        View::assign('_admin_base_layout', config('app.admin_base_layout'));
         // 当前配色方案
-        $this->assign('system_color', config('system_color'));
+        View::assign('system_color', config('asystem_color'));
         // 输出弹出层参数
-        $this->assign('_pop', $this->request->param('_pop'));
+        View::assign('_pop', $this->request->param('_pop'));
     }
 
     /**
@@ -64,14 +68,17 @@ class Common extends Controller
             $select_value = array_filter(explode('|', $select_value), 'strlen');
             foreach ($select_field as $key => $item) {
                 if ($select_value[$key] != '_all') {
-                    $map[] = [$item, '=', $select_value[$key]];
+                    if (!in_array($item, ['province', 'city', 'county', 'town', 'village'])) {
+
+                        $map[] = [$item, '=', $select_value[$key]];
+                    }
                 }
             }
         }
 
         // 时间段搜索
         if ($filter_time != '' && $filter_time_from != '' && $filter_time_to != '') {
-            $map[] = [$filter_time, 'between time', [$filter_time_from.' 00:00:00', $filter_time_to.' 23:59:59']];
+            $map[] = [$filter_time, 'between time', [$filter_time_from . ' 00:00:00', $filter_time_to . ' 23:59:59']];
         }
 
         // 表头筛选
@@ -102,8 +109,8 @@ class Common extends Controller
                         case 'not between time':
                             $value = explode(' - ', $value);
                             if ($value[0] == $value[1]) {
-                                $value[0] = date('Y-m-d', strtotime($value[0])). ' 00:00:00';
-                                $value[1] = date('Y-m-d', strtotime($value[1])). ' 23:59:59';
+                                $value[0] = date('Y-m-d', strtotime($value[0])) . ' 00:00:00';
+                                $value[1] = date('Y-m-d', strtotime($value[1])) . ' 23:59:59';
                             }
                         default:
                             $map[] = [$field, $op[1], $value];
@@ -113,6 +120,77 @@ class Common extends Controller
         }
         return $map;
     }
+
+    public $area_key = [];
+    function getMapValue($key = null, $default = null)
+    {
+        $this->area_key[] = $key;
+        $params = $this->getMap();
+        if (!$params) {
+            return $default;
+        }
+        if ($key === null) {
+            $new_params = [];
+            foreach ($params as $key => $value) {
+                if (!in_array($value[0], $this->area_key)) {
+                    $new_params[] = $value;
+                }
+            }
+            return $new_params;
+        }
+        if ($default === null) {
+            return false;
+        }
+
+        foreach ($params as $n =>  $items) {
+
+            if ($key == $items[0]) {
+                $value = $items[2];
+
+                return $value;
+            } else {
+                return $default ?: false;
+            }
+        }
+    }
+
+    public function getAreaParam($area = [])
+    {
+        $select_field     = input('param._select_field/s', '', 'trim');
+        $select_value     = input('param._select_value/s', '', 'trim');
+
+        if ($select_field != '') {
+            $select_field = array_filter(explode('|', $select_field), 'strlen');
+            $select_value = array_filter(explode('|', $select_value), 'strlen');
+            foreach ($select_field as $key => $item) {
+                if (in_array($item, ['province', 'city', 'county', 'town', 'village'])) {
+                    if ($select_value[$key] == '_all') {
+                        $area[] = '';
+                    } else {
+                        $area[$item] = $select_value[$key];
+                    }
+                }
+            }
+        }
+        return [
+            ['area_region', 'like', '%' . join('', $area) . '%'],
+            $area
+        ];
+    }
+    public function getAreaIdByPid($pid = null)
+    {
+        if (!$pid) {
+            return '';
+        }
+        $res_area =	Db::name('area_stepless')->where('pid', $pid)->find();
+        if ($res_area) {
+            return $res_area['id'];
+        } else {
+            return false;
+        }
+    }
+
+
 
     /**
      * 获取字段排序
@@ -129,12 +207,12 @@ class Common extends Controller
             return $extra_order;
         }
         if ($extra_order == '') {
-            return $order. ' '. $by;
+            return $order . ' ' . $by;
         }
         if ($before) {
-            return $extra_order. ',' .$order. ' '. $by;
+            return $extra_order . ',' . $order . ' ' . $by;
         } else {
-            return $order. ' '. $by . ',' . $extra_order;
+            return $order . ' ' . $by . ',' . $extra_order;
         }
     }
 
@@ -143,11 +221,10 @@ class Common extends Controller
      * @param string $template 模板文件名
      * @param string $suffix 模板后缀
      * @param array $vars 模板输出变量
-     * @param array $config 模板参数
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      */
-    final protected function pluginView($template = '', $suffix = '', $vars = [], $config = [])
+    final protected function pluginView($template = '', $suffix = '', $vars = [])
     {
         $plugin_name = input('param.plugin_name');
 
@@ -160,7 +237,7 @@ class Common extends Controller
         }
         $suffix = $suffix == '' ? 'html' : $suffix;
         $template = $template == '' ? $action : $template;
-        $template_path = config('plugin_path'). "{$plugin}/view/{$template}.{$suffix}";
-        return parent::fetch($template_path, $vars, $config);
+        $template_path = config('app.plugin_path') . "{$plugin}/view/{$template}.{$suffix}";
+        return View::fetch($template_path, $vars);
     }
 }

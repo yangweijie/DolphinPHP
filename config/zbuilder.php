@@ -11,6 +11,14 @@
  * ZBuilder相关设置
  */
 return [
+
+    // 拒绝ie访问
+    'deny_ie'       => false,
+    // 模块管理中，不读取模块信息的目录
+    'except_module' => ['command', 'common', 'admin', 'index', 'extra', 'user', 'install'],
+    // 使用默认控制器层的模块
+    'default_controller_layer' => ['admin', 'index', 'install', 'common', 'extra'],
+
     // +----------------------------------------------------------------------
     // | 表格相关设置
     // +----------------------------------------------------------------------
