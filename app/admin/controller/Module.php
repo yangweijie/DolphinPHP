@@ -149,6 +149,7 @@ class Module extends Admin
             return $this->fetch();
         }
 
+        var_dump(app_path());die;
         // 执行安装文件
         $install_file = realpath(Env::get('app_path').$name.'/install.php');
         if (file_exists($install_file)) {

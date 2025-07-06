@@ -8,11 +8,11 @@ class ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8
 {
     public static $files = array (
         '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
+        '35fab96057f1bf5e7aba31a8a6d5fdde' => __DIR__ . '/..' . '/topthink/think-orm/stubs/load_stubs.php',
+        '15ec93fa4ce4b2d53816a1a5f2c514e2' => __DIR__ . '/..' . '/topthink/think-validate/src/helper.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
-        '35fab96057f1bf5e7aba31a8a6d5fdde' => __DIR__ . '/..' . '/topthink/think-orm/stubs/load_stubs.php',
-        '15ec93fa4ce4b2d53816a1a5f2c514e2' => __DIR__ . '/..' . '/topthink/think-validate/src/helper.php',
         '2203a247e6fda86070a5e4e07aed533a' => __DIR__ . '/..' . '/symfony/clock/Resources/now.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
@@ -25,12 +25,22 @@ class ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8
     );
 
     public static $prefixLengthsPsr4 = array (
+        'y' => 
+        array (
+            'yangweijie\\exception\\' => 21,
+            'yangweijie\\editor\\' => 18,
+        ),
         't' => 
         array (
             'think\\view\\driver\\' => 18,
             'think\\captcha\\' => 14,
+            'think\\app\\' => 10,
             'think\\' => 6,
             'tests\\' => 6,
+        ),
+        'a' => 
+        array (
+            'app\\' => 4,
         ),
         'S' => 
         array (
@@ -67,6 +77,14 @@ class ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8
     );
 
     public static $prefixDirsPsr4 = array (
+        'yangweijie\\exception\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yangweijie/think-exception/src',
+        ),
+        'yangweijie\\editor\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yangweijie/think-editor/src',
+        ),
         'think\\view\\driver\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-view/src',
@@ -74,6 +92,10 @@ class ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8
         'think\\captcha\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-captcha/src',
+        ),
+        'think\\app\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/topthink/think-multi-app/src',
         ),
         'think\\' => 
         array (
@@ -89,6 +111,10 @@ class ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8
         'tests\\' => 
         array (
             0 => __DIR__ . '/../..' . '/tests',
+        ),
+        'app\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app',
         ),
         'Symfony\\Polyfill\\Php83\\' => 
         array (
@@ -168,6 +194,10 @@ class ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8
                 0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
             ),
         ),
+    );
+
+    public static $fallbackDirsPsr0 = array (
+        0 => __DIR__ . '/../..' . '/extend',
     );
 
     public static $classMap = array (
@@ -888,6 +918,7 @@ class ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8
             $loader->prefixLengthsPsr4 = ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8::$prefixesPsr0;
+            $loader->fallbackDirsPsr0 = ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8::$fallbackDirsPsr0;
             $loader->classMap = ComposerStaticInitea24a8d88377c9cd0962665edfe67ce8::$classMap;
 
         }, null, ClassLoader::class);

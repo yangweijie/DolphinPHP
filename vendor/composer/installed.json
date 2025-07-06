@@ -201,21 +201,21 @@
                 },
                 {
                         "name": "hamcrest/hamcrest-php",
-                        "version": "v2.0.1",
-                        "version_normalized": "2.0.1.0",
+                        "version": "v2.1.1",
+                        "version_normalized": "2.1.1.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/hamcrest/hamcrest-php.git",
-                                "reference": "8c3d0a3f6af734494ad8f6fbbee0ba92422859f3"
+                                "reference": "f8b1c0173b22fa6ec77a81fe63e5b01eba7e6487"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/hamcrest/hamcrest-php/v2.0.1/hamcrest-hamcrest-php-v2.0.1.zip",
-                                "reference": "8c3d0a3f6af734494ad8f6fbbee0ba92422859f3",
+                                "url": "https://api.github.com/repos/hamcrest/hamcrest-php/zipball/f8b1c0173b22fa6ec77a81fe63e5b01eba7e6487",
+                                "reference": "f8b1c0173b22fa6ec77a81fe63e5b01eba7e6487",
                                 "shasum": ""
                         },
                         "require": {
-                                "php": "^5.3|^7.0|^8.0"
+                                "php": "^7.4|^8.0"
                         },
                         "replace": {
                                 "cordoval/hamcrest-php": "*",
@@ -223,10 +223,10 @@
                                 "kodova/hamcrest-php": "*"
                         },
                         "require-dev": {
-                                "phpunit/php-file-iterator": "^1.4 || ^2.0",
-                                "phpunit/phpunit": "^4.8.36 || ^5.7 || ^6.5 || ^7.0"
+                                "phpunit/php-file-iterator": "^1.4 || ^2.0 || ^3.0",
+                                "phpunit/phpunit": "^4.8.36 || ^5.7 || ^6.5 || ^7.0 || ^8.0 || ^9.0"
                         },
-                        "time": "2020-07-09T08:09:16+00:00",
+                        "time": "2025-04-30T06:54:44+00:00",
                         "type": "library",
                         "extra": {
                                 "branch-alias": {
@@ -239,6 +239,7 @@
                                         "hamcrest"
                                 ]
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "BSD-3-Clause"
                         ],
@@ -246,6 +247,10 @@
                         "keywords": [
                                 "test"
                         ],
+                        "support": {
+                                "issues": "https://github.com/hamcrest/hamcrest-php/issues",
+                                "source": "https://github.com/hamcrest/hamcrest-php/tree/v2.1.1"
+                        },
                         "install-path": "../hamcrest/hamcrest-php"
                 },
                 {
@@ -336,17 +341,17 @@
                 },
                 {
                         "name": "myclabs/deep-copy",
-                        "version": "1.12.1",
-                        "version_normalized": "1.12.1.0",
+                        "version": "1.13.2",
+                        "version_normalized": "1.13.2.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/myclabs/DeepCopy.git",
-                                "reference": "123267b2c49fbf30d78a7b2d333f6be754b94845"
+                                "reference": "d25e62e636b0a9b01e3bdebb7823b474876dd829"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/myclabs/deep-copy/1.12.1/myclabs-deep-copy-1.12.1.zip",
-                                "reference": "123267b2c49fbf30d78a7b2d333f6be754b94845",
+                                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/d25e62e636b0a9b01e3bdebb7823b474876dd829",
+                                "reference": "d25e62e636b0a9b01e3bdebb7823b474876dd829",
                                 "shasum": ""
                         },
                         "require": {
@@ -362,7 +367,7 @@
                                 "phpspec/prophecy": "^1.10",
                                 "phpunit/phpunit": "^7.5.20 || ^8.5.23 || ^9.5.13"
                         },
-                        "time": "2024-11-08T17:47:46+00:00",
+                        "time": "2025-07-04T14:07:32+00:00",
                         "type": "library",
                         "installation-source": "dist",
                         "autoload": {
@@ -373,6 +378,7 @@
                                         "DeepCopy\\": "src/DeepCopy/"
                                 }
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "MIT"
                         ],
@@ -384,6 +390,10 @@
                                 "object",
                                 "object graph"
                         ],
+                        "support": {
+                                "issues": "https://github.com/myclabs/DeepCopy/issues",
+                                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.2"
+                        },
                         "funding": [
                                 {
                                         "url": "https://tidelift.com/funding/github/packagist/myclabs/deep-copy",
@@ -394,17 +404,17 @@
                 },
                 {
                         "name": "nesbot/carbon",
-                        "version": "3.8.4",
-                        "version_normalized": "3.8.4.0",
+                        "version": "3.10.1",
+                        "version_normalized": "3.10.1.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/CarbonPHP/carbon.git",
-                                "reference": "129700ed449b1f02d70272d2ac802357c8c30c58"
+                                "reference": "1fd1935b2d90aef2f093c5e35f7ae1257c448d00"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/nesbot/carbon/3.8.4/nesbot-carbon-3.8.4.zip",
-                                "reference": "129700ed449b1f02d70272d2ac802357c8c30c58",
+                                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/1fd1935b2d90aef2f093c5e35f7ae1257c448d00",
+                                "reference": "1fd1935b2d90aef2f093c5e35f7ae1257c448d00",
                                 "shasum": ""
                         },
                         "require": {
@@ -412,9 +422,9 @@
                                 "ext-json": "*",
                                 "php": "^8.1",
                                 "psr/clock": "^1.0",
-                                "symfony/clock": "^6.3 || ^7.0",
+                                "symfony/clock": "^6.3.12 || ^7.0",
                                 "symfony/polyfill-mbstring": "^1.0",
-                                "symfony/translation": "^4.4.18 || ^5.2.1|| ^6.0 || ^7.0"
+                                "symfony/translation": "^4.4.18 || ^5.2.1 || ^6.0 || ^7.0"
                         },
                         "provide": {
                                 "psr/clock-implementation": "1.0"
@@ -422,16 +432,15 @@
                         "require-dev": {
                                 "doctrine/dbal": "^3.6.3 || ^4.0",
                                 "doctrine/orm": "^2.15.2 || ^3.0",
-                                "friendsofphp/php-cs-fixer": "^3.57.2",
+                                "friendsofphp/php-cs-fixer": "^3.75.0",
                                 "kylekatarnls/multi-tester": "^2.5.3",
-                                "ondrejmirtes/better-reflection": "^6.25.0.4",
                                 "phpmd/phpmd": "^2.15.0",
-                                "phpstan/extension-installer": "^1.3.1",
-                                "phpstan/phpstan": "^1.11.2",
-                                "phpunit/phpunit": "^10.5.20",
-                                "squizlabs/php_codesniffer": "^3.9.0"
+                                "phpstan/extension-installer": "^1.4.3",
+                                "phpstan/phpstan": "^2.1.17",
+                                "phpunit/phpunit": "^10.5.46",
+                                "squizlabs/php_codesniffer": "^3.13.0"
                         },
-                        "time": "2024-12-27T09:25:35+00:00",
+                        "time": "2025-06-21T15:19:35+00:00",
                         "bin": [
                                 "bin/carbon"
                         ],
@@ -458,6 +467,7 @@
                                         "Carbon\\": "src/Carbon/"
                                 }
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "MIT"
                         ],
@@ -479,6 +489,11 @@
                                 "datetime",
                                 "time"
                         ],
+                        "support": {
+                                "docs": "https://carbon.nesbot.com/docs",
+                                "issues": "https://github.com/CarbonPHP/carbon/issues",
+                                "source": "https://github.com/CarbonPHP/carbon"
+                        },
                         "funding": [
                                 {
                                         "url": "https://github.com/sponsors/kylekatarnls",
@@ -497,17 +512,17 @@
                 },
                 {
                         "name": "nikic/php-parser",
-                        "version": "v5.4.0",
-                        "version_normalized": "5.4.0.0",
+                        "version": "v5.5.0",
+                        "version_normalized": "5.5.0.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/nikic/PHP-Parser.git",
-                                "reference": "447a020a1f875a434d62f2a401f53b82a396e494"
+                                "reference": "ae59794362fe85e051a58ad36b289443f57be7a9"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/nikic/php-parser/v5.4.0/nikic-php-parser-v5.4.0.zip",
-                                "reference": "447a020a1f875a434d62f2a401f53b82a396e494",
+                                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/ae59794362fe85e051a58ad36b289443f57be7a9",
+                                "reference": "ae59794362fe85e051a58ad36b289443f57be7a9",
                                 "shasum": ""
                         },
                         "require": {
@@ -520,7 +535,7 @@
                                 "ircmaxell/php-yacc": "^0.0.7",
                                 "phpunit/phpunit": "^9.0"
                         },
-                        "time": "2024-12-30T11:07:19+00:00",
+                        "time": "2025-05-31T08:24:38+00:00",
                         "bin": [
                                 "bin/php-parse"
                         ],
@@ -536,6 +551,7 @@
                                         "PhpParser\\": "lib/PhpParser"
                                 }
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "BSD-3-Clause"
                         ],
@@ -549,6 +565,10 @@
                                 "parser",
                                 "php"
                         ],
+                        "support": {
+                                "issues": "https://github.com/nikic/PHP-Parser/issues",
+                                "source": "https://github.com/nikic/PHP-Parser/tree/v5.5.0"
+                        },
                         "install-path": "../nikic/php-parser"
                 },
                 {
@@ -985,17 +1005,17 @@
                 },
                 {
                         "name": "phpunit/phpunit",
-                        "version": "9.6.22",
-                        "version_normalized": "9.6.22.0",
+                        "version": "9.6.23",
+                        "version_normalized": "9.6.23.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                                "reference": "f80235cb4d3caa59ae09be3adf1ded27521d1a9c"
+                                "reference": "43d2cb18d0675c38bd44982a5d1d88f6d53d8d95"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/phpunit/phpunit/9.6.22/phpunit-phpunit-9.6.22.zip",
-                                "reference": "f80235cb4d3caa59ae09be3adf1ded27521d1a9c",
+                                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/43d2cb18d0675c38bd44982a5d1d88f6d53d8d95",
+                                "reference": "43d2cb18d0675c38bd44982a5d1d88f6d53d8d95",
                                 "shasum": ""
                         },
                         "require": {
@@ -1006,7 +1026,7 @@
                                 "ext-mbstring": "*",
                                 "ext-xml": "*",
                                 "ext-xmlwriter": "*",
-                                "myclabs/deep-copy": "^1.12.1",
+                                "myclabs/deep-copy": "^1.13.1",
                                 "phar-io/manifest": "^2.0.4",
                                 "phar-io/version": "^3.2.1",
                                 "php": ">=7.3",
@@ -1031,7 +1051,7 @@
                                 "ext-soap": "To be able to generate mocks based on WSDL files",
                                 "ext-xdebug": "PHP extension that provides line coverage as well as branch and path coverage"
                         },
-                        "time": "2024-12-05T13:48:26+00:00",
+                        "time": "2025-05-02T06:40:34+00:00",
                         "bin": [
                                 "phpunit"
                         ],
@@ -1050,6 +1070,7 @@
                                         "src/"
                                 ]
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "BSD-3-Clause"
                         ],
@@ -1067,6 +1088,11 @@
                                 "testing",
                                 "xunit"
                         ],
+                        "support": {
+                                "issues": "https://github.com/sebastianbergmann/phpunit/issues",
+                                "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
+                                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.23"
+                        },
                         "funding": [
                                 {
                                         "url": "https://phpunit.de/sponsors.html",
@@ -1075,6 +1101,14 @@
                                 {
                                         "url": "https://github.com/sebastianbergmann",
                                         "type": "github"
+                                },
+                                {
+                                        "url": "https://liberapay.com/sebastianbergmann",
+                                        "type": "liberapay"
+                                },
+                                {
+                                        "url": "https://thanks.dev/u/gh/sebastianbergmann",
+                                        "type": "thanks_dev"
                                 },
                                 {
                                         "url": "https://tidelift.com/funding/github/packagist/phpunit/phpunit",
@@ -2282,8 +2316,8 @@
                 },
                 {
                         "name": "symfony/clock",
-                        "version": "v7.2.0",
-                        "version_normalized": "7.2.0.0",
+                        "version": "v7.3.0",
+                        "version_normalized": "7.3.0.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/symfony/clock.git",
@@ -2291,7 +2325,7 @@
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/symfony/clock/v7.2.0/symfony-clock-v7.2.0.zip",
+                                "url": "https://api.github.com/repos/symfony/clock/zipball/b81435fbd6648ea425d1ee96a2d8e68f4ceacd24",
                                 "reference": "b81435fbd6648ea425d1ee96a2d8e68f4ceacd24",
                                 "shasum": ""
                         },
@@ -2317,6 +2351,7 @@
                                         "/Tests/"
                                 ]
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "MIT"
                         ],
@@ -2337,6 +2372,9 @@
                                 "psr20",
                                 "time"
                         ],
+                        "support": {
+                                "source": "https://github.com/symfony/clock/tree/v7.3.0"
+                        },
                         "funding": [
                                 {
                                         "url": "https://symfony.com/sponsor",
@@ -2355,23 +2393,23 @@
                 },
                 {
                         "name": "symfony/deprecation-contracts",
-                        "version": "v3.5.1",
-                        "version_normalized": "3.5.1.0",
+                        "version": "v3.6.0",
+                        "version_normalized": "3.6.0.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                                "reference": "74c71c939a79f7d5bf3c1ce9f5ea37ba0114c6f6"
+                                "reference": "63afe740e99a13ba87ec199bb07bbdee937a5b62"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/symfony/deprecation-contracts/v3.5.1/symfony-deprecation-contracts-v3.5.1.zip",
-                                "reference": "74c71c939a79f7d5bf3c1ce9f5ea37ba0114c6f6",
+                                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/63afe740e99a13ba87ec199bb07bbdee937a5b62",
+                                "reference": "63afe740e99a13ba87ec199bb07bbdee937a5b62",
                                 "shasum": ""
                         },
                         "require": {
                                 "php": ">=8.1"
                         },
-                        "time": "2024-09-25T14:20:29+00:00",
+                        "time": "2024-09-25T14:21:43+00:00",
                         "type": "library",
                         "extra": {
                                 "thanks": {
@@ -2379,7 +2417,7 @@
                                         "name": "symfony/contracts"
                                 },
                                 "branch-alias": {
-                                        "dev-main": "3.5-dev"
+                                        "dev-main": "3.6-dev"
                                 }
                         },
                         "installation-source": "dist",
@@ -2388,6 +2426,7 @@
                                         "function.php"
                                 ]
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "MIT"
                         ],
@@ -2403,6 +2442,9 @@
                         ],
                         "description": "A generic function and convention to trigger deprecation notices",
                         "homepage": "https://symfony.com",
+                        "support": {
+                                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.6.0"
+                        },
                         "funding": [
                                 {
                                         "url": "https://symfony.com/sponsor",
@@ -2421,20 +2463,21 @@
                 },
                 {
                         "name": "symfony/polyfill-mbstring",
-                        "version": "v1.31.0",
-                        "version_normalized": "1.31.0.0",
+                        "version": "v1.32.0",
+                        "version_normalized": "1.32.0.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                                "reference": "85181ba99b2345b0ef10ce42ecac37612d9fd341"
+                                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/symfony/polyfill-mbstring/v1.31.0/symfony-polyfill-mbstring-v1.31.0.zip",
-                                "reference": "85181ba99b2345b0ef10ce42ecac37612d9fd341",
+                                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/6d857f4d76bd4b343eac26d6b539585d2bc56493",
+                                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493",
                                 "shasum": ""
                         },
                         "require": {
+                                "ext-iconv": "*",
                                 "php": ">=7.2"
                         },
                         "provide": {
@@ -2443,7 +2486,7 @@
                         "suggest": {
                                 "ext-mbstring": "For best performance"
                         },
-                        "time": "2024-09-09T11:45:10+00:00",
+                        "time": "2024-12-23T08:48:59+00:00",
                         "type": "library",
                         "extra": {
                                 "thanks": {
@@ -2460,6 +2503,7 @@
                                         "Symfony\\Polyfill\\Mbstring\\": ""
                                 }
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "MIT"
                         ],
@@ -2482,6 +2526,9 @@
                                 "portable",
                                 "shim"
                         ],
+                        "support": {
+                                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.32.0"
+                        },
                         "funding": [
                                 {
                                         "url": "https://symfony.com/sponsor",
@@ -2500,8 +2547,8 @@
                 },
                 {
                         "name": "symfony/polyfill-php83",
-                        "version": "v1.31.0",
-                        "version_normalized": "1.31.0.0",
+                        "version": "v1.32.0",
+                        "version_normalized": "1.32.0.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/symfony/polyfill-php83.git",
@@ -2509,7 +2556,7 @@
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/symfony/polyfill-php83/v1.31.0/symfony-polyfill-php83-v1.31.0.zip",
+                                "url": "https://api.github.com/repos/symfony/polyfill-php83/zipball/2fb86d65e2d424369ad2905e83b236a8805ba491",
                                 "reference": "2fb86d65e2d424369ad2905e83b236a8805ba491",
                                 "shasum": ""
                         },
@@ -2536,6 +2583,7 @@
                                         "Resources/stubs"
                                 ]
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "MIT"
                         ],
@@ -2557,6 +2605,9 @@
                                 "portable",
                                 "shim"
                         ],
+                        "support": {
+                                "source": "https://github.com/symfony/polyfill-php83/tree/v1.32.0"
+                        },
                         "funding": [
                                 {
                                         "url": "https://symfony.com/sponsor",
@@ -2575,23 +2626,23 @@
                 },
                 {
                         "name": "symfony/process",
-                        "version": "v7.2.0",
-                        "version_normalized": "7.2.0.0",
+                        "version": "v7.3.0",
+                        "version_normalized": "7.3.0.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/symfony/process.git",
-                                "reference": "d34b22ba9390ec19d2dd966c40aa9e8462f27a7e"
+                                "reference": "40c295f2deb408d5e9d2d32b8ba1dd61e36f05af"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/symfony/process/v7.2.0/symfony-process-v7.2.0.zip",
-                                "reference": "d34b22ba9390ec19d2dd966c40aa9e8462f27a7e",
+                                "url": "https://api.github.com/repos/symfony/process/zipball/40c295f2deb408d5e9d2d32b8ba1dd61e36f05af",
+                                "reference": "40c295f2deb408d5e9d2d32b8ba1dd61e36f05af",
                                 "shasum": ""
                         },
                         "require": {
                                 "php": ">=8.2"
                         },
-                        "time": "2024-11-06T14:24:19+00:00",
+                        "time": "2025-04-17T09:11:12+00:00",
                         "type": "library",
                         "installation-source": "dist",
                         "autoload": {
@@ -2602,6 +2653,7 @@
                                         "/Tests/"
                                 ]
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "MIT"
                         ],
@@ -2617,6 +2669,9 @@
                         ],
                         "description": "Executes commands in sub-processes",
                         "homepage": "https://symfony.com",
+                        "support": {
+                                "source": "https://github.com/symfony/process/tree/v7.3.0"
+                        },
                         "funding": [
                                 {
                                         "url": "https://symfony.com/sponsor",
@@ -2635,17 +2690,17 @@
                 },
                 {
                         "name": "symfony/translation",
-                        "version": "v7.2.2",
-                        "version_normalized": "7.2.2.0",
+                        "version": "v7.3.1",
+                        "version_normalized": "7.3.1.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/symfony/translation.git",
-                                "reference": "e2674a30132b7cc4d74540d6c2573aa363f05923"
+                                "reference": "241d5ac4910d256660238a7ecf250deba4c73063"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/symfony/translation/v7.2.2/symfony-translation-v7.2.2.zip",
-                                "reference": "e2674a30132b7cc4d74540d6c2573aa363f05923",
+                                "url": "https://api.github.com/repos/symfony/translation/zipball/241d5ac4910d256660238a7ecf250deba4c73063",
+                                "reference": "241d5ac4910d256660238a7ecf250deba4c73063",
                                 "shasum": ""
                         },
                         "require": {
@@ -2655,6 +2710,7 @@
                                 "symfony/translation-contracts": "^2.5|^3.0"
                         },
                         "conflict": {
+                                "nikic/php-parser": "<5.0",
                                 "symfony/config": "<6.4",
                                 "symfony/console": "<6.4",
                                 "symfony/dependency-injection": "<6.4",
@@ -2668,7 +2724,7 @@
                                 "symfony/translation-implementation": "2.3|3.0"
                         },
                         "require-dev": {
-                                "nikic/php-parser": "^4.18|^5.0",
+                                "nikic/php-parser": "^5.0",
                                 "psr/log": "^1|^2|^3",
                                 "symfony/config": "^6.4|^7.0",
                                 "symfony/console": "^6.4|^7.0",
@@ -2682,7 +2738,7 @@
                                 "symfony/service-contracts": "^2.5|^3",
                                 "symfony/yaml": "^6.4|^7.0"
                         },
-                        "time": "2024-12-07T08:18:10+00:00",
+                        "time": "2025-06-27T19:55:54+00:00",
                         "type": "library",
                         "installation-source": "dist",
                         "autoload": {
@@ -2696,6 +2752,7 @@
                                         "/Tests/"
                                 ]
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "MIT"
                         ],
@@ -2711,6 +2768,9 @@
                         ],
                         "description": "Provides tools to internationalize your application",
                         "homepage": "https://symfony.com",
+                        "support": {
+                                "source": "https://github.com/symfony/translation/tree/v7.3.1"
+                        },
                         "funding": [
                                 {
                                         "url": "https://symfony.com/sponsor",
@@ -2729,23 +2789,23 @@
                 },
                 {
                         "name": "symfony/translation-contracts",
-                        "version": "v3.5.1",
-                        "version_normalized": "3.5.1.0",
+                        "version": "v3.6.0",
+                        "version_normalized": "3.6.0.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/symfony/translation-contracts.git",
-                                "reference": "4667ff3bd513750603a09c8dedbea942487fb07c"
+                                "reference": "df210c7a2573f1913b2d17cc95f90f53a73d8f7d"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/symfony/translation-contracts/v3.5.1/symfony-translation-contracts-v3.5.1.zip",
-                                "reference": "4667ff3bd513750603a09c8dedbea942487fb07c",
+                                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/df210c7a2573f1913b2d17cc95f90f53a73d8f7d",
+                                "reference": "df210c7a2573f1913b2d17cc95f90f53a73d8f7d",
                                 "shasum": ""
                         },
                         "require": {
                                 "php": ">=8.1"
                         },
-                        "time": "2024-09-25T14:20:29+00:00",
+                        "time": "2024-09-27T08:32:26+00:00",
                         "type": "library",
                         "extra": {
                                 "thanks": {
@@ -2753,7 +2813,7 @@
                                         "name": "symfony/contracts"
                                 },
                                 "branch-alias": {
-                                        "dev-main": "3.5-dev"
+                                        "dev-main": "3.6-dev"
                                 }
                         },
                         "installation-source": "dist",
@@ -2765,6 +2825,7 @@
                                         "/Test/"
                                 ]
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "MIT"
                         ],
@@ -2788,6 +2849,9 @@
                                 "interoperability",
                                 "standards"
                         ],
+                        "support": {
+                                "source": "https://github.com/symfony/translation-contracts/tree/v3.6.0"
+                        },
                         "funding": [
                                 {
                                         "url": "https://symfony.com/sponsor",
@@ -2985,17 +3049,17 @@
                 },
                 {
                         "name": "topthink/think-container",
-                        "version": "v3.0.1",
-                        "version_normalized": "3.0.1.0",
+                        "version": "v3.0.2",
+                        "version_normalized": "3.0.2.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/top-think/think-container.git",
-                                "reference": "a24d442a02fb2a4716de232ff1a4f006c178a370"
+                                "reference": "b2df244be1e7399ad4c8be1ccc40ed57868f730a"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/topthink/think-container/v3.0.1/topthink-think-container-v3.0.1.zip",
-                                "reference": "a24d442a02fb2a4716de232ff1a4f006c178a370",
+                                "url": "https://api.github.com/repos/top-think/think-container/zipball/b2df244be1e7399ad4c8be1ccc40ed57868f730a",
+                                "reference": "b2df244be1e7399ad4c8be1ccc40ed57868f730a",
                                 "shasum": ""
                         },
                         "require": {
@@ -3006,7 +3070,7 @@
                         "require-dev": {
                                 "phpunit/phpunit": "^9.5"
                         },
-                        "time": "2025-01-07T08:19:23+00:00",
+                        "time": "2025-04-07T03:21:51+00:00",
                         "type": "library",
                         "installation-source": "dist",
                         "autoload": {
@@ -3015,6 +3079,7 @@
                                         "think\\": "src"
                                 }
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "Apache-2.0"
                         ],
@@ -3025,21 +3090,25 @@
                                 }
                         ],
                         "description": "PHP Container & Facade Manager",
+                        "support": {
+                                "issues": "https://github.com/top-think/think-container/issues",
+                                "source": "https://github.com/top-think/think-container/tree/v3.0.2"
+                        },
                         "install-path": "../topthink/think-container"
                 },
                 {
                         "name": "topthink/think-helper",
-                        "version": "v3.1.10",
-                        "version_normalized": "3.1.10.0",
+                        "version": "v3.1.11",
+                        "version_normalized": "3.1.11.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/top-think/think-helper.git",
-                                "reference": "ac66cc0859a12cd5d73258f50f338aadc95e9b46"
+                                "reference": "1d6ada9b9f3130046bf6922fe1bd159c8d88a33c"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/topthink/think-helper/v3.1.10/topthink-think-helper-v3.1.10.zip",
-                                "reference": "ac66cc0859a12cd5d73258f50f338aadc95e9b46",
+                                "url": "https://api.github.com/repos/top-think/think-helper/zipball/1d6ada9b9f3130046bf6922fe1bd159c8d88a33c",
+                                "reference": "1d6ada9b9f3130046bf6922fe1bd159c8d88a33c",
                                 "shasum": ""
                         },
                         "require": {
@@ -3048,7 +3117,7 @@
                         "require-dev": {
                                 "phpunit/phpunit": "^9.5"
                         },
-                        "time": "2024-11-21T01:47:51+00:00",
+                        "time": "2025-04-07T06:55:59+00:00",
                         "type": "library",
                         "installation-source": "dist",
                         "autoload": {
@@ -3059,6 +3128,7 @@
                                         "think\\": "src"
                                 }
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "Apache-2.0"
                         ],
@@ -3069,6 +3139,10 @@
                                 }
                         ],
                         "description": "The ThinkPHP6 Helper Package",
+                        "support": {
+                                "issues": "https://github.com/top-think/think-helper/issues",
+                                "source": "https://github.com/top-think/think-helper/tree/v3.1.11"
+                        },
                         "install-path": "../topthink/think-helper"
                 },
                 {
@@ -3117,6 +3191,57 @@
                                 "source": "https://github.com/top-think/think-image/tree/v1.0.8"
                         },
                         "install-path": "../topthink/think-image"
+                },
+                {
+                        "name": "topthink/think-multi-app",
+                        "version": "v1.1.1",
+                        "version_normalized": "1.1.1.0",
+                        "source": {
+                                "type": "git",
+                                "url": "https://github.com/top-think/think-multi-app.git",
+                                "reference": "f93c604d5cfac2b613756273224ee2f88e457b88"
+                        },
+                        "dist": {
+                                "type": "zip",
+                                "url": "https://api.github.com/repos/top-think/think-multi-app/zipball/f93c604d5cfac2b613756273224ee2f88e457b88",
+                                "reference": "f93c604d5cfac2b613756273224ee2f88e457b88",
+                                "shasum": ""
+                        },
+                        "require": {
+                                "php": ">=7.1.0",
+                                "topthink/framework": "^6.0|^8.0"
+                        },
+                        "time": "2024-11-25T08:52:44+00:00",
+                        "type": "library",
+                        "extra": {
+                                "think": {
+                                        "services": [
+                                                "think\\app\\Service"
+                                        ]
+                                }
+                        },
+                        "installation-source": "dist",
+                        "autoload": {
+                                "psr-4": {
+                                        "think\\app\\": "src"
+                                }
+                        },
+                        "notification-url": "https://packagist.org/downloads/",
+                        "license": [
+                                "Apache-2.0"
+                        ],
+                        "authors": [
+                                {
+                                        "name": "liu21st",
+                                        "email": "liu21st@gmail.com"
+                                }
+                        ],
+                        "description": "thinkphp multi app support",
+                        "support": {
+                                "issues": "https://github.com/top-think/think-multi-app/issues",
+                                "source": "https://github.com/top-think/think-multi-app/tree/v1.1.1"
+                        },
+                        "install-path": "../topthink/think-multi-app"
                 },
                 {
                         "name": "topthink/think-orm",
@@ -3181,17 +3306,17 @@
                 },
                 {
                         "name": "topthink/think-queue",
-                        "version": "v3.0.11",
-                        "version_normalized": "3.0.11.0",
+                        "version": "v3.0.12",
+                        "version_normalized": "3.0.12.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/top-think/think-queue.git",
-                                "reference": "e2bd05a6c3aa737636fa89a7b2d040a3bd14da8c"
+                                "reference": "48adee0298a363f497b8ba07628d5b63cf020868"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/topthink/think-queue/v3.0.11/topthink-think-queue-v3.0.11.zip",
-                                "reference": "e2bd05a6c3aa737636fa89a7b2d040a3bd14da8c",
+                                "url": "https://api.github.com/repos/top-think/think-queue/zipball/48adee0298a363f497b8ba07628d5b63cf020868",
+                                "reference": "48adee0298a363f497b8ba07628d5b63cf020868",
                                 "shasum": ""
                         },
                         "require": {
@@ -3205,12 +3330,12 @@
                                 "phpunit/phpunit": "^6.2",
                                 "topthink/think-migration": "^3.0"
                         },
-                        "time": "2025-01-19T13:34:37+00:00",
+                        "time": "2025-03-15T08:30:16+00:00",
                         "type": "library",
                         "extra": {
                                 "think": {
                                         "config": {
-                                                "queue": "src/config.php"
+                                                "queue": "src/config/queue.php"
                                         },
                                         "services": [
                                                 "think\\queue\\Service"
@@ -3226,6 +3351,7 @@
                                         "think\\": "src"
                                 }
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "Apache-2.0"
                         ],
@@ -3236,27 +3362,32 @@
                                 }
                         ],
                         "description": "The ThinkPHP6 Queue Package",
+                        "support": {
+                                "issues": "https://github.com/top-think/think-queue/issues",
+                                "source": "https://github.com/top-think/think-queue/tree/v3.0.12"
+                        },
                         "install-path": "../topthink/think-queue"
                 },
                 {
                         "name": "topthink/think-template",
-                        "version": "v2.0.4",
-                        "version_normalized": "2.0.4.0",
+                        "version": "v3.0.2",
+                        "version_normalized": "3.0.2.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/top-think/think-template.git",
-                                "reference": "9ec06258475bba71576acf0cf047761e1350f63d"
+                                "reference": "0b88bd449f0f7626dd75b05f557c8bc208c08b0c"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/topthink/think-template/v2.0.4/topthink-think-template-v2.0.4.zip",
-                                "reference": "9ec06258475bba71576acf0cf047761e1350f63d",
+                                "url": "https://api.github.com/repos/top-think/think-template/zipball/0b88bd449f0f7626dd75b05f557c8bc208c08b0c",
+                                "reference": "0b88bd449f0f7626dd75b05f557c8bc208c08b0c",
                                 "shasum": ""
                         },
                         "require": {
-                                "php": ">=7.1.0"
+                                "php": ">=8.0.0",
+                                "psr/simple-cache": ">=1.0"
                         },
-                        "time": "2019-07-10T07:49:44+00:00",
+                        "time": "2024-10-16T03:41:06+00:00",
                         "type": "library",
                         "installation-source": "dist",
                         "autoload": {
@@ -3264,6 +3395,7 @@
                                         "think\\": "src"
                                 }
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "Apache-2.0"
                         ],
@@ -3274,28 +3406,32 @@
                                 }
                         ],
                         "description": "the php template engine",
+                        "support": {
+                                "issues": "https://github.com/top-think/think-template/issues",
+                                "source": "https://github.com/top-think/think-template/tree/v3.0.2"
+                        },
                         "install-path": "../topthink/think-template"
                 },
                 {
                         "name": "topthink/think-validate",
-                        "version": "v3.0.3",
-                        "version_normalized": "3.0.3.0",
+                        "version": "v3.0.7",
+                        "version_normalized": "3.0.7.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/top-think/think-validate.git",
-                                "reference": "2729f938952a01e9d0e1a17d742b07fcf960ae31"
+                                "reference": "85063f6d4ef8ed122f17a36179dc3e0949b30988"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/topthink/think-validate/v3.0.3/topthink-think-validate-v3.0.3.zip",
-                                "reference": "2729f938952a01e9d0e1a17d742b07fcf960ae31",
+                                "url": "https://api.github.com/repos/top-think/think-validate/zipball/85063f6d4ef8ed122f17a36179dc3e0949b30988",
+                                "reference": "85063f6d4ef8ed122f17a36179dc3e0949b30988",
                                 "shasum": ""
                         },
                         "require": {
                                 "php": ">=8.0",
                                 "topthink/think-container": ">=3.0"
                         },
-                        "time": "2025-01-07T08:18:42+00:00",
+                        "time": "2025-06-11T05:51:40+00:00",
                         "type": "library",
                         "installation-source": "dist",
                         "autoload": {
@@ -3306,6 +3442,7 @@
                                         "think\\": "src"
                                 }
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "Apache-2.0"
                         ],
@@ -3316,28 +3453,32 @@
                                 }
                         ],
                         "description": "think validate",
+                        "support": {
+                                "issues": "https://github.com/top-think/think-validate/issues",
+                                "source": "https://github.com/top-think/think-validate/tree/v3.0.7"
+                        },
                         "install-path": "../topthink/think-validate"
                 },
                 {
                         "name": "topthink/think-view",
-                        "version": "v1.0.14",
-                        "version_normalized": "1.0.14.0",
+                        "version": "v2.0.5",
+                        "version_normalized": "2.0.5.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/top-think/think-view.git",
-                                "reference": "edce0ae2c9551ab65f9e94a222604b0dead3576d"
+                                "reference": "b42009b98199b5a3833d3d6fd18c8a55aa511fad"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://mirrors.huaweicloud.com/repository/php/topthink/think-view/v1.0.14/topthink-think-view-v1.0.14.zip",
-                                "reference": "edce0ae2c9551ab65f9e94a222604b0dead3576d",
+                                "url": "https://api.github.com/repos/top-think/think-view/zipball/b42009b98199b5a3833d3d6fd18c8a55aa511fad",
+                                "reference": "b42009b98199b5a3833d3d6fd18c8a55aa511fad",
                                 "shasum": ""
                         },
                         "require": {
-                                "php": ">=7.1.0",
-                                "topthink/think-template": "^2.0"
+                                "php": ">=8.0.0",
+                                "topthink/think-template": "^3.0"
                         },
-                        "time": "2019-11-06T11:40:13+00:00",
+                        "time": "2025-03-19T07:04:19+00:00",
                         "type": "library",
                         "installation-source": "dist",
                         "autoload": {
@@ -3345,6 +3486,7 @@
                                         "think\\view\\driver\\": "src"
                                 }
                         },
+                        "notification-url": "https://packagist.org/downloads/",
                         "license": [
                                 "Apache-2.0"
                         ],
@@ -3355,7 +3497,118 @@
                                 }
                         ],
                         "description": "thinkphp template driver",
+                        "support": {
+                                "issues": "https://github.com/top-think/think-view/issues",
+                                "source": "https://github.com/top-think/think-view/tree/v2.0.5"
+                        },
                         "install-path": "../topthink/think-view"
+                },
+                {
+                        "name": "yangweijie/think-editor",
+                        "version": "v1.0.0",
+                        "version_normalized": "1.0.0.0",
+                        "source": {
+                                "type": "git",
+                                "url": "https://github.com/yangweijie/think-editor.git",
+                                "reference": "d20cccb7cbcb58fa8421aa98f4de7c9c52ec12c9"
+                        },
+                        "dist": {
+                                "type": "zip",
+                                "url": "https://api.github.com/repos/yangweijie/think-editor/zipball/d20cccb7cbcb58fa8421aa98f4de7c9c52ec12c9",
+                                "reference": "d20cccb7cbcb58fa8421aa98f4de7c9c52ec12c9",
+                                "shasum": ""
+                        },
+                        "require": {
+                                "topthink/framework": "^6.0 | ^6.1 |^8.0"
+                        },
+                        "time": "2024-05-08T09:14:59+00:00",
+                        "type": "library",
+                        "extra": {
+                                "think": {
+                                        "config": {
+                                                "editor": "config/config.php"
+                                        }
+                                }
+                        },
+                        "installation-source": "dist",
+                        "autoload": {
+                                "psr-4": {
+                                        "yangweijie\\editor\\": "src/"
+                                }
+                        },
+                        "notification-url": "https://packagist.org/downloads/",
+                        "license": [
+                                "MIT"
+                        ],
+                        "authors": [
+                                {
+                                        "name": "yangweijie",
+                                        "email": "917647288@qq.com"
+                                }
+                        ],
+                        "support": {
+                                "issues": "https://github.com/yangweijie/think-editor/issues",
+                                "source": "https://github.com/yangweijie/think-editor/tree/v1.0.0"
+                        },
+                        "install-path": "../yangweijie/think-editor"
+                },
+                {
+                        "name": "yangweijie/think-exception",
+                        "version": "v1.0.7",
+                        "version_normalized": "1.0.7.0",
+                        "source": {
+                                "type": "git",
+                                "url": "https://github.com/yangweijie/think-exception.git",
+                                "reference": "b923ed4c8e3ebd88eeeaf3270e0969c392aa48b5"
+                        },
+                        "dist": {
+                                "type": "zip",
+                                "url": "https://api.github.com/repos/yangweijie/think-exception/zipball/b923ed4c8e3ebd88eeeaf3270e0969c392aa48b5",
+                                "reference": "b923ed4c8e3ebd88eeeaf3270e0969c392aa48b5",
+                                "shasum": ""
+                        },
+                        "require": {
+                                "php": ">=7.4",
+                                "topthink/framework": "^6.0 | ^6.1 | ^8.0",
+                                "yangweijie/think-editor": "*"
+                        },
+                        "time": "2024-05-09T01:23:29+00:00",
+                        "type": "library",
+                        "extra": {
+                                "think": {
+                                        "services": [
+                                                "yangweijie\\exception\\ExceptionService"
+                                        ]
+                                }
+                        },
+                        "installation-source": "dist",
+                        "autoload": {
+                                "psr-4": {
+                                        "yangweijie\\exception\\": "src"
+                                }
+                        },
+                        "notification-url": "https://packagist.org/downloads/",
+                        "license": [
+                                "MIT"
+                        ],
+                        "authors": [
+                                {
+                                        "name": "yangweijie",
+                                        "email": "917647288@qq.com"
+                                }
+                        ],
+                        "description": "一个 ThinkPHP 中 可以打开错误异常文件的异常处理",
+                        "keywords": [
+                                "exception",
+                                "framework",
+                                "thinkphp"
+                        ],
+                        "support": {
+                                "email": "917647288@qq.com",
+                                "issues": "https://github.com/yangweijie/think-exception/issues",
+                                "source": "https://github.com/yangweijie/think-exception/tree/v1.0.7"
+                        },
+                        "install-path": "../yangweijie/think-exception"
                 }
         ],
         "dev": true,

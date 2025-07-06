@@ -9,24 +9,24 @@
 
 namespace app\install\controller;
 
-use think\Controller;
-use think\Db;
-use think\facade\Env;
+use app\BaseController;
 
-define('INSTALL_APP_PATH', realpath('./') . '/');
+use think\facade\Db;
+use think\facade\Config;
+use think\facade\View;
 
 /**
  * 安装控制器
  * @package app\install\controller
  */
-class Index extends Controller
+class Index extends BaseController
 {
     /**
      * 获取入口目录
      * @author 蔡伟明 <314013107@qq.com>
      */
     protected function initialize() {
-        $this->assign('static_dir', 'static/');
+        View::assign('static_dir', '/static/');
     }
 
     /**
@@ -35,18 +35,18 @@ class Index extends Controller
      */
     public function index()
     {
-        if (is_file(Env::get('app_path') . 'database.php')) {
+        if (is_file(app_path() . 'database.php')) {
             // 已经安装过了 执行更新程序
             session('reinstall', true);
-            $this->assign('next', '重新安装');
+            View::assign('next', '重新安装');
         } else {
             session('reinstall', false);
-            $this->assign('next', '下一步');
+            View::assign('next', '下一步');
         }
 
         session('step', 1);
         session('error', false);
-        return $this->fetch();
+        return View::fetch();
     }
 
     /**
@@ -64,21 +64,16 @@ class Index extends Controller
             session('error', false);
 
             // 环境检测
-            $env = check_env();
+            View::assign('env', check_env());
 
             // 目录文件读写检测
-            $dirfile = check_dirfile();
-            $this->assign('dirfile', $dirfile);
+            View::assign('dirfile', check_dirfile());
 
             // 函数检测
-            $func = check_func();
+            View::assign('func', check_func());
 
             session('step', 2);
-
-            $this->assign('env', $env);
-            $this->assign('func', $func);
-
-            return $this->fetch();
+            return View::fetch();
         }
     }
 
@@ -94,26 +89,26 @@ class Index extends Controller
             if (session('error')) {
                 $this->error('环境检测没有通过，请调整环境后重试！');
             } else {
-                $this->success('恭喜您环境检测通过', $this->request->baseFile().'?s=/index/step3.html');
+                $this->success('恭喜您环境检测通过', $this->request->baseFile().'?s=/install/index/step3.html');
             }
         }
         if (session('step') != 2) $this->redirect($this->request->baseFile());
         session('error', false);
         session('step', 3);
-        return $this->fetch();
+        return View::fetch();
     }
 
     /**
      * 步骤四，创建数据库
-     * @param null $db 数据库配置信息
-     * @param int $cover 是否覆盖已存在数据库
      * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      */
-    public function step4($db = null, $cover = 0)
+    public function step4()
     {
         // 检查上一步是否通过
         if ($this->request->isPost()) {
+            $db = input('db', []);
+            $cover = input('cover', 0, 'intval');
             // 检测数据库配置
             if(!is_array($db) || empty($db['type'])
                 || empty($db['hostname'])
@@ -130,13 +125,16 @@ class Index extends Controller
             $db_name = $db['database'];
             unset($db['database']);
 
+            $config = parse_db($db,$db_name);
+            Config::set($config, 'database');
             // 创建数据库连接
-            $db_instance = Db::connect($db);
+            $db_instance = Db::connect('mysql');
 
             // 检测数据库连接
             try{
                 $db_instance->execute('select version()');
             }catch(\Exception $e){
+                trace($e->getMessage().PHP_EOL.$e->getTraceAsString());
                 $this->error('数据库连接失败，请检查数据库配置！');
             }
 
@@ -154,14 +152,14 @@ class Index extends Controller
             $db_instance->execute($sql) || $this->error($db_instance->getError());
 
             // 跳转到数据库安装页面
-            $this->success('参数正确开始安装', $this->request->baseFile().'?s=/index/step4.html');
+            $this->success('参数正确开始安装', $this->request->baseFile().'?s=/install/index/step4.html');
         } else {
             if (session('step') != 3 && !session('reinstall')) {
                 $this->redirect($this->request->baseFile());
             }
 
             session('step', 4);
-            return $this->fetch();
+            return View::fetch();
         }
     }
 
@@ -184,7 +182,7 @@ class Index extends Controller
             session('step', null);
             session('error', null);
             session('reinstall', null);
-            return $this->fetch();
+            return View::fetch();
         }
     }
 }

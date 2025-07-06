@@ -6,10 +6,14 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'yangweijie\\exception\\' => array($vendorDir . '/yangweijie/think-exception/src'),
+    'yangweijie\\editor\\' => array($vendorDir . '/yangweijie/think-editor/src'),
     'think\\view\\driver\\' => array($vendorDir . '/topthink/think-view/src'),
     'think\\captcha\\' => array($vendorDir . '/topthink/think-captcha/src'),
+    'think\\app\\' => array($vendorDir . '/topthink/think-multi-app/src'),
     'think\\' => array($vendorDir . '/topthink/think-queue/src', $vendorDir . '/topthink/think-image/src', $vendorDir . '/topthink/think-template/src', $vendorDir . '/topthink/framework/src/think', $vendorDir . '/topthink/think-validate/src', $vendorDir . '/topthink/think-orm/src', $vendorDir . '/topthink/think-container/src', $vendorDir . '/topthink/think-helper/src'),
     'tests\\' => array($baseDir . '/tests'),
+    'app\\' => array($baseDir . '/app'),
     'Symfony\\Polyfill\\Php83\\' => array($vendorDir . '/symfony/polyfill-php83'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Contracts\\Translation\\' => array($vendorDir . '/symfony/translation-contracts'),

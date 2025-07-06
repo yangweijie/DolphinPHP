@@ -85,7 +85,7 @@ class Config
             '__PLUGINS__' =>  $base_dir . 'plugins',
 
             // 定义模块资源目录
-            '__MODULE__' => $base_dir . 'module/' . $this->appname . '',
+            '__MODULE__' => $base_dir . 'module/' . $this->appname,
             '__MODULE_CSS__' => $base_dir . 'module/' . $this->appname . '/css',
             '__MODULE_JS__' => $base_dir . 'module/' . $this->appname . '/js',
             '__MODULE_IMG__' => $base_dir . 'module/' . $this->appname . '/img',
@@ -111,7 +111,7 @@ class Config
         // 读取系统配置
         $system_config = cache('system_config');
         if (!$system_config) {
-            $system_config = ConfigModel::getConfig();
+            $system_config = (new ConfigModel())->getConfig();
             // 所有模型配置
             $module_config = ModuleModel::where('config', '<>', '')->column('config', 'name');
             foreach ($module_config as $module_name => $config) {
